@@ -1,155 +1,79 @@
 const DATA_URL = "./data/snapshots.json";
-const DAY_MS = 24 * 60 * 60 * 1000;
-
-const formatDate = (value) => {
-  if (!value) return "—";
-  return new Intl.DateTimeFormat("ko-KR", { year: "numeric", month: "short", day: "numeric" }).format(new Date(value));
-};
-
-const snapshotBefore = (snapshots, latest, days) => {
-  const target = new Date(latest.captured_at).getTime() - days * DAY_MS;
-  return [...snapshots].reverse().find((snapshot) => new Date(snapshot.captured_at).getTime() <= target) || null;
-};
-
+const number = new Intl.NumberFormat("ko-KR");
+const dateLabel = new Intl.DateTimeFormat("ko-KR", { month: "numeric", day: "numeric" });
+const asNumber = (value) => Number.isFinite(value) ? value : null;
+const fmt = (value) => value === null ? "—" : number.format(value);
+const dateOf = (snapshot) => new Date(snapshot.captured_at);
+const dayKey = (snapshot) => dateOf(snapshot).toLocaleDateString("en-CA", { timeZone: "Asia/Seoul" });
 const byKey = (snapshot) => new Map((snapshot?.items || []).map((item) => [item.key, item]));
 
-const movement = (current, previous) => {
-  if (!previous) return null;
-  return previous.rank - current.rank;
-};
-
-const movementMarkup = (change) => {
-  if (change === null) return '<span class="move flat">기준 없음</span>';
-  if (change > 0) return `<span class="move up">▲ ${change}</span>`;
-  if (change < 0) return `<span class="move down">▼ ${Math.abs(change)}</span>`;
-  return '<span class="move flat">—</span>';
-};
-
-function setMetric(id, value) {
-  document.getElementById(id).textContent = value;
+function totals(snapshot) {
+  if (snapshot?.totals && Number.isFinite(snapshot.totals.view_count) && Number.isFinite(snapshot.totals.chat_count)) return snapshot.totals;
+  const observed = (snapshot?.items || []).filter((item) => asNumber(item.view_count) !== null && asNumber(item.chat_count) !== null);
+  return { view_count: observed.reduce((sum, item) => sum + item.view_count, 0), chat_count: observed.reduce((sum, item) => sum + item.chat_count, 0), observed_items: observed.length };
 }
 
-function renderTrendChart(snapshots, latest) {
-  const root = document.getElementById("trend-chart");
-  const caption = document.getElementById("trend-caption");
-  const cutoff = new Date(latest.captured_at).getTime() - 29 * DAY_MS;
-  const period = snapshots.filter((snapshot) => new Date(snapshot.captured_at).getTime() >= cutoff);
-  const active = period.length ? period : [latest];
-  const latestTop = latest.items.slice(0, 4);
-  caption.textContent = `${active.length}개 스냅샷 · 최근 30일`;
-
-  if (active.length < 2) {
-    root.innerHTML = '<p class="empty-chart">두 번째 일별 스냅샷부터 순위 흐름이 그려집니다.</p>';
-    return;
-  }
-
-  const width = 900;
-  const height = 224;
-  const pad = { top: 18, right: 20, bottom: 33, left: 36 };
-  const ranks = active.flatMap((snapshot) => snapshot.items.map((item) => item.rank));
-  const maxRank = Math.max(10, ...ranks, ...latestTop.map((item) => item.rank));
-  const x = (index) => pad.left + (index * (width - pad.left - pad.right)) / Math.max(1, active.length - 1);
-  const y = (rank) => pad.top + ((rank - 1) * (height - pad.top - pad.bottom)) / Math.max(1, maxRank - 1);
-  const colors = ["#4ee2c1", "#61a7ff", "#ffc66d", "#d98cff"];
-  const grid = [1, Math.ceil(maxRank / 2), maxRank];
-
-  let svg = `<svg class="chart-svg" viewBox="0 0 ${width} ${height}" role="img" aria-label="상위 캐릭터 최근 순위 흐름">`;
-  grid.forEach((rank) => {
-    svg += `<line class="grid-line" x1="${pad.left}" y1="${y(rank)}" x2="${width - pad.right}" y2="${y(rank)}"/>`;
-    svg += `<text class="axis-label" x="0" y="${y(rank) + 4}">${rank}위</text>`;
-  });
-  active.forEach((snapshot, index) => {
-    if (index === 0 || index === active.length - 1 || index === Math.floor(active.length / 2)) {
-      svg += `<text class="axis-label" text-anchor="middle" x="${x(index)}" y="${height - 8}">${formatDate(snapshot.captured_at).replace(" ", "")}</text>`;
-    }
-  });
-
-  latestTop.forEach((item, seriesIndex) => {
-    const points = active.map((snapshot, index) => {
-      const observed = byKey(snapshot).get(item.key);
-      return observed ? `${x(index)},${y(observed.rank)}` : null;
-    }).filter(Boolean);
-    if (points.length > 1) svg += `<polyline class="chart-line" stroke="${colors[seriesIndex]}" points="${points.join(" ")}"/>`;
-    const newest = byKey(active.at(-1)).get(item.key);
-    if (newest) svg += `<circle class="chart-dot" fill="${colors[seriesIndex]}" cx="${x(active.length - 1)}" cy="${y(newest.rank)}" r="4"/>`;
-  });
-  svg += "</svg>";
-  const legend = latestTop.map((item, index) => `<span><i style="background:${colors[index]}"></i>${item.name}</span>`).join("");
-  root.innerHTML = `${svg}<div class="chart-legend">${legend}</div>`;
+function growth(current, previous) {
+  if (!current || !previous) return null;
+  const now = totals(current), before = totals(previous);
+  if (!now.observed_items || !before.observed_items) return null;
+  return { view: now.view_count - before.view_count, chat: now.chat_count - before.chat_count };
 }
 
-function renderMovers(latest, previous) {
-  const root = document.getElementById("movers-list");
-  const baseline = byKey(previous);
-  const movers = latest.items
-    .map((item) => ({ item, change: movement(item, baseline.get(item.key)) }))
-    .filter(({ change }) => change !== null)
-    .sort((a, b) => b.change - a.change)
-    .slice(0, 5);
-  if (!movers.length) {
-    root.innerHTML = '<li class="empty-list">7일 비교 데이터가 쌓이면 상승 캐릭터를 표시합니다.</li>';
-    return;
-  }
-  root.innerHTML = movers.map(({ item, change }) => `
-    <li>
-      <span class="rank-badge">${item.rank}위</span>
-      <div><div class="mover-name">${item.name}</div><div class="mover-meta">7일 전 ${item.rank + change}위</div></div>
-      ${movementMarkup(change)}
-    </li>`).join("");
+function dailySnapshots(snapshots) {
+  const days = new Map();
+  snapshots.forEach((snapshot) => days.set(dayKey(snapshot), snapshot));
+  return [...days.values()].sort((a, b) => dateOf(a) - dateOf(b));
+}
+
+function periodGrowth(daily, label) {
+  const groups = new Map();
+  daily.forEach((snapshot) => { const key = label(dateOf(snapshot)); groups.set(key, [...(groups.get(key) || []), snapshot]); });
+  return [...groups.entries()].map(([key, values]) => ({ label: key, growth: growth(values.at(-1), values[0]) })).filter((entry) => entry.growth);
+}
+
+function bars(rootId, ariaLabel, entries) {
+  const root = document.getElementById(rootId);
+  if (!entries.length) { root.innerHTML = '<p class="empty-chart">두 번째 수집부터 순증 막대가 표시됩니다.</p>'; return; }
+  const max = Math.max(1, ...entries.flatMap((entry) => [Math.abs(entry.growth.view), Math.abs(entry.growth.chat)]));
+  const width = 900, height = 224, bottom = 46, left = 14, right = 14, top = 18, base = height - bottom;
+  const slot = (width - left - right) / entries.length;
+  const y = (value) => base - (value / max) * (height - top - bottom);
+  let svg = `<svg class="chart-svg" viewBox="0 0 ${width} ${height}" role="img" aria-label="${ariaLabel}"><line class="grid-line" x1="${left}" y1="${base}" x2="${width - right}" y2="${base}"/>`;
+  entries.forEach((entry, i) => {
+    const x = left + i * slot, bar = Math.max(3, Math.min(22, slot * .28)), viewY = y(entry.growth.view), chatY = y(entry.growth.chat);
+    svg += `<rect class="bar-view" x="${x + slot * .5 - bar - 2}" y="${Math.min(base, viewY)}" width="${bar}" height="${Math.abs(base - viewY)}" rx="2"><title>${entry.label} View ${entry.growth.view >= 0 ? '+' : ''}${fmt(entry.growth.view)}</title></rect>`;
+    svg += `<rect class="bar-chat" x="${x + slot * .5 + 2}" y="${Math.min(base, chatY)}" width="${bar}" height="${Math.abs(base - chatY)}" rx="2"><title>${entry.label} Chat ${entry.growth.chat >= 0 ? '+' : ''}${fmt(entry.growth.chat)}</title></rect>`;
+    if (entries.length <= 10 || i === 0 || i === entries.length - 1 || i === Math.floor(entries.length / 2)) svg += `<text class="axis-label" text-anchor="middle" x="${x + slot / 2}" y="${height - 12}">${entry.label}</text>`;
+  });
+  root.innerHTML = `${svg}</svg><div class="chart-legend"><span><i class="legend-view"></i>View 순증</span><span><i class="legend-chat"></i>Chat 순증</span></div>`;
 }
 
 function renderTable(latest, previous, query = "") {
-  const root = document.getElementById("ranking-body");
-  const baseline = byKey(previous);
-  const lowered = query.trim().toLocaleLowerCase("ko-KR");
-  const rows = latest.items.filter((item) => item.name.toLocaleLowerCase("ko-KR").includes(lowered));
-  root.innerHTML = rows.map((item) => {
-    const prior = baseline.get(item.key);
-    const isNew = !prior || item.is_new || item.has_new_start || item.badges.includes("NEW");
-    const signal = isNew ? '<span class="signal">NEW</span>' : '<span class="signal neutral">추적 중</span>';
-    const kind = item.kind === "content" ? '<span class="type-tag">멀티</span>' : "";
-    const score = item.score ?? "—";
-    return `<tr>
-      <td>${item.rank}</td>
-      <td class="name-cell">${item.name}${kind}</td>
-      <td>${score}</td>
-      <td>${movementMarkup(movement(item, prior))}</td>
-      <td>${signal}</td>
-    </tr>`;
-  }).join("") || '<tr><td colspan="5" class="empty-chart">검색 결과가 없습니다.</td></tr>';
+  const priorRows = byKey(previous), root = document.getElementById("ranking-body"), keyword = query.trim().toLocaleLowerCase("ko-KR");
+  const delta = (value) => value === null ? "—" : `<span class="delta ${value < 0 ? "negative" : ""}">${value >= 0 ? "+" : ""}${fmt(value)}</span>`;
+  root.innerHTML = (latest.items || []).filter((item) => item.name.toLocaleLowerCase("ko-KR").includes(keyword)).map((item) => {
+    const prior = priorRows.get(item.key);
+    const view = prior && asNumber(item.view_count) !== null && asNumber(prior.view_count) !== null ? item.view_count - prior.view_count : null;
+    const chat = prior && asNumber(item.chat_count) !== null && asNumber(prior.chat_count) !== null ? item.chat_count - prior.chat_count : null;
+    return `<tr><td>${item.rank ?? "—"}</td><td class="name-cell">${item.name}</td><td>${fmt(asNumber(item.view_count))}</td><td>${fmt(asNumber(item.chat_count))}</td><td>${delta(view)}</td><td>${delta(chat)}</td></tr>`;
+  }).join("") || '<tr><td colspan="6" class="empty-chart">검색 결과가 없습니다.</td></tr>';
 }
 
-function renderDashboard(history) {
-  const snapshots = history.snapshots || [];
-  const latest = snapshots.at(-1);
-  if (!latest?.items?.length) throw new Error("아직 저장된 랭킹 스냅샷이 없습니다.");
-  const previous7 = snapshotBefore(snapshots, latest, 7);
-  const initialTop10 = new Set((previous7?.items || []).slice(0, 10).map((item) => item.key));
-  const latestTop10 = new Set(latest.items.slice(0, 10).map((item) => item.key));
-  const incoming7d = latest.items.filter((item) => !byKey(previous7).has(item.key)).length;
-  const retained = previous7 ? [...initialTop10].filter((key) => latestTop10.has(key)).length : null;
-
-  document.getElementById("status").textContent = `최종 수집 ${latest.captured_kst || formatDate(latest.captured_at)} · 원본 갱신 ${formatDate(latest.source_updated_at)}`;
-  setMetric("metric-tracked", `${latest.items.length}개`);
-  setMetric("metric-new", previous7 ? `${incoming7d}개` : "대기");
-  setMetric("metric-retention", retained === null ? "대기" : `${retained * 10}%`);
-  setMetric("metric-window", `${snapshots.length}일`);
-  renderTrendChart(snapshots, latest);
-  renderMovers(latest, previous7);
-  renderTable(latest, previous7);
-  document.getElementById("search").addEventListener("input", (event) => renderTable(latest, previous7, event.target.value));
+function render(history) {
+  const daily = dailySnapshots(history.snapshots || []), latest = daily.at(-1), previous = daily.at(-2), today = growth(latest, previous);
+  if (!latest?.items?.length) throw new Error("아직 저장된 작품 스냅샷이 없습니다.");
+  const tail = daily.slice(-30);
+  const dailyBars = tail.map((snapshot, i) => ({ label: dateLabel.format(dateOf(snapshot)), growth: i ? growth(snapshot, tail[i - 1]) : null })).filter((entry) => entry.growth);
+  const weekly = periodGrowth(daily, (date) => { const monday = new Date(date); monday.setDate(date.getDate() - ((date.getDay() + 6) % 7)); return `${monday.getMonth() + 1}/${monday.getDate()}주`; });
+  const monthly = periodGrowth(daily, (date) => `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, "0")}`);
+  document.getElementById("status").textContent = `최종 수집 ${latest.captured_kst || dateLabel.format(dateOf(latest))} · 공개 View·Chat 카운터 기준`;
+  document.getElementById("metric-tracked").textContent = `${latest.items.length}개`;
+  document.getElementById("metric-view-growth").textContent = today ? `${today.view >= 0 ? "+" : ""}${fmt(today.view)}` : "대기";
+  document.getElementById("metric-chat-growth").textContent = today ? `${today.chat >= 0 ? "+" : ""}${fmt(today.chat)}` : "대기";
+  document.getElementById("metric-window").textContent = `${daily.length}일`;
+  bars("trend-chart", "전체 일별 View와 Chat 순증", dailyBars); bars("weekly-chart", "전체 주별 View와 Chat 순증", weekly); bars("monthly-chart", "전체 월별 View와 Chat 순증", monthly);
+  renderTable(latest, previous); document.getElementById("search").addEventListener("input", (event) => renderTable(latest, previous, event.target.value));
 }
 
-async function boot() {
-  try {
-    const response = await fetch(DATA_URL, { cache: "no-store" });
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    renderDashboard(await response.json());
-  } catch (error) {
-    const status = document.getElementById("status");
-    status.textContent = `데이터를 불러오지 못했습니다: ${error.message}`;
-    status.classList.add("error");
-  }
-}
-
-boot();
+fetch(DATA_URL, { cache: "no-store" }).then((response) => { if (!response.ok) throw new Error(`HTTP ${response.status}`); return response.json(); }).then(render).catch((error) => { const status = document.getElementById("status"); status.textContent = `데이터를 불러오지 못했습니다: ${error.message}`; status.classList.add("error"); });
