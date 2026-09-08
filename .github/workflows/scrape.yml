@@ -1,0 +1,39 @@
+name: Capture Toptoon Chat ranking
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Korea is UTC+9 year-round: 08:00 KST = 23:00 UTC on the previous day.
+    - cron: "0 23 * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: toptoon-ranking-capture
+  cancel-in-progress: false
+
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Capture public ranking
+        run: python scripts/scrape_ranking.py
+      - name: Save a changed snapshot
+        run: |
+          if git diff --quiet -- dist/data/snapshots.json; then
+            echo "No snapshot change to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add dist/data/snapshots.json
+          git commit -m "data: capture ranking $(date -u +'%Y-%m-%d')"
+          git push
