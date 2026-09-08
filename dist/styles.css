@@ -44,6 +44,10 @@ h2 { font-size: 1.15rem; letter-spacing: -0.03em; }
 .axis-label { fill: var(--muted); font-size: 11px; }
 .chart-line { fill: none; stroke-width: 2.25; stroke-linecap: round; stroke-linejoin: round; }
 .chart-dot { stroke: var(--bg); stroke-width: 2; }
+.bar-view { fill: var(--teal); opacity: .88; }
+.bar-chat { fill: var(--blue); opacity: .9; }
+.legend-view { background: var(--teal); }
+.legend-chat { background: var(--blue); }
 .chart-legend { display: flex; gap: 14px; flex-wrap: wrap; width: 100%; padding-top: 5px; color: var(--muted); font-size: 0.76rem; }
 .chart-legend span { display: inline-flex; gap: 6px; align-items: center; }
 .chart-legend i { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
@@ -77,6 +81,8 @@ td:first-child { width: 62px; color: var(--amber); font-weight: 800; }
 .type-tag { margin-left: 7px; color: var(--muted); background: rgba(150, 175, 200, 0.12); }
 .signal { color: var(--teal); background: rgba(78, 226, 193, 0.13); }
 .signal.neutral { color: var(--muted); background: rgba(150, 175, 200, 0.1); }
+.delta { color: var(--teal); font-weight: 800; }
+.delta.negative { color: var(--red); }
 .error { color: #ffb2b2; }
 
 @media (max-width: 760px) {
