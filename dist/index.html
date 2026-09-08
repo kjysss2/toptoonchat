@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="탑툰챗 공개 랭킹의 일별 흐름을 추적하는 리서치 대시보드" />
+    <meta name="description" content="탑툰챗 공개 View·Chat 카운터의 일별 순증을 추적하는 리서치 대시보드" />
     <meta name="theme-color" content="#07111f" />
     <title>탑툰챗 카운터</title>
     <link rel="stylesheet" href="./styles.css" />
@@ -16,24 +16,24 @@
           <h1>탑툰챗 카운터</h1>
         </div>
         <a class="source-link" href="https://chat.toptoon.com/ranking" target="_blank" rel="noreferrer">
-          원본 랭킹 보기 <span aria-hidden="true">↗</span>
+          원본 보기 <span aria-hidden="true">↗</span>
         </a>
       </header>
 
       <section id="status" class="status" aria-live="polite">데이터를 불러오는 중…</section>
 
       <section class="metric-grid" aria-label="핵심 지표">
-        <article class="metric-card"><span>추적 캐릭터</span><strong id="metric-tracked">—</strong><small>최신 공개 랭킹</small></article>
-        <article class="metric-card"><span>7일 신규 진입</span><strong id="metric-new">—</strong><small>직전 7일 대비</small></article>
-        <article class="metric-card"><span>Top 10 유지율</span><strong id="metric-retention">—</strong><small>7일 전 Top 10 기준</small></article>
+        <article class="metric-card"><span>추적 작품</span><strong id="metric-tracked">—</strong><small>최신 공개 목록</small></article>
+        <article class="metric-card"><span>오늘 View 순증</span><strong id="metric-view-growth">—</strong><small>전일 07시 대비</small></article>
+        <article class="metric-card"><span>오늘 Chat 순증</span><strong id="metric-chat-growth">—</strong><small>전일 07시 대비</small></article>
         <article class="metric-card"><span>데이터 기간</span><strong id="metric-window">—</strong><small>일별 스냅샷</small></article>
       </section>
 
       <section class="panel trend-panel" aria-labelledby="trend-title">
         <div class="panel-heading">
           <div>
-            <p class="eyebrow">RANKING MOMENTUM</p>
-            <h2 id="trend-title">상위 캐릭터 순위 흐름</h2>
+            <p class="eyebrow">DAILY NET GROWTH</p>
+            <h2 id="trend-title">전체 View · Chat 일별 순증</h2>
           </div>
           <span id="trend-caption" class="muted">최근 30일</span>
         </div>
@@ -41,23 +41,21 @@
       </section>
 
       <section class="two-column">
-        <section class="panel movers" aria-labelledby="movers-title">
-          <div class="panel-heading compact">
-            <div>
-              <p class="eyebrow">7D SIGNAL</p>
-              <h2 id="movers-title">순위 상승 캐릭터</h2>
-            </div>
-          </div>
-          <ol id="movers-list" class="movers-list"></ol>
+        <section class="panel" aria-labelledby="weekly-title">
+          <div class="panel-heading compact"><div><p class="eyebrow">WEEKLY NET GROWTH</p><h2 id="weekly-title">주별 순증</h2></div></div>
+          <div id="weekly-chart" class="trend-chart"></div>
         </section>
-
+        <section class="panel" aria-labelledby="monthly-title">
+          <div class="panel-heading compact"><div><p class="eyebrow">MONTHLY NET GROWTH</p><h2 id="monthly-title">월별 순증</h2></div></div>
+          <div id="monthly-chart" class="trend-chart"></div>
+        </section>
         <aside class="panel note" aria-labelledby="note-title">
           <p class="eyebrow">HOW TO READ</p>
           <h2 id="note-title">해석 원칙</h2>
           <ul>
-            <li>절대 매출·MAU·ARPPU가 아닌 공개 순위의 방향성 프록시입니다.</li>
-            <li>순위 급등과 신규 진입은 흥행 후보를 빠르게 찾는 보조 신호로 보세요.</li>
-            <li>신작 노출, 이벤트, 랭킹 로직 변경은 별도 체크가 필요합니다.</li>
+            <li>View·Chat은 각 작품 카드에 공개된 누적 카운터입니다.</li>
+            <li>막대 그래프는 전일 오전 7시 대비 순증으로 계산합니다.</li>
+            <li>주·월 그래프도 누적값 합산이 아닌 기간 순증입니다.</li>
           </ul>
           <p class="footnote">공개 페이지를 하루 한 번만 조회하며, 대화·로그인·이미지는 수집하지 않습니다.</p>
         </aside>
@@ -66,8 +64,8 @@
       <section class="panel table-panel" aria-labelledby="table-title">
         <div class="panel-heading">
           <div>
-            <p class="eyebrow">LATEST SNAPSHOT</p>
-            <h2 id="table-title">최신 캐릭터 랭킹</h2>
+          <p class="eyebrow">LATEST SNAPSHOT</p>
+            <h2 id="table-title">작품별 공개 카운터</h2>
           </div>
           <div class="table-tools">
             <label for="search">검색</label>
@@ -76,7 +74,7 @@
         </div>
         <div class="table-wrap">
           <table>
-            <thead><tr><th>순위</th><th>캐릭터</th><th>공개 점수</th><th>7일 변화</th><th>신호</th></tr></thead>
+            <thead><tr><th>순위</th><th>작품</th><th>View</th><th>Chat</th><th>View 증감</th><th>Chat 증감</th></tr></thead>
             <tbody id="ranking-body"></tbody>
           </table>
         </div>
