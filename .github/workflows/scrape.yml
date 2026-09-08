@@ -3,11 +3,13 @@ name: Capture Toptoon Chat ranking
 on:
   workflow_dispatch:
   schedule:
-    # Korea is UTC+9 year-round: 08:00 KST = 23:00 UTC on the previous day.
-    - cron: "0 23 * * *"
+    # Korea is UTC+9 year-round: 07:00 KST = 22:00 UTC on the previous day.
+    - cron: "0 22 * * *"
 
 permissions:
   contents: write
+  pages: write
+  id-token: write
 
 concurrency:
   group: toptoon-ranking-capture
@@ -37,3 +39,12 @@ jobs:
           git add dist/data/snapshots.json
           git commit -m "data: capture ranking $(date -u +'%Y-%m-%d')"
           git push
+      - name: Prepare Pages deployment
+        uses: actions/configure-pages@v5
+      - name: Upload refreshed dashboard
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+      - name: Deploy refreshed dashboard
+        id: deployment
+        uses: actions/deploy-pages@v4
