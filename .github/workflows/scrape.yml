@@ -25,6 +25,9 @@ concurrency:
 
 jobs:
   capture:
+    env:
+      # A legacy .pyc is tracked; tests must not dirty the checkout before rebase.
+      PYTHONDONTWRITEBYTECODE: "1"
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -72,3 +75,4 @@ jobs:
       - name: Deploy refreshed dashboard
         id: deployment
         uses: actions/deploy-pages@v4
+
