@@ -37,17 +37,19 @@ function dailySnapshots(snapshots) {
 
 function periodGrowth(daily, label) {
   const groups = new Map();
-  daily.forEach((snapshot) => { const key = label(dateOf(snapshot)); groups.set(key, [...(groups.get(key) || []), snapshot]); });
-  return [...groups.entries()].map(([key, values]) => ({ label: key, growth: growth(values.at(-1), values[0]) })).filter((entry) => entry.growth);
+  daily.filter((snapshot) => totals(snapshot).observed_items > 0).forEach((snapshot) => { const key = label(dateOf(snapshot)); groups.set(key, [...(groups.get(key) || []), snapshot]); });
+  return [...groups.entries()].filter(([, values]) => values.length > 1).map(([key, values]) => ({ label: key, growth: growth(values.at(-1), values[0]) })).filter((entry) => entry.growth);
 }
 
 function bars(rootId, ariaLabel, entries) {
   const root = document.getElementById(rootId);
   if (!entries.length) { root.innerHTML = '<p class="empty-chart">View·Chat 카운터가 서로 다른 날짜에 두 번 이상 수집되면 표시됩니다.</p>'; return; }
-  const max = Math.max(1, ...entries.flatMap((entry) => [Math.abs(entry.growth.view), Math.abs(entry.growth.chat)]));
-  const width = 900, height = 224, bottom = 46, left = 14, right = 14, top = 18, base = height - bottom;
+  const values = entries.flatMap((entry) => [entry.growth.view, entry.growth.chat]);
+  const min = Math.min(0, ...values), max = Math.max(0, ...values), range = max - min || 1;
+  const width = 900, height = 224, bottom = 46, left = 14, right = 14, top = 18;
   const slot = (width - left - right) / entries.length;
-  const y = (value) => base - (value / max) * (height - top - bottom);
+  const y = (value) => top + ((max - value) / range) * (height - top - bottom);
+  const base = y(0);
   let svg = `<svg class="chart-svg" viewBox="0 0 ${width} ${height}" role="img" aria-label="${ariaLabel}"><line class="grid-line" x1="${left}" y1="${base}" x2="${width - right}" y2="${base}"/>`;
   entries.forEach((entry, i) => {
     const x = left + i * slot, bar = Math.max(3, Math.min(22, slot * .28)), viewY = y(entry.growth.view), chatY = y(entry.growth.chat);

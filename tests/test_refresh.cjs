@@ -11,6 +11,7 @@ const events = {};
 let timer, requests = 0, fail = false;
 const row = (name, count) => ({ key: name, name, view_count: count, chat_count: count });
 const history = { snapshots: [
+  { captured_at: '2026-09-08T22:01:00Z', items: [{ name: 'Legacy', rank: 1 }] },
   { captured_at: '2026-09-09T22:01:00Z', captured_kst: '2026-09-10 07:01 KST', items: [row('Alpha', 10), row('Beta', 20)] },
   { captured_at: '2026-09-10T22:02:00Z', captured_kst: '2026-09-11 07:02 KST', items: [row('Alpha', 15), row('Beta', 27)] }
 ] };
@@ -22,6 +23,13 @@ const settle = () => new Promise(resolve => setImmediate(resolve));
   await settle();
   assert.equal(requests, 1);
   assert.equal(element('metric-view-growth').textContent, '+12');
+  assert.match(element('weekly-chart').innerHTML, /<svg/);
+  assert.match(element('monthly-chart').innerHTML, /<svg/);
+  vm.runInContext("bars('test-chart', 'negative growth', [{label:'9/10', growth:{view:-700000, chat:10000}}])", context);
+  for (const rect of element('test-chart').innerHTML.matchAll(/<rect[^>]+y="([\d.]+)"[^>]+height="([\d.]+)"/g)) {
+    assert.ok(Number(rect[1]) >= 18);
+    assert.ok(Number(rect[1]) + Number(rect[2]) <= 178.001);
+  }
   element('search').value = 'Alpha';
   await vm.runInContext('refreshData()', context);
   assert.equal(element('search').listeners.length, 1);
