@@ -2,9 +2,17 @@ name: Capture Toptoon Chat ranking
 
 on:
   workflow_dispatch:
+    inputs:
+      force:
+        description: "Force a fresh capture even if today's morning capture succeeded"
+        type: boolean
+        default: false
   schedule:
     # Korea is UTC+9 year-round: 07:00 KST = 22:00 UTC on the previous day.
     - cron: "0 22 * * *"
+    # Catch up at 07:17, 07:37, 08:07 and 09:07 KST if capture was missed.
+    - cron: "17,37 22 * * *"
+    - cron: "7 23,0 * * *"
 
 permissions:
   contents: write
@@ -12,22 +20,35 @@ permissions:
   id-token: write
 
 concurrency:
-  group: toptoon-ranking-capture
+  group: github-pages
   cancel-in-progress: false
 
 jobs:
   capture:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
         with:
+          ref: main
           fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Capture public ranking
-        run: python scripts/scrape_ranking.py
+      - name: Verify capture safeguards
+        run: python -m unittest discover -s tests -p 'test_*.py'
+      - name: Capture public counters if due
+        env:
+          FORCE_CAPTURE: ${{ inputs.force }}
+        run: |
+          if [ "$FORCE_CAPTURE" = "true" ]; then
+            python scripts/scrape_ranking.py --force
+          else
+            python scripts/scrape_ranking.py
+          fi
       - name: Save a changed snapshot
         run: |
           if git diff --quiet -- dist/data/snapshots.json; then
@@ -37,8 +58,11 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add dist/data/snapshots.json
-          git commit -m "data: capture ranking $(date -u +'%Y-%m-%d')"
-          git push
+          git commit -m "data: capture counters $(TZ=Asia/Seoul date +'%Y-%m-%d')"
+          git pull --rebase origin main
+          git push origin HEAD:main
+      # Always deploy even when capture is skipped: the previous deploy may
+      # have failed after its commit. GITHUB_TOKEN pushes do not trigger CI.
       - name: Prepare Pages deployment
         uses: actions/configure-pages@v5
       - name: Upload refreshed dashboard

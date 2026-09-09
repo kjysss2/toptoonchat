@@ -1,31 +1,42 @@
 #!/usr/bin/env python3
 """Daily, anonymous capture of public Toptoon Chat View and Chat counters."""
 from __future__ import annotations
+import argparse
 import html as html_module
 import json
 import re
 import sys
 import time
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
 from urllib.parse import urljoin
 from urllib.request import Request, urlopen
-from zoneinfo import ZoneInfo
+from urllib.error import HTTPError, URLError
 
 BASE_URL = "https://chat.toptoon.com"
 CATALOG_URLS = (f"{BASE_URL}/", f"{BASE_URL}/explore", f"{BASE_URL}/ranking")
 ROOT = Path(__file__).resolve().parents[1]
 DATA_FILE = ROOT / "dist" / "data" / "snapshots.json"
-KST = ZoneInfo("Asia/Seoul")
+# Current Korean standard time has no DST; works on Windows without tzdata.
+KST = timezone(timedelta(hours=9), "KST")
 USER_AGENT = "ToptoonChatCounter/2.0 (public-counter-research; one-daily-capture)"
 DETAIL_RE = re.compile(r"(?:href=[\"']?)(/detail/(?:character|content)/[0-9]+)", re.I)
 COUNTER_FIELDS = {"view_count": ("viewCount", "totalViewCount", "view_count", "views"), "chat_count": ("chatCount", "conversationCount", "totalChatCount", "chat_count")}
 
 def fetch(url: str) -> str:
     request = Request(url, headers={"User-Agent": USER_AGENT, "Accept": "text/html,application/xhtml+xml", "Accept-Language": "ko-KR,ko;q=0.9"})
-    with urlopen(request, timeout=30) as response:  # nosec B310 -- fixed public HTTPS origin
-        return response.read().decode(response.headers.get_content_charset() or "utf-8", errors="replace")
+    for attempt in range(3):
+        try:
+            with urlopen(request, timeout=30) as response:  # nosec B310 -- fixed public HTTPS origin
+                return response.read().decode(response.headers.get_content_charset() or "utf-8", errors="replace")
+        except (URLError, TimeoutError) as error:
+            if isinstance(error, HTTPError) and error.code not in (429, 500, 502, 503, 504):
+                raise
+            if attempt == 2:
+                raise
+            time.sleep(2 ** (attempt + 1))
+    raise RuntimeError("Public page fetch did not complete")
 
 def public_detail_urls() -> list[str]:
     urls: set[str] = set()
@@ -78,19 +89,45 @@ def load_history() -> dict[str, Any]:
 def local_date(timestamp: str) -> str:
     return datetime.fromisoformat(timestamp.replace("Z", "+00:00")).astimezone(KST).date().isoformat()
 
-def write_history(history: dict[str, Any], items: list[dict[str, Any]]) -> dict[str, Any]:
-    captured = datetime.now(timezone.utc)
+def capture_due(history: dict[str, Any], now: datetime) -> bool:
+    """Keep the first valid capture after 07:00 KST, even if cron runs late."""
+    morning = now.astimezone(KST).replace(hour=7, minute=0, second=0, microsecond=0)
+    if now < morning:
+        return False
+    for snapshot in history["snapshots"]:
+        captured = datetime.fromisoformat(snapshot["captured_at"].replace("Z", "+00:00"))
+        items = snapshot.get("items", [])
+        valid = len(items) >= 5 and all(
+            type(item.get(field)) is int and item[field] >= 0
+            for item in items for field in ("view_count", "chat_count")
+        )
+        if morning <= captured <= now and valid:
+            return False
+    return True
+
+def write_history(history: dict[str, Any], items: list[dict[str, Any]], *, now: datetime | None = None) -> dict[str, Any]:
+    captured = now or datetime.now(timezone.utc)
     snapshot = {"captured_at": captured.isoformat().replace("+00:00", "Z"), "captured_kst": captured.astimezone(KST).strftime("%Y-%m-%d %H:%M KST"), "items": items, "totals": {"view_count": sum(item["view_count"] for item in items), "chat_count": sum(item["chat_count"] for item in items), "observed_items": len(items)}}
     snapshots = history["snapshots"]
     if snapshots and local_date(snapshots[-1]["captured_at"]) == local_date(snapshot["captured_at"]): snapshots[-1] = snapshot
     else: snapshots.append(snapshot)
     history.update({"schema_version": 2, "source_url": BASE_URL, "updated_at": snapshot["captured_at"]})
     DATA_FILE.parent.mkdir(parents=True, exist_ok=True)
-    DATA_FILE.write_text(json.dumps(history, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    temporary = DATA_FILE.with_suffix(".json.tmp")
+    temporary.write_text(json.dumps(history, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    temporary.replace(DATA_FILE)
     return snapshot
 
-def main() -> int:
-    try: snapshot = write_history(load_history(), capture_items())
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--force", action="store_true", help="Capture now even before 07:00 KST or after today's successful capture")
+    args = parser.parse_args(argv)
+    try:
+        history = load_history()
+        if not args.force and not capture_due(history, datetime.now(timezone.utc)):
+            print("Capture skipped: before 07:00 KST or today's morning snapshot already exists. Deployment can still retry.")
+            return 0
+        snapshot = write_history(history, capture_items())
     except Exception as error:
         print(f"Public counter capture failed: {error}", file=sys.stderr); return 1
     print(f"Captured {snapshot['totals']['observed_items']} public works at {snapshot['captured_kst']}")

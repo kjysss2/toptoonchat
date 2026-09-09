@@ -1,11 +1,20 @@
 const DATA_URL = "./data/snapshots.json";
 const number = new Intl.NumberFormat("ko-KR");
-const dateLabel = new Intl.DateTimeFormat("ko-KR", { month: "numeric", day: "numeric" });
+const dateLabel = new Intl.DateTimeFormat("ko-KR", { month: "numeric", day: "numeric", timeZone: "Asia/Seoul" });
 const asNumber = (value) => Number.isFinite(value) ? value : null;
 const fmt = (value) => value === null ? "—" : number.format(value);
 const dateOf = (snapshot) => new Date(snapshot.captured_at);
 const dayKey = (snapshot) => dateOf(snapshot).toLocaleDateString("en-CA", { timeZone: "Asia/Seoul" });
 const byKey = (snapshot) => new Map((snapshot?.items || []).map((item) => [item.key, item]));
+let currentHistory = null;
+let refreshing = false;
+
+function statusLabel(latest, now = new Date()) {
+  const parts = Object.fromEntries(new Intl.DateTimeFormat("en", { timeZone: "Asia/Seoul", year: "numeric", month: "2-digit", day: "2-digit" }).formatToParts(now).map(({ type, value }) => [type, value]));
+  const morning = new Date(`${parts.year}-${parts.month}-${parts.day}T07:00:00+09:00`);
+  const pending = now >= morning && dateOf(latest) < morning;
+  return `최종 수집 ${latest.captured_kst || dateLabel.format(dateOf(latest))} · 매일 07:00 KST 예약${pending ? " · 오늘 수집 대기·지연 중" : ""} · 화면은 1분마다 갱신`;
+}
 
 function totals(snapshot) {
   if (snapshot?.totals && Number.isFinite(snapshot.totals.view_count) && Number.isFinite(snapshot.totals.chat_count)) return snapshot.totals;
@@ -34,7 +43,7 @@ function periodGrowth(daily, label) {
 
 function bars(rootId, ariaLabel, entries) {
   const root = document.getElementById(rootId);
-  if (!entries.length) { root.innerHTML = '<p class="empty-chart">두 번째 수집부터 순증 막대가 표시됩니다.</p>'; return; }
+  if (!entries.length) { root.innerHTML = '<p class="empty-chart">View·Chat 카운터가 서로 다른 날짜에 두 번 이상 수집되면 표시됩니다.</p>'; return; }
   const max = Math.max(1, ...entries.flatMap((entry) => [Math.abs(entry.growth.view), Math.abs(entry.growth.chat)]));
   const width = 900, height = 224, bottom = 46, left = 14, right = 14, top = 18, base = height - bottom;
   const slot = (width - left - right) / entries.length;
@@ -67,13 +76,42 @@ function render(history) {
   const dailyBars = tail.map((snapshot, i) => ({ label: dateLabel.format(dateOf(snapshot)), growth: i ? growth(snapshot, tail[i - 1]) : null })).filter((entry) => entry.growth);
   const weekly = periodGrowth(daily, (date) => { const monday = new Date(date); monday.setDate(date.getDate() - ((date.getDay() + 6) % 7)); return `${monday.getMonth() + 1}/${monday.getDate()}주`; });
   const monthly = periodGrowth(daily, (date) => `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, "0")}`);
-  document.getElementById("status").textContent = `최종 수집 ${latest.captured_kst || dateLabel.format(dateOf(latest))} · 공개 View·Chat 카운터 기준`;
+  document.getElementById("status").textContent = statusLabel(latest);
+  document.getElementById("status").classList.remove("error");
+  document.querySelectorAll(".comparison-time").forEach((element) => { element.textContent = previous ? `${previous.captured_kst || dateLabel.format(dateOf(previous))} 대비` : "비교할 이전 수집 대기"; });
   document.getElementById("metric-tracked").textContent = `${latest.items.length}개`;
   document.getElementById("metric-view-growth").textContent = today ? `${today.view >= 0 ? "+" : ""}${fmt(today.view)}` : "대기";
   document.getElementById("metric-chat-growth").textContent = today ? `${today.chat >= 0 ? "+" : ""}${fmt(today.chat)}` : "대기";
   document.getElementById("metric-window").textContent = `${daily.length}일`;
   bars("trend-chart", "전체 일별 View와 Chat 순증", dailyBars); bars("weekly-chart", "전체 주별 View와 Chat 순증", weekly); bars("monthly-chart", "전체 월별 View와 Chat 순증", monthly);
-  renderTable(latest, previous); document.getElementById("search").addEventListener("input", (event) => renderTable(latest, previous, event.target.value));
+  renderTable(latest, previous, document.getElementById("search").value);
 }
 
-fetch(DATA_URL, { cache: "no-store" }).then((response) => { if (!response.ok) throw new Error(`HTTP ${response.status}`); return response.json(); }).then(render).catch((error) => { const status = document.getElementById("status"); status.textContent = `데이터를 불러오지 못했습니다: ${error.message}`; status.classList.add("error"); });
+async function refreshData() {
+  if (refreshing) return;
+  refreshing = true;
+  try {
+    const response = await fetch(DATA_URL, { cache: "no-store" });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const history = await response.json();
+    render(history);
+    currentHistory = history;
+  } catch (error) {
+    const status = document.getElementById("status");
+    const latest = currentHistory && dailySnapshots(currentHistory.snapshots || []).at(-1);
+    status.textContent = `${latest ? `${statusLabel(latest)} · 기존 데이터 표시 중. ` : ""}데이터 갱신 실패: ${error.message} · 잠시 후 자동 재시도`;
+    status.classList.add("error");
+  } finally {
+    refreshing = false;
+  }
+}
+
+document.getElementById("search").addEventListener("input", (event) => {
+  if (!currentHistory) return;
+  const daily = dailySnapshots(currentHistory.snapshots || []);
+  renderTable(daily.at(-1), daily.at(-2), event.target.value);
+});
+document.addEventListener("visibilitychange", () => { if (!document.hidden) refreshData(); });
+window.addEventListener("focus", refreshData);
+setInterval(() => { if (!document.hidden) refreshData(); }, 60_000);
+refreshData();

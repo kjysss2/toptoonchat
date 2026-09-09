@@ -24,8 +24,8 @@
 
       <section class="metric-grid" aria-label="핵심 지표">
         <article class="metric-card"><span>추적 작품</span><strong id="metric-tracked">—</strong><small>최신 공개 목록</small></article>
-        <article class="metric-card"><span>오늘 View 순증</span><strong id="metric-view-growth">—</strong><small>전일 07시 대비</small></article>
-        <article class="metric-card"><span>오늘 Chat 순증</span><strong id="metric-chat-growth">—</strong><small>전일 07시 대비</small></article>
+        <article class="metric-card"><span>최근 View 순증</span><strong id="metric-view-growth">—</strong><small class="comparison-time">이전 수집 대비</small></article>
+        <article class="metric-card"><span>최근 Chat 순증</span><strong id="metric-chat-growth">—</strong><small class="comparison-time">이전 수집 대비</small></article>
         <article class="metric-card"><span>데이터 기간</span><strong id="metric-window">—</strong><small>일별 스냅샷</small></article>
       </section>
 
@@ -54,10 +54,10 @@
           <h2 id="note-title">해석 원칙</h2>
           <ul>
             <li>View·Chat은 각 작품 카드에 공개된 누적 카운터입니다.</li>
-            <li>막대 그래프는 전일 오전 7시 대비 순증으로 계산합니다.</li>
+            <li>막대 그래프는 이전 수집값 대비 순증입니다. 예약은 매일 한국시간 오전 7시이며 실제 수집은 지연될 수 있습니다.</li>
             <li>주·월 그래프도 누적값 합산이 아닌 기간 순증입니다.</li>
           </ul>
-          <p class="footnote">공개 페이지를 하루 한 번만 조회하며, 대화·로그인·이미지는 수집하지 않습니다.</p>
+          <p class="footnote">하루 한 번 공개 카운터를 수집합니다. 실패 시 재시도하며, 대화·로그인·이미지는 수집하지 않습니다.</p>
         </aside>
       </section>
 
