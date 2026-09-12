@@ -59,6 +59,9 @@ function bars(rootId, ariaLabel, entries) {
     const x = left + i * slot, bar = Math.max(3, Math.min(22, slot * .28)), viewY = y(entry.growth.view), chatY = y(entry.growth.chat);
     svg += `<rect class="bar-view" x="${x + slot * .5 - bar - 2}" y="${Math.min(base, viewY)}" width="${bar}" height="${Math.abs(base - viewY)}" rx="2"><title>${entry.label} View ${entry.growth.view >= 0 ? '+' : ''}${fmt(entry.growth.view)}</title></rect>`;
     svg += `<rect class="bar-chat" x="${x + slot * .5 + 2}" y="${Math.min(base, chatY)}" width="${bar}" height="${Math.abs(base - chatY)}" rx="2"><title>${entry.label} Chat ${entry.growth.chat >= 0 ? '+' : ''}${fmt(entry.growth.chat)}</title></rect>`;
+    const valueLabel = (value, barY, labelX, className) => { const yPos = value >= 0 ? Math.max(12, Math.min(base, barY) - 6) : Math.min(height - bottom - 2, Math.max(base, barY) + 14); return `<text class="value-label ${className}" text-anchor="middle" x="${labelX}" y="${yPos}" font-size="11" font-weight="700">${value >= 0 ? '+' : ''}${fmt(value)}</text>`; };
+    svg += valueLabel(entry.growth.view, viewY, x + slot * .5 - bar / 2 - 2, 'view-label');
+    svg += valueLabel(entry.growth.chat, chatY, x + slot * .5 + bar / 2 + 2, 'chat-label');
     if (entries.length <= 10 || i === 0 || i === entries.length - 1 || i === Math.floor(entries.length / 2)) svg += `<text class="axis-label" text-anchor="middle" x="${x + slot / 2}" y="${height - 12}">${entry.label}</text>`;
   });
   root.innerHTML = `${svg}</svg><div class="chart-legend"><span><i class="legend-view"></i>View 순증</span><span><i class="legend-chat"></i>Chat 순증</span></div>`;
