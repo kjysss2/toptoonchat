@@ -17,7 +17,8 @@
 body { margin: 0; min-width: 320px; background: radial-gradient(circle at 90% -10%, #173b53 0, transparent 34rem), var(--bg); color: var(--text); }
 button, input { font: inherit; }
 .shell { width: min(1180px, calc(100% - 32px)); margin: 0 auto; padding: 42px 0 68px; }
-.topbar, .panel-heading, .two-column { display: flex; gap: 20px; align-items: center; justify-content: space-between; }
+.topbar, .panel-heading { display: flex; gap: 20px; align-items: center; justify-content: space-between; }
+.two-column { display: grid; grid-template-columns: 1fr; gap: 20px; }
 .topbar { padding-bottom: 28px; border-bottom: 1px solid var(--line); }
 h1, h2, p { margin: 0; }
 h1 { margin-top: 5px; font-size: clamp(1.75rem, 4vw, 2.55rem); letter-spacing: -0.055em; }
@@ -91,7 +92,7 @@ td:first-child { width: 62px; color: var(--amber); font-weight: 800; }
   .metric-grid { grid-template-columns: repeat(2, 1fr); }
   .metric-card { min-height: 112px; padding: 15px; }
   .metric-card strong { font-size: 1.65rem; }
-  .two-column { flex-direction: column; }
+  .two-column { grid-template-columns: 1fr; }
   .panel { padding: 17px; }
   .panel-heading { gap: 14px; }
   .table-panel .panel-heading { align-items: stretch; flex-direction: column; }
