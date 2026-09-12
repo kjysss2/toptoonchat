@@ -24,9 +24,13 @@ function totals(snapshot) {
 
 function growth(current, previous) {
   if (!current || !previous) return null;
-  const now = totals(current), before = totals(previous);
-  if (!now.observed_items || !before.observed_items) return null;
-  return { view: now.view_count - before.view_count, chat: now.chat_count - before.chat_count };
+  const beforeByKey = new Map((previous.items || []).filter((item) => asNumber(item.view_count) !== null && asNumber(item.chat_count) !== null).map((item) => [item.key, item]));
+  const common = (current.items || []).filter((item) => beforeByKey.has(item.key) && asNumber(item.view_count) !== null && asNumber(item.chat_count) !== null);
+  if (!common.length) return null;
+  return {
+    view: common.reduce((sum, item) => sum + item.view_count - beforeByKey.get(item.key).view_count, 0),
+    chat: common.reduce((sum, item) => sum + item.chat_count - beforeByKey.get(item.key).chat_count, 0),
+  };
 }
 
 function dailySnapshots(snapshots) {
