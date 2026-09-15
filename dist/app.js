@@ -114,13 +114,13 @@ function aggregateSeries(histories, period) {
 }
 
 function stackedMetric(entries, metric, title) {
-  const width = 900, height = 240, left = 18, right = 18, top = 24, bottom = 44;
+  const width = 600, height = 300, left = 18, right = 18, top = 24, bottom = 48;
   const positiveMax = Math.max(0, ...entries.map((entry) => MARKET_KEYS.reduce((sum, market) => sum + Math.max(0, entry.countries[market]?.[metric] || 0), 0)));
   const negativeMin = Math.min(0, ...entries.map((entry) => MARKET_KEYS.reduce((sum, market) => sum + Math.min(0, entry.countries[market]?.[metric] || 0), 0)));
   const range = positiveMax - negativeMin || 1;
   const y = (value) => top + ((positiveMax - value) / range) * (height - top - bottom);
   const base = y(0), slot = (width - left - right) / entries.length, barWidth = Math.max(10, Math.min(54, slot * .58));
-  let svg = `<p class="stacked-metric-title">${title}</p><svg class="chart-svg" viewBox="0 0 ${width} ${height}" role="img" aria-label="${title} 국가별 누적 막대그래프"><line class="grid-line" x1="${left}" y1="${base}" x2="${width - right}" y2="${base}"/>`;
+  let svg = `<p class="stacked-metric-title">${title}</p><svg class="chart-svg stacked-svg" viewBox="0 0 ${width} ${height}" role="img" aria-label="${title} 국가별 누적 막대그래프"><line class="grid-line" x1="${left}" y1="${base}" x2="${width - right}" y2="${base}"/>`;
   entries.forEach((entry, index) => {
     const x = left + index * slot + (slot - barWidth) / 2;
     let positive = 0, negative = 0;
