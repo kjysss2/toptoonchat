@@ -163,36 +163,79 @@ function stackedBars(rootId, entries) {
   root.innerHTML = `<div class="stacked-pair"><div class="stacked-chart">${stackedMetric(entries, "view", "View 순증")}</div><div class="stacked-chart">${stackedMetric(entries, "chat", "Chat 순증")}</div></div><div class="chart-legend country-legend">${legend}</div>`;
 }
 
-function stackedAbsoluteBars(rootId, entries) {
-  const root = document.getElementById(rootId);
-  if (!entries.length) { root.innerHTML = '<p class="empty-chart">아직 저장된 절대값 스냅샷이 없습니다.</p>'; return; }
-  const legend = MARKET_KEYS.map((market) => `<span><i class="country-${market}"></i>${MARKETS[market].label}</span>`).join("");
-  root.innerHTML = `<div class="stacked-pair"><div class="stacked-chart">${stackedMetric(entries, "view", "View 절대값", false)}</div><div class="stacked-chart">${stackedMetric(entries, "chat", "Chat 절대값", false)}</div></div><div class="chart-legend country-legend">${legend}</div>`;
+function lineScale(values, height, top, bottom) {
+  const rawMin = Math.min(...values), rawMax = Math.max(...values);
+  const span = rawMax - rawMin || Math.max(Math.abs(rawMax) * .1, 1);
+  const min = Math.max(0, rawMin - span * .12), max = rawMax + span * .18;
+  return { min, max, y: (value) => top + ((max - value) / (max - min || 1)) * (height - top - bottom) };
 }
 
-function absoluteMetric(entries, metric, title, className) {
-  const width = 600, height = 300, left = 18, right = 18, top = 24, bottom = 48;
-  const max = Math.max(1, ...entries.map((entry) => entry[metric]));
-  const y = (value) => top + ((max - value) / max) * (height - top - bottom);
-  const base = height - bottom, slot = (width - left - right) / entries.length, barWidth = Math.max(8, Math.min(54, slot * .58));
-  let svg = `<p class="stacked-metric-title">${title}</p><svg class="chart-svg stacked-svg" viewBox="0 0 ${width} ${height}" role="img" aria-label="${title} 일별 막대그래프"><line class="grid-line" x1="${left}" y1="${base}" x2="${width - right}" y2="${base}"/>`;
+function lineGrid(scale, width, height, left, right, top, bottom) {
+  let svg = "";
+  for (let index = 0; index <= 4; index++) {
+    const value = scale.max - ((scale.max - scale.min) * index / 4);
+    const y = top + ((height - top - bottom) * index / 4);
+    svg += `<line class="line-grid" x1="${left}" y1="${y}" x2="${width - right}" y2="${y}"/><text class="line-axis-value" x="${left - 7}" y="${y + 4}" text-anchor="end">${fmt(Math.round(value))}</text>`;
+  }
+  return svg;
+}
+
+function aggregateAbsoluteMetric(entries, metric, title) {
+  const width = 600, height = 300, left = 72, right = 24, top = 36, bottom = 48;
+  const values = entries.flatMap((entry) => MARKET_KEYS.map((market) => entry.countries[market]?.[metric]).filter(Number.isFinite));
+  const scale = lineScale(values, height, top, bottom);
+  const x = (index) => entries.length === 1 ? (left + width - right) / 2 : left + index * ((width - left - right) / (entries.length - 1));
+  let svg = `<p class="stacked-metric-title">${title}</p><svg class="chart-svg stacked-svg" viewBox="0 0 ${width} ${height}" role="img" aria-label="${title} 국가별 일별 점선그래프">${lineGrid(scale, width, height, left, right, top, bottom)}`;
+  MARKET_KEYS.forEach((market) => {
+    const points = entries.map((entry, index) => ({ entry, index, value: entry.countries[market]?.[metric] })).filter((point) => Number.isFinite(point.value));
+    if (!points.length) return;
+    svg += `<polyline class="absolute-line country-line country-${market}" points="${points.map((point) => `${x(point.index)},${scale.y(point.value)}`).join(" ")}"/>`;
+    points.forEach((point, pointIndex) => {
+      const pointX = x(point.index), pointY = scale.y(point.value);
+      svg += `<circle class="absolute-point country-${market}" cx="${pointX}" cy="${pointY}" r="4.5"><title>${point.entry.label} ${MARKETS[market].label} ${title} ${fmt(point.value)}</title></circle>`;
+      if (pointIndex === points.length - 1) svg += `<text class="line-value-label" x="${pointX - 7}" y="${Math.max(13, pointY - 9)}" text-anchor="end">${fmt(point.value)}</text>`;
+    });
+  });
   entries.forEach((entry, index) => {
-    const x = left + index * slot + (slot - barWidth) / 2, barY = y(entry[metric]);
-    svg += `<rect class="${className}" x="${x}" y="${barY}" width="${barWidth}" height="${base - barY}" rx="2"><title>${entry.label} ${title} ${fmt(entry[metric])}</title></rect>`;
-    svg += `<text class="value-label" text-anchor="middle" x="${x + barWidth / 2}" y="${Math.max(12, barY - 6)}" font-size="11" font-weight="700" fill="#ffffff">${fmt(entry[metric])}</text>`;
-    if (entries.length <= 10 || index === 0 || index === entries.length - 1 || index === Math.floor(entries.length / 2)) svg += `<text class="axis-label" text-anchor="middle" x="${x + barWidth / 2}" y="${height - 12}">${entry.label}</text>`;
+    if (entries.length <= 10 || index === 0 || index === entries.length - 1 || index === Math.floor(entries.length / 2)) svg += `<text class="axis-label" text-anchor="middle" x="${x(index)}" y="${height - 12}">${entry.label}</text>`;
   });
   return `${svg}</svg>`;
 }
 
-function absoluteBars(rootId, daily) {
+function aggregateAbsoluteLines(rootId, entries) {
+  const root = document.getElementById(rootId);
+  if (!entries.length) { root.innerHTML = '<p class="empty-chart">아직 저장된 절대값 스냅샷이 없습니다.</p>'; return; }
+  const legend = MARKET_KEYS.map((market) => `<span><i class="country-${market}"></i>${MARKETS[market].label}</span>`).join("");
+  root.innerHTML = `<div class="stacked-pair"><div class="stacked-chart">${aggregateAbsoluteMetric(entries, "view", "View 절대값")}</div><div class="stacked-chart">${aggregateAbsoluteMetric(entries, "chat", "Chat 절대값")}</div></div><div class="chart-legend country-legend">${legend}</div>`;
+}
+
+function absoluteMetric(entries, metric, title, lineClass, pointClass) {
+  const width = 600, height = 300, left = 72, right = 24, top = 36, bottom = 48;
+  const scale = lineScale(entries.map((entry) => entry[metric]), height, top, bottom);
+  const x = (index) => entries.length === 1 ? (left + width - right) / 2 : left + index * ((width - left - right) / (entries.length - 1));
+  let svg = `<p class="stacked-metric-title">${title}</p><svg class="chart-svg stacked-svg" viewBox="0 0 ${width} ${height}" role="img" aria-label="${title} 일별 점선그래프">${lineGrid(scale, width, height, left, right, top, bottom)}`;
+  svg += `<polyline class="absolute-line ${lineClass}" points="${entries.map((entry, index) => `${x(index)},${scale.y(entry[metric])}`).join(" ")}"/>`;
+  entries.forEach((entry, index) => {
+    const pointX = x(index), pointY = scale.y(entry[metric]);
+    svg += `<circle class="absolute-point ${pointClass}" cx="${pointX}" cy="${pointY}" r="4.5"><title>${entry.label} ${title} ${fmt(entry[metric])}</title></circle>`;
+    if (entries.length <= 10 || index === 0 || index === entries.length - 1 || index === Math.floor(entries.length / 2)) {
+      const anchor = index === 0 ? "start" : index === entries.length - 1 ? "end" : "middle";
+      const labelX = index === 0 ? pointX + 7 : index === entries.length - 1 ? pointX - 7 : pointX;
+      svg += `<text class="line-value-label" text-anchor="${anchor}" x="${labelX}" y="${Math.max(13, pointY - 9)}">${fmt(entry[metric])}</text>`;
+      svg += `<text class="axis-label" text-anchor="middle" x="${pointX}" y="${height - 12}">${entry.label}</text>`;
+    }
+  });
+  return `${svg}</svg>`;
+}
+
+function absoluteLines(rootId, daily) {
   const root = document.getElementById(rootId);
   const entries = daily.map((snapshot) => {
     const summary = totals(snapshot);
     return { label: dateLabel.format(dateOf(snapshot)), view: summary.view_count, chat: summary.chat_count, observed: summary.observed_items };
   }).filter((entry) => entry.observed).slice(-30);
   if (!entries.length) { root.innerHTML = '<p class="empty-chart">아직 저장된 절대값 스냅샷이 없습니다.</p>'; return; }
-  root.innerHTML = `<div class="stacked-pair"><div class="stacked-chart">${absoluteMetric(entries, "view", "View 절대값", "bar-view")}</div><div class="stacked-chart">${absoluteMetric(entries, "chat", "Chat 절대값", "bar-chat")}</div></div>`;
+  root.innerHTML = `<div class="stacked-pair"><div class="stacked-chart">${absoluteMetric(entries, "view", "View 절대값", "line-view", "point-view")}</div><div class="stacked-chart">${absoluteMetric(entries, "chat", "Chat 절대값", "line-chat", "point-chat")}</div></div>`;
 }
 
 function renderTable(latest, previous, query = "") {
@@ -243,7 +286,7 @@ function renderAggregate(histories, failures = []) {
   document.getElementById("metric-window").textContent = `${allDays.size}일`;
   setDashboardLabels(true);
   stackedBars("trend-chart", aggregateSeries(histories, "daily").slice(-30));
-  stackedAbsoluteBars("absolute-chart", aggregateAbsoluteSeries(histories).slice(-30));
+  aggregateAbsoluteLines("absolute-chart", aggregateAbsoluteSeries(histories).slice(-30));
   stackedBars("weekly-chart", aggregateSeries(histories, "weekly"));
   stackedBars("monthly-chart", aggregateSeries(histories, "monthly"));
   document.getElementById("ranking-body").innerHTML = MARKET_KEYS.map((market) => {
@@ -271,7 +314,7 @@ function render(history) {
   document.getElementById("metric-chat-growth").textContent = today ? `${today.chat >= 0 ? "+" : ""}${fmt(today.chat)}` : "대기";
   document.getElementById("metric-window").textContent = `${daily.length}일`;
   setDashboardLabels(false);
-  absoluteBars("absolute-chart", daily);
+  absoluteLines("absolute-chart", daily);
   bars("trend-chart", "전체 일별 View와 Chat 순증", dailyBars); bars("weekly-chart", "전체 주별 View와 Chat 순증", weekly); bars("monthly-chart", "전체 월별 View와 Chat 순증", monthly);
   renderTable(latest, previous, document.getElementById("search").value);
 }
