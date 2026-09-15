@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="탑툰챗 공개 View·Chat 카운터의 일별 순증을 추적하는 리서치 대시보드" />
+    <meta name="description" content="한국·일본 탑툰챗 공개 View·Chat 카운터의 일별 순증을 추적하는 리서치 대시보드" />
     <meta name="theme-color" content="#07111f" />
     <title>탑툰챗 카운터</title>
     <link rel="stylesheet" href="./styles.css" />
@@ -13,11 +13,17 @@
       <header class="topbar">
         <div>
           <p class="eyebrow">PUBLIC RANKING MONITOR</p>
-          <h1>탑툰챗 카운터</h1>
+          <h1 id="market-title">한국 탑툰챗 카운터</h1>
         </div>
-        <a class="source-link" href="https://chat.toptoon.com/ranking" target="_blank" rel="noreferrer">
-          원본 보기 <span aria-hidden="true">↗</span>
-        </a>
+        <div class="topbar-actions">
+          <div class="market-switch" role="tablist" aria-label="집계 국가">
+            <button class="market-button active" type="button" role="tab" data-market="kr" aria-selected="true">한국</button>
+            <button class="market-button" type="button" role="tab" data-market="jp" aria-selected="false">일본</button>
+          </div>
+          <a id="source-link" class="source-link" href="https://chat.toptoon.com/ranking" target="_blank" rel="noreferrer">
+            원본 보기 <span aria-hidden="true">↗</span>
+          </a>
+        </div>
       </header>
 
       <section id="status" class="status" aria-live="polite">데이터를 불러오는 중…</section>

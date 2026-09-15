@@ -54,13 +54,13 @@ jobs:
           fi
       - name: Save a changed snapshot
         run: |
-          if git diff --quiet -- dist/data/snapshots.json; then
+          if git diff --quiet -- dist/data; then
             echo "No snapshot change to commit."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add dist/data/snapshots.json
+          git add dist/data
           git commit -m "data: capture counters $(TZ=Asia/Seoul date +'%Y-%m-%d')"
           git pull --rebase origin main
           git push origin HEAD:main

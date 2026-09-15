@@ -16,7 +16,8 @@ const history = { snapshots: [
   { captured_at: '2026-09-10T22:02:00Z', captured_kst: '2026-09-11 07:02 KST', items: [row('Alpha', 15), row('Beta', 27)] }
 ] };
 const document = { hidden: false, getElementById: element, querySelectorAll: () => [], addEventListener: (event, fn) => events[event] = fn };
-const context = vm.createContext({ Intl, Date, Map, Math, Number, Error, document, window: { addEventListener: (event, fn) => events[event] = fn }, setInterval: (fn, delay) => { assert.equal(delay, 60000); timer = fn; }, fetch: async (url, options) => { requests++; assert.equal(options.cache, 'no-store'); if (fail) throw new Error('offline'); return { ok: true, json: async () => history }; } });
+const storage = new Map();
+const context = vm.createContext({ Intl, Date, Map, Math, Number, Error, document, location: { search: '' }, localStorage: { getItem: (key) => storage.get(key) || null, setItem: (key, value) => storage.set(key, value) }, URLSearchParams, window: { addEventListener: (event, fn) => events[event] = fn }, setInterval: (fn, delay) => { assert.equal(delay, 60000); timer = fn; }, fetch: async (url, options) => { requests++; assert.equal(url, './data/snapshots.json'); assert.equal(options.cache, 'no-store'); if (fail) throw new Error('offline'); return { ok: true, json: async () => history }; } });
 vm.runInContext(fs.readFileSync('dist/app.js', 'utf8'), context);
 const settle = () => new Promise(resolve => setImmediate(resolve));
 (async () => {

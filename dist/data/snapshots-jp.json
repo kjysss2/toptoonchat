@@ -1,0 +1,532 @@
+{
+  "schema_version": 2,
+  "market": "jp",
+  "source_url": "https://chat.toptoon.jp",
+  "snapshots": [
+    {
+      "captured_at": "2026-09-15T12:45:54.384855Z",
+      "captured_kst": "2026-09-15 21:45 KST",
+      "items": [
+        {
+          "key": "character:131",
+          "kind": "character",
+          "id": 131,
+          "name": "エリス",
+          "url": "https://chat.toptoon.jp/detail/character/131",
+          "view_count": 36255,
+          "chat_count": 2261
+        },
+        {
+          "key": "character:100",
+          "kind": "character",
+          "id": 100,
+          "name": "ジャン・ソニョン",
+          "url": "https://chat.toptoon.jp/detail/character/100",
+          "view_count": 50179,
+          "chat_count": 1656
+        },
+        {
+          "key": "character:80",
+          "kind": "character",
+          "id": 80,
+          "name": "ベルディア",
+          "url": "https://chat.toptoon.jp/detail/character/80",
+          "view_count": 55180,
+          "chat_count": 2916
+        },
+        {
+          "key": "content:102",
+          "kind": "content",
+          "id": 102,
+          "name": "ヤンキー女子たちと無人島で生き残る",
+          "url": "https://chat.toptoon.jp/detail/content/102",
+          "view_count": 527647,
+          "chat_count": 4698
+        },
+        {
+          "key": "character:348",
+          "kind": "character",
+          "id": 348,
+          "name": "ユン・カラム",
+          "url": "https://chat.toptoon.jp/detail/character/348",
+          "view_count": 3829,
+          "chat_count": 453
+        },
+        {
+          "key": "character:130",
+          "kind": "character",
+          "id": 130,
+          "name": "レイ",
+          "url": "https://chat.toptoon.jp/detail/character/130",
+          "view_count": 309201,
+          "chat_count": 4405
+        },
+        {
+          "key": "character:1",
+          "kind": "character",
+          "id": 1,
+          "name": "下北愛梨",
+          "url": "https://chat.toptoon.jp/detail/character/1",
+          "view_count": 947971,
+          "chat_count": 32427
+        },
+        {
+          "key": "character:522",
+          "kind": "character",
+          "id": 522,
+          "name": "久保田美桜",
+          "url": "https://chat.toptoon.jp/detail/character/522",
+          "view_count": 4702,
+          "chat_count": 873
+        },
+        {
+          "key": "character:315",
+          "kind": "character",
+          "id": 315,
+          "name": "佐々木由紀",
+          "url": "https://chat.toptoon.jp/detail/character/315",
+          "view_count": 3060,
+          "chat_count": 380
+        },
+        {
+          "key": "character:76",
+          "kind": "character",
+          "id": 76,
+          "name": "保坂白雪",
+          "url": "https://chat.toptoon.jp/detail/character/76",
+          "view_count": 189326,
+          "chat_count": 6202
+        },
+        {
+          "key": "character:182",
+          "kind": "character",
+          "id": 182,
+          "name": "倖田梓",
+          "url": "https://chat.toptoon.jp/detail/character/182",
+          "view_count": 45214,
+          "chat_count": 1928
+        },
+        {
+          "key": "character:268",
+          "kind": "character",
+          "id": 268,
+          "name": "千賀苑子",
+          "url": "https://chat.toptoon.jp/detail/character/268",
+          "view_count": 44514,
+          "chat_count": 2091
+        },
+        {
+          "key": "content:6",
+          "kind": "content",
+          "id": 6,
+          "name": "回帰した色魔は正派期待の新鋭となった",
+          "url": "https://chat.toptoon.jp/detail/content/6",
+          "view_count": 76529,
+          "chat_count": 1150
+        },
+        {
+          "key": "character:70",
+          "kind": "character",
+          "id": 70,
+          "name": "坂口美帆",
+          "url": "https://chat.toptoon.jp/detail/character/70",
+          "view_count": 31591,
+          "chat_count": 1720
+        },
+        {
+          "key": "character:118",
+          "kind": "character",
+          "id": 118,
+          "name": "坂本凪咲",
+          "url": "https://chat.toptoon.jp/detail/character/118",
+          "view_count": 48395,
+          "chat_count": 2297
+        },
+        {
+          "key": "character:134",
+          "kind": "character",
+          "id": 134,
+          "name": "城戸さくら",
+          "url": "https://chat.toptoon.jp/detail/character/134",
+          "view_count": 113102,
+          "chat_count": 3620
+        },
+        {
+          "key": "character:146",
+          "kind": "character",
+          "id": 146,
+          "name": "堂本美結",
+          "url": "https://chat.toptoon.jp/detail/character/146",
+          "view_count": 27944,
+          "chat_count": 1910
+        },
+        {
+          "key": "character:253",
+          "kind": "character",
+          "id": 253,
+          "name": "堤さゆり",
+          "url": "https://chat.toptoon.jp/detail/character/253",
+          "view_count": 87818,
+          "chat_count": 4110
+        },
+        {
+          "key": "character:73",
+          "kind": "character",
+          "id": 73,
+          "name": "大空奈緒",
+          "url": "https://chat.toptoon.jp/detail/character/73",
+          "view_count": 73121,
+          "chat_count": 2060
+        },
+        {
+          "key": "character:94",
+          "kind": "character",
+          "id": 94,
+          "name": "小峰未奈",
+          "url": "https://chat.toptoon.jp/detail/character/94",
+          "view_count": 48043,
+          "chat_count": 2020
+        },
+        {
+          "key": "character:121",
+          "kind": "character",
+          "id": 121,
+          "name": "小川日奈",
+          "url": "https://chat.toptoon.jp/detail/character/121",
+          "view_count": 34728,
+          "chat_count": 1724
+        },
+        {
+          "key": "character:97",
+          "kind": "character",
+          "id": 97,
+          "name": "島田美里",
+          "url": "https://chat.toptoon.jp/detail/character/97",
+          "view_count": 118466,
+          "chat_count": 4162
+        },
+        {
+          "key": "character:93",
+          "kind": "character",
+          "id": 93,
+          "name": "市村紗季",
+          "url": "https://chat.toptoon.jp/detail/character/93",
+          "view_count": 70199,
+          "chat_count": 2999
+        },
+        {
+          "key": "character:129",
+          "kind": "character",
+          "id": 129,
+          "name": "恩田恵奈",
+          "url": "https://chat.toptoon.jp/detail/character/129",
+          "view_count": 65272,
+          "chat_count": 3281
+        },
+        {
+          "key": "character:10000000",
+          "kind": "character",
+          "id": 10000000,
+          "name": "新庄まりな",
+          "url": "https://chat.toptoon.jp/detail/character/10000000",
+          "view_count": 280052,
+          "chat_count": 1783
+        },
+        {
+          "key": "character:99",
+          "kind": "character",
+          "id": 99,
+          "name": "日向春香",
+          "url": "https://chat.toptoon.jp/detail/character/99",
+          "view_count": 30478,
+          "chat_count": 1120
+        },
+        {
+          "key": "character:176",
+          "kind": "character",
+          "id": 176,
+          "name": "春川霞",
+          "url": "https://chat.toptoon.jp/detail/character/176",
+          "view_count": 289544,
+          "chat_count": 3329
+        },
+        {
+          "key": "character:170",
+          "kind": "character",
+          "id": 170,
+          "name": "曾川麗奈",
+          "url": "https://chat.toptoon.jp/detail/character/170",
+          "view_count": 81491,
+          "chat_count": 2716
+        },
+        {
+          "key": "character:10000003",
+          "kind": "character",
+          "id": 10000003,
+          "name": "有村京香",
+          "url": "https://chat.toptoon.jp/detail/character/10000003",
+          "view_count": 3456,
+          "chat_count": 436
+        },
+        {
+          "key": "character:229",
+          "kind": "character",
+          "id": 229,
+          "name": "木村多恵",
+          "url": "https://chat.toptoon.jp/detail/character/229",
+          "view_count": 54674,
+          "chat_count": 2363
+        },
+        {
+          "key": "character:258",
+          "kind": "character",
+          "id": 258,
+          "name": "板野由美",
+          "url": "https://chat.toptoon.jp/detail/character/258",
+          "view_count": 2843580,
+          "chat_count": 7732
+        },
+        {
+          "key": "character:60",
+          "kind": "character",
+          "id": 60,
+          "name": "橋本美優",
+          "url": "https://chat.toptoon.jp/detail/character/60",
+          "view_count": 72467,
+          "chat_count": 3319
+        },
+        {
+          "key": "character:38",
+          "kind": "character",
+          "id": 38,
+          "name": "橋本美華",
+          "url": "https://chat.toptoon.jp/detail/character/38",
+          "view_count": 2669772,
+          "chat_count": 17028
+        },
+        {
+          "key": "character:292",
+          "kind": "character",
+          "id": 292,
+          "name": "池上彩乃",
+          "url": "https://chat.toptoon.jp/detail/character/292",
+          "view_count": 38424,
+          "chat_count": 1143
+        },
+        {
+          "key": "character:61",
+          "kind": "character",
+          "id": 61,
+          "name": "池上朱里",
+          "url": "https://chat.toptoon.jp/detail/character/61",
+          "view_count": 929489,
+          "chat_count": 5633
+        },
+        {
+          "key": "character:290",
+          "kind": "character",
+          "id": 290,
+          "name": "浅田由麻",
+          "url": "https://chat.toptoon.jp/detail/character/290",
+          "view_count": 38706,
+          "chat_count": 2328
+        },
+        {
+          "key": "character:78",
+          "kind": "character",
+          "id": 78,
+          "name": "渡辺りん",
+          "url": "https://chat.toptoon.jp/detail/character/78",
+          "view_count": 116158,
+          "chat_count": 6944
+        },
+        {
+          "key": "character:162",
+          "kind": "character",
+          "id": 162,
+          "name": "白石祐里",
+          "url": "https://chat.toptoon.jp/detail/character/162",
+          "view_count": 87951,
+          "chat_count": 3757
+        },
+        {
+          "key": "character:133",
+          "kind": "character",
+          "id": 133,
+          "name": "矢野 栄子",
+          "url": "https://chat.toptoon.jp/detail/character/133",
+          "view_count": 7609573,
+          "chat_count": 54676
+        },
+        {
+          "key": "character:2",
+          "kind": "character",
+          "id": 2,
+          "name": "稲場理子",
+          "url": "https://chat.toptoon.jp/detail/character/2",
+          "view_count": 35635,
+          "chat_count": 1320
+        },
+        {
+          "key": "character:262",
+          "kind": "character",
+          "id": 262,
+          "name": "稲村玲華",
+          "url": "https://chat.toptoon.jp/detail/character/262",
+          "view_count": 38362,
+          "chat_count": 1354
+        },
+        {
+          "key": "character:291",
+          "kind": "character",
+          "id": 291,
+          "name": "竹田千夏",
+          "url": "https://chat.toptoon.jp/detail/character/291",
+          "view_count": 4307776,
+          "chat_count": 9644
+        },
+        {
+          "key": "character:329",
+          "kind": "character",
+          "id": 329,
+          "name": "竿田真由美",
+          "url": "https://chat.toptoon.jp/detail/character/329",
+          "view_count": 702760,
+          "chat_count": 3410
+        },
+        {
+          "key": "character:72",
+          "kind": "character",
+          "id": 72,
+          "name": "篠田有希子",
+          "url": "https://chat.toptoon.jp/detail/character/72",
+          "view_count": 70997,
+          "chat_count": 1941
+        },
+        {
+          "key": "character:221",
+          "kind": "character",
+          "id": 221,
+          "name": "結城真理子",
+          "url": "https://chat.toptoon.jp/detail/character/221",
+          "view_count": 55934,
+          "chat_count": 2224
+        },
+        {
+          "key": "character:235",
+          "kind": "character",
+          "id": 235,
+          "name": "結城飛鳥",
+          "url": "https://chat.toptoon.jp/detail/character/235",
+          "view_count": 45895,
+          "chat_count": 1494
+        },
+        {
+          "key": "character:240",
+          "kind": "character",
+          "id": 240,
+          "name": "菅野真美",
+          "url": "https://chat.toptoon.jp/detail/character/240",
+          "view_count": 28648,
+          "chat_count": 1426
+        },
+        {
+          "key": "character:119",
+          "kind": "character",
+          "id": 119,
+          "name": "藤田瑠華",
+          "url": "https://chat.toptoon.jp/detail/character/119",
+          "view_count": 33192,
+          "chat_count": 1959
+        },
+        {
+          "key": "character:297",
+          "kind": "character",
+          "id": 297,
+          "name": "西本美幸",
+          "url": "https://chat.toptoon.jp/detail/character/297",
+          "view_count": 3154444,
+          "chat_count": 6417
+        },
+        {
+          "key": "character:265",
+          "kind": "character",
+          "id": 265,
+          "name": "西村美嘉",
+          "url": "https://chat.toptoon.jp/detail/character/265",
+          "view_count": 3151357,
+          "chat_count": 6037
+        },
+        {
+          "key": "character:77",
+          "kind": "character",
+          "id": 77,
+          "name": "西沢みな",
+          "url": "https://chat.toptoon.jp/detail/character/77",
+          "view_count": 226151,
+          "chat_count": 6329
+        },
+        {
+          "key": "character:8",
+          "kind": "character",
+          "id": 8,
+          "name": "近藤結花",
+          "url": "https://chat.toptoon.jp/detail/character/8",
+          "view_count": 288603,
+          "chat_count": 6794
+        },
+        {
+          "key": "character:62",
+          "kind": "character",
+          "id": 62,
+          "name": "金澤智佳",
+          "url": "https://chat.toptoon.jp/detail/character/62",
+          "view_count": 62676,
+          "chat_count": 2154
+        },
+        {
+          "key": "character:316",
+          "kind": "character",
+          "id": 316,
+          "name": "青木里香",
+          "url": "https://chat.toptoon.jp/detail/character/316",
+          "view_count": 33125,
+          "chat_count": 1177
+        },
+        {
+          "key": "character:256",
+          "kind": "character",
+          "id": 256,
+          "name": "飯村香澄",
+          "url": "https://chat.toptoon.jp/detail/character/256",
+          "view_count": 9324777,
+          "chat_count": 7365
+        },
+        {
+          "key": "character:293",
+          "kind": "character",
+          "id": 293,
+          "name": "高橋夕里",
+          "url": "https://chat.toptoon.jp/detail/character/293",
+          "view_count": 2143754,
+          "chat_count": 6909
+        },
+        {
+          "key": "character:139",
+          "kind": "character",
+          "id": 139,
+          "name": "高橋真美",
+          "url": "https://chat.toptoon.jp/detail/character/139",
+          "view_count": 65858,
+          "chat_count": 2465
+        }
+      ],
+      "totals": {
+        "view_count": 41928045,
+        "chat_count": 276069,
+        "observed_items": 57
+      }
+    }
+  ],
+  "updated_at": "2026-09-15T12:45:54.384855Z"
+}

@@ -45,14 +45,14 @@ class CaptureSafeguardsTest(unittest.TestCase):
         now = datetime.now(timezone.utc)
         history = {"snapshots": [snapshot(now.isoformat())]}
         with patch.object(scraper, "load_history", return_value=history), patch.object(scraper, "capture_items") as capture, patch.object(scraper, "write_history") as write:
-            self.assertEqual(scraper.main([]), 0)
+            self.assertEqual(scraper.main(["--market", "kr"]), 0)
             capture.assert_not_called()
             write.assert_not_called()
 
     def test_manual_force_still_captures(self):
         result = {"totals": {"observed_items": 5}, "captured_kst": "2026-09-10 07:01 KST"}
         with patch.object(scraper, "load_history", return_value={"snapshots": []}), patch.object(scraper, "capture_due", return_value=False), patch.object(scraper, "capture_items", return_value=[]) as capture, patch.object(scraper, "write_history", return_value=result):
-            self.assertEqual(scraper.main(["--force"]), 0)
+            self.assertEqual(scraper.main(["--force", "--market", "kr"]), 0)
             capture.assert_called_once()
 
     def test_failed_capture_preserves_existing_file(self):
@@ -61,7 +61,7 @@ class CaptureSafeguardsTest(unittest.TestCase):
             data.write_text('{"snapshots": []}', encoding="utf-8")
             original = data.read_bytes()
             with patch.object(scraper, "DATA_FILE", data), patch.object(scraper, "capture_items", side_effect=RuntimeError("source unavailable")):
-                self.assertEqual(scraper.main(["--force"]), 1)
+                self.assertEqual(scraper.main(["--force", "--market", "kr"]), 1)
             self.assertEqual(data.read_bytes(), original)
 
     def test_atomic_write_replaces_same_kst_day_and_appends_next(self):
@@ -74,6 +74,12 @@ class CaptureSafeguardsTest(unittest.TestCase):
             scraper.write_history(history, items, now=at("2026-09-10T22:01:00+00:00"))
             self.assertEqual(len(json.loads(scraper.DATA_FILE.read_text(encoding="utf-8"))["snapshots"]), 2)
             self.assertFalse(scraper.DATA_FILE.with_suffix(".json.tmp").exists())
+
+    def test_japan_market_uses_japanese_origin_and_separate_history(self):
+        config = scraper.site_config("jp")
+        self.assertEqual(config["base_url"], "https://chat.toptoon.jp")
+        self.assertEqual(scraper.data_file_for("jp"), scraper.JAPAN_DATA_FILE)
+        self.assertNotEqual(scraper.data_file_for("jp"), scraper.DATA_FILE)
 
 
 if __name__ == "__main__":

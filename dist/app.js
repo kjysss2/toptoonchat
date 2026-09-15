@@ -1,4 +1,7 @@
-const DATA_URL = "./data/snapshots.json";
+const MARKETS = {
+  kr: { label: "한국", locale: "ko-KR", dataUrl: "./data/snapshots.json", sourceUrl: "https://chat.toptoon.com/ranking" },
+  jp: { label: "일본", locale: "ja-JP", dataUrl: "./data/snapshots-jp.json", sourceUrl: "https://chat.toptoon.jp/ranking" },
+};
 const number = new Intl.NumberFormat("ko-KR");
 const dateLabel = new Intl.DateTimeFormat("ko-KR", { month: "numeric", day: "numeric", timeZone: "Asia/Seoul" });
 const asNumber = (value) => Number.isFinite(value) ? value : null;
@@ -7,13 +10,17 @@ const dateOf = (snapshot) => new Date(snapshot.captured_at);
 const dayKey = (snapshot) => dateOf(snapshot).toLocaleDateString("en-CA", { timeZone: "Asia/Seoul" });
 const byKey = (snapshot) => new Map((snapshot?.items || []).map((item) => [item.key, item]));
 let currentHistory = null;
-let refreshing = false;
+let activeMarket = new URLSearchParams(location.search).get("market") || localStorage.getItem("toptoonchat-market") || "kr";
+if (!MARKETS[activeMarket]) activeMarket = "kr";
+let requestSerial = 0;
+
+const marketConfig = () => MARKETS[activeMarket];
 
 function statusLabel(latest, now = new Date()) {
   const parts = Object.fromEntries(new Intl.DateTimeFormat("en", { timeZone: "Asia/Seoul", year: "numeric", month: "2-digit", day: "2-digit" }).formatToParts(now).map(({ type, value }) => [type, value]));
   const morning = new Date(`${parts.year}-${parts.month}-${parts.day}T07:00:00+09:00`);
   const pending = now >= morning && dateOf(latest) < morning;
-  return `최종 수집 ${latest.captured_kst || dateLabel.format(dateOf(latest))} · 매일 07:00 KST 예약${pending ? " · 오늘 수집 대기·지연 중" : ""} · 화면은 1분마다 갱신`;
+  return `${marketConfig().label} · 최종 수집 ${latest.captured_kst || dateLabel.format(dateOf(latest))} · 매일 07:00 KST 예약${pending ? " · 오늘 수집 대기·지연 중" : ""} · 화면은 1분마다 갱신`;
 }
 
 function totals(snapshot) {
@@ -68,9 +75,9 @@ function bars(rootId, ariaLabel, entries) {
 }
 
 function renderTable(latest, previous, query = "") {
-  const priorRows = byKey(previous), root = document.getElementById("ranking-body"), keyword = query.trim().toLocaleLowerCase("ko-KR");
+  const priorRows = byKey(previous), root = document.getElementById("ranking-body"), keyword = query.trim().toLocaleLowerCase(marketConfig().locale);
   const delta = (value) => value === null ? "—" : `<span class="delta ${value < 0 ? "negative" : ""}">${value >= 0 ? "+" : ""}${fmt(value)}</span>`;
-  root.innerHTML = (latest.items || []).filter((item) => item.name.toLocaleLowerCase("ko-KR").includes(keyword)).map((item) => {
+  root.innerHTML = (latest.items || []).filter((item) => item.name.toLocaleLowerCase(marketConfig().locale).includes(keyword)).map((item) => {
     const prior = priorRows.get(item.key);
     const view = prior && asNumber(item.view_count) !== null && asNumber(prior.view_count) !== null ? item.view_count - prior.view_count : null;
     const chat = prior && asNumber(item.chat_count) !== null && asNumber(prior.chat_count) !== null ? item.chat_count - prior.chat_count : null;
@@ -97,22 +104,39 @@ function render(history) {
 }
 
 async function refreshData() {
-  if (refreshing) return;
-  refreshing = true;
+  const market = activeMarket;
+  const serial = ++requestSerial;
   try {
-    const response = await fetch(DATA_URL, { cache: "no-store" });
+    const response = await fetch(MARKETS[market].dataUrl, { cache: "no-store" });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const history = await response.json();
+    if (market !== activeMarket || serial !== requestSerial) return;
     render(history);
     currentHistory = history;
   } catch (error) {
+    if (market !== activeMarket || serial !== requestSerial) return;
     const status = document.getElementById("status");
     const latest = currentHistory && dailySnapshots(currentHistory.snapshots || []).at(-1);
     status.textContent = `${latest ? `${statusLabel(latest)} · 기존 데이터 표시 중. ` : ""}데이터 갱신 실패: ${error.message} · 잠시 후 자동 재시도`;
     status.classList.add("error");
-  } finally {
-    refreshing = false;
   }
+}
+
+function selectMarket(market) {
+  if (!MARKETS[market]) return;
+  activeMarket = market;
+  currentHistory = null;
+  localStorage.setItem("toptoonchat-market", market);
+  const config = marketConfig();
+  document.getElementById("market-title").textContent = `${config.label} 탑툰챗 카운터`;
+  document.getElementById("source-link").href = config.sourceUrl;
+  document.querySelectorAll("[data-market]").forEach((button) => {
+    const selected = button.dataset.market === market;
+    button.classList.toggle("active", selected);
+    button.setAttribute("aria-selected", String(selected));
+  });
+  document.getElementById("status").textContent = `${config.label} 데이터를 불러오는 중…`;
+  refreshData();
 }
 
 document.getElementById("search").addEventListener("input", (event) => {
@@ -120,7 +144,8 @@ document.getElementById("search").addEventListener("input", (event) => {
   const daily = dailySnapshots(currentHistory.snapshots || []);
   renderTable(daily.at(-1), daily.at(-2), event.target.value);
 });
+document.querySelectorAll("[data-market]").forEach((button) => button.addEventListener("click", () => selectMarket(button.dataset.market)));
 document.addEventListener("visibilitychange", () => { if (!document.hidden) refreshData(); });
 window.addEventListener("focus", refreshData);
 setInterval(() => { if (!document.hidden) refreshData(); }, 60_000);
-refreshData();
+selectMarket(activeMarket);
