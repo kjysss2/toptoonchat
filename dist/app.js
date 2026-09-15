@@ -35,12 +35,11 @@ function totals(snapshot) {
 
 function growth(current, previous) {
   if (!current || !previous) return null;
-  const beforeByKey = new Map((previous.items || []).filter((item) => asNumber(item.view_count) !== null && asNumber(item.chat_count) !== null).map((item) => [item.key, item]));
-  const common = (current.items || []).filter((item) => beforeByKey.has(item.key) && asNumber(item.view_count) !== null && asNumber(item.chat_count) !== null);
-  if (!common.length) return null;
+  const currentTotals = totals(current), previousTotals = totals(previous);
+  if (!currentTotals.observed_items || !previousTotals.observed_items) return null;
   return {
-    view: common.reduce((sum, item) => sum + item.view_count - beforeByKey.get(item.key).view_count, 0),
-    chat: common.reduce((sum, item) => sum + item.chat_count - beforeByKey.get(item.key).chat_count, 0),
+    view: currentTotals.view_count - previousTotals.view_count,
+    chat: currentTotals.chat_count - previousTotals.chat_count,
   };
 }
 
