@@ -16,7 +16,8 @@
           <h1 id="market-title">한국 탑툰챗 카운터</h1>
         </div>
         <div class="topbar-actions">
-          <div class="market-switch" role="tablist" aria-label="집계 국가">
+          <div class="market-switch" role="tablist" aria-label="대시보드 보기">
+            <button class="market-button" type="button" role="tab" data-market="all" aria-selected="false">종합</button>
             <button class="market-button active" type="button" role="tab" data-market="kr" aria-selected="true">한국</button>
             <button class="market-button" type="button" role="tab" data-market="tw" aria-selected="false">대만</button>
             <button class="market-button" type="button" role="tab" data-market="us" aria-selected="false">미국</button>
@@ -65,19 +66,19 @@
           <p class="eyebrow">LATEST SNAPSHOT</p>
             <h2 id="table-title">작품별 공개 카운터</h2>
           </div>
-          <div class="table-tools">
+          <div id="table-tools" class="table-tools">
             <label for="search">검색</label>
             <input id="search" type="search" placeholder="캐릭터명" autocomplete="off" />
           </div>
         </div>
         <div class="table-wrap">
           <table>
-            <thead><tr><th>순위</th><th>작품</th><th>View</th><th>Chat</th><th>View 증감</th><th>Chat 증감</th></tr></thead>
+            <thead><tr id="ranking-head"><th>순위</th><th>작품</th><th>View</th><th>Chat</th><th>View 증감</th><th>Chat 증감</th></tr></thead>
             <tbody id="ranking-body"></tbody>
           </table>
         </div>
       </section>
     </main>
-    <script src="./app.js?v=20260915-four-markets" defer></script>
+    <script src="./app.js?v=20260915-aggregate" defer></script>
   </body>
 </html>

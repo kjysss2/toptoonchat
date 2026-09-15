@@ -1,6 +1,6 @@
 # 탑툰챗 카운터
 
-[대시보드](https://kjysss2.github.io/toptoonchat/)에서 **한국 / 대만 / 미국 / 일본**을 전환하며 공개 작품별 View·Chat 누적 카운터와 이전 수집 대비 증감을 봅니다. 한국은 `chat.toptoon.com`, 대만은 `chat.toptoon.net`, 미국은 `chat.global.toptoon.com`, 일본은 `chat.toptoon.jp`의 공개 페이지를 각각 집계합니다. 공개 카운터는 매출이나 실제 이용자 수와 같지 않습니다.
+[대시보드](https://kjysss2.github.io/toptoonchat/)에서 **종합 / 한국 / 대만 / 미국 / 일본**을 전환하며 공개 작품별 View·Chat 누적 카운터와 이전 수집 대비 증감을 봅니다. 종합 화면은 일별·주별·월별 순증을 국가별 누적 막대로 비교합니다. 한국은 `chat.toptoon.com`, 대만은 `chat.toptoon.net`, 미국은 `chat.global.toptoon.com`, 일본은 `chat.toptoon.jp`의 공개 페이지를 각각 집계합니다. 공개 카운터는 매출이나 실제 이용자 수와 같지 않습니다.
 
 ## 자동 업데이트
 
