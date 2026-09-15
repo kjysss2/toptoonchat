@@ -113,7 +113,22 @@ function aggregateSeries(histories, period) {
   return [...merged.values()].sort((a, b) => a.key.localeCompare(b.key));
 }
 
-function stackedMetric(entries, metric, title) {
+function aggregateAbsoluteSeries(histories) {
+  const merged = new Map();
+  MARKET_KEYS.forEach((market) => {
+    dailySnapshots(histories[market]?.snapshots || []).forEach((snapshot) => {
+      const summary = totals(snapshot);
+      if (!summary.observed_items) return;
+      const key = dayKey(snapshot);
+      const combined = merged.get(key) || { key, label: dateLabel.format(dateOf(snapshot)), countries: {} };
+      combined.countries[market] = { view: summary.view_count, chat: summary.chat_count };
+      merged.set(key, combined);
+    });
+  });
+  return [...merged.values()].sort((a, b) => a.key.localeCompare(b.key));
+}
+
+function stackedMetric(entries, metric, title, signed = true) {
   const width = 600, height = 300, left = 18, right = 18, top = 24, bottom = 48;
   const positiveMax = Math.max(0, ...entries.map((entry) => MARKET_KEYS.reduce((sum, market) => sum + Math.max(0, entry.countries[market]?.[metric] || 0), 0)));
   const negativeMin = Math.min(0, ...entries.map((entry) => MARKET_KEYS.reduce((sum, market) => sum + Math.min(0, entry.countries[market]?.[metric] || 0), 0)));
@@ -131,12 +146,12 @@ function stackedMetric(entries, metric, title) {
       const end = start + value;
       const rectY = value > 0 ? y(end) : y(start);
       const rectHeight = Math.abs(y(start) - y(end));
-      svg += `<rect class="stack-segment country-${market}" x="${x}" y="${rectY}" width="${barWidth}" height="${rectHeight}"><title>${entry.label} ${MARKETS[market].label} ${value >= 0 ? "+" : ""}${fmt(value)}</title></rect>`;
+      svg += `<rect class="stack-segment country-${market}" x="${x}" y="${rectY}" width="${barWidth}" height="${rectHeight}"><title>${entry.label} ${MARKETS[market].label} ${signed && value >= 0 ? "+" : ""}${fmt(value)}</title></rect>`;
       if (value > 0) positive = end; else negative = end;
     });
     const total = positive + negative;
     const labelY = total >= 0 ? Math.max(12, y(positive) - 6) : Math.min(height - bottom + 15, y(negative) + 14);
-    svg += `<text class="value-label" text-anchor="middle" x="${x + barWidth / 2}" y="${labelY}" font-size="11" font-weight="700" fill="#ffffff">${total >= 0 ? "+" : ""}${fmt(total)}</text>`;
+    svg += `<text class="value-label" text-anchor="middle" x="${x + barWidth / 2}" y="${labelY}" font-size="11" font-weight="700" fill="#ffffff">${signed && total >= 0 ? "+" : ""}${fmt(total)}</text>`;
     if (entries.length <= 10 || index === 0 || index === entries.length - 1 || index === Math.floor(entries.length / 2)) svg += `<text class="axis-label" text-anchor="middle" x="${x + barWidth / 2}" y="${height - 12}">${entry.label}</text>`;
   });
   return `${svg}</svg>`;
@@ -147,6 +162,38 @@ function stackedBars(rootId, entries) {
   if (!entries.length) { root.innerHTML = '<p class="empty-chart">각 국가에 비교 가능한 두 날짜의 카운터가 쌓이면 표시됩니다.</p>'; return; }
   const legend = MARKET_KEYS.map((market) => `<span><i class="country-${market}"></i>${MARKETS[market].label}</span>`).join("");
   root.innerHTML = `<div class="stacked-pair"><div class="stacked-chart">${stackedMetric(entries, "view", "View 순증")}</div><div class="stacked-chart">${stackedMetric(entries, "chat", "Chat 순증")}</div></div><div class="chart-legend country-legend">${legend}</div>`;
+}
+
+function stackedAbsoluteBars(rootId, entries) {
+  const root = document.getElementById(rootId);
+  if (!entries.length) { root.innerHTML = '<p class="empty-chart">아직 저장된 절대값 스냅샷이 없습니다.</p>'; return; }
+  const legend = MARKET_KEYS.map((market) => `<span><i class="country-${market}"></i>${MARKETS[market].label}</span>`).join("");
+  root.innerHTML = `<div class="stacked-pair"><div class="stacked-chart">${stackedMetric(entries, "view", "View 절대값", false)}</div><div class="stacked-chart">${stackedMetric(entries, "chat", "Chat 절대값", false)}</div></div><div class="chart-legend country-legend">${legend}</div>`;
+}
+
+function absoluteMetric(entries, metric, title, className) {
+  const width = 600, height = 300, left = 18, right = 18, top = 24, bottom = 48;
+  const max = Math.max(1, ...entries.map((entry) => entry[metric]));
+  const y = (value) => top + ((max - value) / max) * (height - top - bottom);
+  const base = height - bottom, slot = (width - left - right) / entries.length, barWidth = Math.max(8, Math.min(54, slot * .58));
+  let svg = `<p class="stacked-metric-title">${title}</p><svg class="chart-svg stacked-svg" viewBox="0 0 ${width} ${height}" role="img" aria-label="${title} 일별 막대그래프"><line class="grid-line" x1="${left}" y1="${base}" x2="${width - right}" y2="${base}"/>`;
+  entries.forEach((entry, index) => {
+    const x = left + index * slot + (slot - barWidth) / 2, barY = y(entry[metric]);
+    svg += `<rect class="${className}" x="${x}" y="${barY}" width="${barWidth}" height="${base - barY}" rx="2"><title>${entry.label} ${title} ${fmt(entry[metric])}</title></rect>`;
+    svg += `<text class="value-label" text-anchor="middle" x="${x + barWidth / 2}" y="${Math.max(12, barY - 6)}" font-size="11" font-weight="700" fill="#ffffff">${fmt(entry[metric])}</text>`;
+    if (entries.length <= 10 || index === 0 || index === entries.length - 1 || index === Math.floor(entries.length / 2)) svg += `<text class="axis-label" text-anchor="middle" x="${x + barWidth / 2}" y="${height - 12}">${entry.label}</text>`;
+  });
+  return `${svg}</svg>`;
+}
+
+function absoluteBars(rootId, daily) {
+  const root = document.getElementById(rootId);
+  const entries = daily.map((snapshot) => {
+    const summary = totals(snapshot);
+    return { label: dateLabel.format(dateOf(snapshot)), view: summary.view_count, chat: summary.chat_count, observed: summary.observed_items };
+  }).filter((entry) => entry.observed).slice(-30);
+  if (!entries.length) { root.innerHTML = '<p class="empty-chart">아직 저장된 절대값 스냅샷이 없습니다.</p>'; return; }
+  root.innerHTML = `<div class="stacked-pair"><div class="stacked-chart">${absoluteMetric(entries, "view", "View 절대값", "bar-view")}</div><div class="stacked-chart">${absoluteMetric(entries, "chat", "Chat 절대값", "bar-chat")}</div></div>`;
 }
 
 function renderTable(latest, previous, query = "") {
@@ -162,6 +209,7 @@ function renderTable(latest, previous, query = "") {
 
 function setDashboardLabels(aggregate) {
   document.getElementById("trend-title").textContent = aggregate ? "국가별 누적 일별 순증" : "전체 View · Chat 일별 순증";
+  document.getElementById("absolute-title").textContent = aggregate ? "국가별 누적 일별 절대값" : "전체 View · Chat 일별 절대값";
   document.getElementById("weekly-title").textContent = aggregate ? "국가별 누적 주별 순증" : "주별 순증";
   document.getElementById("monthly-title").textContent = aggregate ? "국가별 누적 월별 순증" : "월별 순증";
   document.getElementById("table-title").textContent = aggregate ? "국가별 최신 현황" : "작품별 공개 카운터";
@@ -196,6 +244,7 @@ function renderAggregate(histories, failures = []) {
   document.getElementById("metric-window").textContent = `${allDays.size}일`;
   setDashboardLabels(true);
   stackedBars("trend-chart", aggregateSeries(histories, "daily").slice(-30));
+  stackedAbsoluteBars("absolute-chart", aggregateAbsoluteSeries(histories).slice(-30));
   stackedBars("weekly-chart", aggregateSeries(histories, "weekly"));
   stackedBars("monthly-chart", aggregateSeries(histories, "monthly"));
   document.getElementById("ranking-body").innerHTML = MARKET_KEYS.map((market) => {
@@ -223,6 +272,7 @@ function render(history) {
   document.getElementById("metric-chat-growth").textContent = today ? `${today.chat >= 0 ? "+" : ""}${fmt(today.chat)}` : "대기";
   document.getElementById("metric-window").textContent = `${daily.length}일`;
   setDashboardLabels(false);
+  absoluteBars("absolute-chart", daily);
   bars("trend-chart", "전체 일별 View와 Chat 순증", dailyBars); bars("weekly-chart", "전체 주별 View와 Chat 순증", weekly); bars("monthly-chart", "전체 월별 View와 Chat 순증", monthly);
   renderTable(latest, previous, document.getElementById("search").value);
 }
