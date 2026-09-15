@@ -18,9 +18,9 @@ body { margin: 0; min-width: 320px; background: radial-gradient(circle at 90% -1
 button, input { font: inherit; }
 .shell { width: min(1180px, calc(100% - 32px)); margin: 0 auto; padding: 42px 0 68px; }
 .topbar, .panel-heading { display: flex; gap: 20px; align-items: center; justify-content: space-between; }
-.topbar-actions { display: flex; align-items: center; gap: 10px; }
-.market-switch { display: inline-flex; gap: 3px; padding: 3px; border: 1px solid var(--line); border-radius: 999px; background: rgba(6, 15, 27, 0.7); }
-.market-button { border: 0; border-radius: 999px; padding: 7px 12px; color: var(--muted); background: transparent; cursor: pointer; font-size: 0.8rem; font-weight: 800; }
+.topbar-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; }
+.market-switch { display: inline-flex; flex-wrap: wrap; gap: 3px; padding: 3px; border: 1px solid var(--line); border-radius: 999px; background: rgba(6, 15, 27, 0.7); }
+.market-button { border: 0; border-radius: 999px; padding: 7px 10px; color: var(--muted); background: transparent; cursor: pointer; font-size: 0.8rem; font-weight: 800; }
 .market-button:hover { color: var(--text); }
 .market-button.active { color: #04130f; background: var(--teal); }
 .two-column { display: grid; grid-template-columns: 1fr; gap: 20px; }

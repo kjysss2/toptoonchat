@@ -1,13 +1,13 @@
 # 탑툰챗 카운터
 
-[대시보드](https://kjysss2.github.io/toptoonchat/)에서 **한국 / 일본**을 전환하며 공개 작품별 View·Chat 누적 카운터와 이전 수집 대비 증감을 봅니다. 한국은 `chat.toptoon.com`, 일본은 `chat.toptoon.jp`의 공개 페이지를 각각 집계합니다. 공개 카운터는 매출이나 실제 이용자 수와 같지 않습니다.
+[대시보드](https://kjysss2.github.io/toptoonchat/)에서 **한국 / 대만 / 미국 / 일본**을 전환하며 공개 작품별 View·Chat 누적 카운터와 이전 수집 대비 증감을 봅니다. 한국은 `chat.toptoon.com`, 대만은 `chat.toptoon.net`, 미국은 `chat.global.toptoon.com`, 일본은 `chat.toptoon.jp`의 공개 페이지를 각각 집계합니다. 공개 카운터는 매출이나 실제 이용자 수와 같지 않습니다.
 
 ## 자동 업데이트
 
 - 기본 예약: 매일 **한국시간 오전 07:00** (`0 22 * * *`, UTC 기준).
 - 보완 예약: **07:17, 07:37, 08:07, 09:07 KST**. 앞선 실행이 지연되거나 실패하면 다시 시도합니다.
 - 해당 한국 날짜의 07:00 이후 정상 수집이 있으면 **재수집하지 않습니다**. 늦게 도착한 예약이 아침 데이터를 덮어쓰지 않습니다. 자정이나 새벽에 수동 수집한 기록은 아침 수집을 막지 않습니다.
-- 정상 수집 후에는 한국 `dist/data/snapshots.json`과 일본 `dist/data/snapshots-jp.json`을 각각 갱신하고 GitHub Pages를 직접 배포합니다. 수집을 건너뛴 실행도 배포는 수행하므로, 이전 배포 실패를 복구할 수 있습니다.
+- 정상 수집 후에는 한국 `dist/data/snapshots.json`, 대만 `dist/data/snapshots-tw.json`, 미국 `dist/data/snapshots-us.json`, 일본 `dist/data/snapshots-jp.json`을 각각 갱신하고 GitHub Pages를 직접 배포합니다. 수집을 건너뛴 실행도 배포는 수행하므로, 이전 배포 실패를 복구할 수 있습니다.
 - 두 배포 작업은 같은 `github-pages` 실행 그룹을 사용하며 시작 시 최신 `main`을 읽습니다.
 - 사이트가 열려 있으면 1분마다 저장된 데이터를 다시 읽고, 다른 탭에서 돌아와도 갱신합니다. 네트워크 오류 때는 기존 데이터를 유지하고 재시도합니다.
 - PC나 Codex를 켜 둘 필요가 없습니다.
@@ -51,4 +51,4 @@ python -m unittest discover -s tests -p 'test_*.py'
 node tests/test_refresh.cjs
 ```
 
-즉시 전체 수집: `python scripts/scrape_ranking.py --force`. 일본만 수집하려면 `python scripts/scrape_ranking.py --force --market jp`를 사용합니다. 일반 실행은 시장별 아침 수집 여부를 확인하여 중복 요청을 건너뜁니다.
+즉시 전체 수집: `python scripts/scrape_ranking.py --force`. 특정 국가만 수집하려면 `--market tw`, `--market us`, `--market jp` 중 하나를 사용합니다. 일반 실행은 시장별 아침 수집 여부를 확인하여 중복 요청을 건너뜁니다.

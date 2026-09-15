@@ -16,6 +16,8 @@ from urllib.error import HTTPError, URLError
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA_FILE = ROOT / "dist" / "data" / "snapshots.json"
+TAIWAN_DATA_FILE = ROOT / "dist" / "data" / "snapshots-tw.json"
+US_DATA_FILE = ROOT / "dist" / "data" / "snapshots-us.json"
 JAPAN_DATA_FILE = ROOT / "dist" / "data" / "snapshots-jp.json"
 SITES = {
     "kr": {
@@ -24,6 +26,20 @@ SITES = {
         "accept_language": "ko-KR,ko;q=0.9",
         "title_marker": r"(?:AI 채팅|\|)",
         "counter_unit": r"회",
+    },
+    "tw": {
+        "label": "Taiwan",
+        "base_url": "https://chat.toptoon.net",
+        "accept_language": "zh-TW,zh;q=0.9",
+        "title_marker": r"(?:AI角色聊天|AI聊天|\|)",
+        "counter_unit": r"(?:次|回)?",
+    },
+    "us": {
+        "label": "US",
+        "base_url": "https://chat.global.toptoon.com",
+        "accept_language": "en-US,en;q=0.9",
+        "title_marker": r"(?:AI Chat|\|)",
+        "counter_unit": r"(?:times?)?",
     },
     "jp": {
         "label": "Japan",
@@ -43,7 +59,12 @@ def site_config(market: str = "kr") -> dict[str, Any]:
     return SITES[market]
 
 def data_file_for(market: str = "kr") -> Path:
-    return DATA_FILE if market == "kr" else JAPAN_DATA_FILE
+    return {
+        "kr": DATA_FILE,
+        "tw": TAIWAN_DATA_FILE,
+        "us": US_DATA_FILE,
+        "jp": JAPAN_DATA_FILE,
+    }[market]
 
 def fetch(url: str, accept_language: str = SITES["kr"]["accept_language"]) -> str:
     request = Request(url, headers={"User-Agent": USER_AGENT, "Accept": "text/html,application/xhtml+xml", "Accept-Language": accept_language})
@@ -150,7 +171,7 @@ def write_history(history: dict[str, Any], items: list[dict[str, Any]], *, now: 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--force", action="store_true", help="Capture now even before 07:00 KST or after today's successful capture")
-    parser.add_argument("--market", choices=("all", *SITES), default="all", help="Market to capture (default: both Korea and Japan)")
+    parser.add_argument("--market", choices=("all", *SITES), default="all", help="Market to capture (default: all configured markets)")
     args = parser.parse_args(argv)
     markets = SITES if args.market == "all" else (args.market,)
     failed = False

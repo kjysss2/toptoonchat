@@ -1,6 +1,8 @@
 const MARKETS = {
   kr: { label: "한국", locale: "ko-KR", dataUrl: "./data/snapshots.json", sourceUrl: "https://chat.toptoon.com/ranking" },
-  jp: { label: "대만", locale: "ja-JP", dataUrl: "./data/snapshots-jp.json", sourceUrl: "https://chat.toptoon.jp/ranking" },
+  tw: { label: "대만", locale: "zh-TW", dataUrl: "./data/snapshots-tw.json", sourceUrl: "https://chat.toptoon.net/ranking" },
+  us: { label: "미국", locale: "en-US", dataUrl: "./data/snapshots-us.json", sourceUrl: "https://chat.global.toptoon.com/ranking" },
+  jp: { label: "일본", locale: "ja-JP", dataUrl: "./data/snapshots-jp.json", sourceUrl: "https://chat.toptoon.jp/ranking" },
 };
 const number = new Intl.NumberFormat("ko-KR");
 const dateLabel = new Intl.DateTimeFormat("ko-KR", { month: "numeric", day: "numeric", timeZone: "Asia/Seoul" });

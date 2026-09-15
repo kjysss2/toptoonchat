@@ -81,6 +81,18 @@ class CaptureSafeguardsTest(unittest.TestCase):
         self.assertEqual(scraper.data_file_for("jp"), scraper.JAPAN_DATA_FILE)
         self.assertNotEqual(scraper.data_file_for("jp"), scraper.DATA_FILE)
 
+    def test_taiwan_market_uses_taiwanese_origin_and_separate_history(self):
+        config = scraper.site_config("tw")
+        self.assertEqual(config["base_url"], "https://chat.toptoon.net")
+        self.assertEqual(scraper.data_file_for("tw"), scraper.TAIWAN_DATA_FILE)
+        self.assertNotIn(scraper.data_file_for("tw"), (scraper.DATA_FILE, scraper.JAPAN_DATA_FILE))
+
+    def test_us_market_uses_global_origin_and_separate_history(self):
+        config = scraper.site_config("us")
+        self.assertEqual(config["base_url"], "https://chat.global.toptoon.com")
+        self.assertEqual(scraper.data_file_for("us"), scraper.US_DATA_FILE)
+        self.assertNotIn(scraper.data_file_for("us"), (scraper.DATA_FILE, scraper.JAPAN_DATA_FILE, scraper.TAIWAN_DATA_FILE))
+
 
 if __name__ == "__main__":
     unittest.main()
