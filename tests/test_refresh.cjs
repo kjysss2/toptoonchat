@@ -29,6 +29,7 @@ const settle = () => new Promise(resolve => setImmediate(resolve));
   assert.match(element('absolute-chart').innerHTML, />32</);
   assert.match(element('absolute-chart').innerHTML, /<polyline/);
   assert.match(element('absolute-chart').innerHTML, /<circle/);
+  assert.match(element('absolute-chart').innerHTML, /absolute-split/);
   assert.doesNotMatch(element('absolute-chart').innerHTML, /<rect/);
   assert.match(element('weekly-chart').innerHTML, /<svg/);
   assert.match(element('monthly-chart').innerHTML, /<svg/);

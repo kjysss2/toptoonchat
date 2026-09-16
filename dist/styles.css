@@ -61,6 +61,7 @@ h2 { font-size: 1.15rem; letter-spacing: -0.03em; }
 .line-grid { stroke: rgba(151, 179, 211, .2); stroke-width: 1; }
 .line-axis-value { fill: var(--muted); font-size: 10px; }
 .line-value-label { fill: #fff; font-size: 10px; font-weight: 800; paint-order: stroke; stroke: #10243a; stroke-width: 3px; stroke-linejoin: round; }
+.label-leader { fill: none; stroke-width: 1.5; opacity: .75; }
 .legend-view { background: var(--teal); }
 .legend-chat { background: var(--blue); }
 .chart-legend { display: flex; gap: 14px; flex-wrap: wrap; width: 100%; padding-top: 5px; color: var(--muted); font-size: 0.76rem; }
@@ -70,6 +71,10 @@ h2 { font-size: 1.15rem; letter-spacing: -0.03em; }
 .stacked-chart { min-width: 0; }
 .stacked-svg { height: 300px; }
 .stacked-metric-title { margin-bottom: 6px; color: var(--text); font-size: 0.9rem; font-weight: 800; text-align: center; }
+.absolute-split { grid-template-columns: 1fr; gap: 38px; }
+.absolute-split .stacked-chart { padding: 18px 16px 8px; border: 1px solid rgba(103, 139, 177, .18); border-radius: 14px; background: rgba(6, 18, 32, .22); }
+.absolute-split .stacked-svg { height: 360px; }
+.absolute-split .stacked-metric-title { margin-bottom: 10px; font-size: 1.05rem; }
 .country-legend { justify-content: center; gap: 24px; padding-top: 14px; font-size: 0.86rem; }
 .stack-segment { opacity: .9; }
 .country-kr { fill: #4ee2c1; stroke: #4ee2c1; background: #4ee2c1; }
@@ -126,6 +131,9 @@ td:first-child { width: 62px; color: var(--amber); font-weight: 800; }
   .table-panel .panel-heading { align-items: stretch; flex-direction: column; }
   .table-tools input { width: 100%; }
   .stacked-pair { grid-template-columns: 1fr; }
+  .absolute-split { gap: 24px; }
+  .absolute-split .stacked-chart { padding: 12px 8px 4px; }
+  .absolute-split .stacked-svg { height: 260px; }
 }
 
 @media (max-width: 430px) {
