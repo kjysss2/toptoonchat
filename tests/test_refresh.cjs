@@ -2,6 +2,10 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const vm = require('node:vm');
 
+const page = fs.readFileSync('dist/index.html', 'utf8');
+assert.doesNotMatch(page, /글로벌 진출/);
+assert.doesNotMatch(page, /global\.js/);
+
 const elements = new Map();
 function element(id) {
   if (!elements.has(id)) elements.set(id, { textContent: '', innerHTML: '', value: '', listeners: [], classList: { add() {}, remove() {} }, addEventListener(event, handler) { this.listeners.push({event, handler}); } });
@@ -33,6 +37,30 @@ const settle = () => new Promise(resolve => setImmediate(resolve));
   assert.doesNotMatch(element('absolute-chart').innerHTML, /<rect/);
   assert.match(element('weekly-chart').innerHTML, /<svg/);
   assert.match(element('monthly-chart').innerHTML, /<svg/);
+  context.trackerHistory = {
+    snapshots: [{ captured_at: '2026-09-10T07:00:00+09:00', items: [row('Direct', 40)] }],
+    tracker_totals: [
+      { captured_at: '2026-09-08T12:00:00+09:00', source: 'toptoon-tracker', totals: { view_count: 100, chat_count: 10, observed_items: null } },
+      { captured_at: '2026-09-09T12:00:00+09:00', source: 'toptoon-tracker', totals: { view_count: 120, chat_count: 12, observed_items: null } },
+      { captured_at: '2026-09-10T12:00:00+09:00', source: 'toptoon-tracker', totals: { view_count: 140, chat_count: 14, observed_items: null } },
+    ],
+  };
+  assert.equal(vm.runInContext('counterSnapshots(trackerHistory).length', context), 3);
+  assert.equal(vm.runInContext("snapshotSource(counterSnapshots(trackerHistory)[2])", context), 'direct');
+  assert.equal(vm.runInContext('itemSnapshots(trackerHistory).length', context), 1);
+  assert.equal(vm.runInContext('growth(counterSnapshots(trackerHistory)[1], counterSnapshots(trackerHistory)[0]).view', context), 20);
+  assert.equal(vm.runInContext('growth(counterSnapshots(trackerHistory)[2], counterSnapshots(trackerHistory)[1])', context), null);
+  vm.runInContext("absoluteLines('tracker-chart', counterSnapshots(trackerHistory))", context);
+  assert.match(element('tracker-chart').innerHTML, /원본 트래커 일별 합계/);
+  assert.equal((element('tracker-chart').innerHTML.match(/<polyline/g) || []).length, 4);
+  context.decreasingTracker = {
+    snapshots: [],
+    tracker_totals: [
+      { captured_at: '2026-09-08T12:00:00+09:00', source: 'toptoon-tracker', totals: { view_count: 200, chat_count: 10, observed_items: null } },
+      { captured_at: '2026-09-09T12:00:00+09:00', source: 'toptoon-tracker', totals: { view_count: 100, chat_count: 12, observed_items: null } },
+    ],
+  };
+  assert.equal(vm.runInContext('growth(counterSnapshots(decreasingTracker)[1], counterSnapshots(decreasingTracker)[0])', context), null);
   const beforeAggregate = requests;
   vm.runInContext("selectMarket('all')", context); await settle();
   assert.equal(requests, beforeAggregate + 4);

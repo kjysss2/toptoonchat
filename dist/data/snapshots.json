@@ -1,5 +1,5 @@
 {
-  "schema_version": 2,
+  "schema_version": 3,
   "source_url": "https://chat.toptoon.com",
   "snapshots": [
     {
@@ -8739,5 +8739,216 @@
     }
   ],
   "updated_at": "2026-09-22T23:57:21.461185Z",
-  "market": "kr"
+  "market": "kr",
+  "tracker_totals": [
+    {
+      "captured_at": "2026-08-18T12:00:00+09:00",
+      "captured_kst": "2026-08-18 원본 트래커 일별 합계",
+      "source": "toptoon-tracker",
+      "source_url": "https://toptoon-tracker.john6428.workers.dev/api/site-totals-timeseries",
+      "totals": {
+        "view_count": 47443552,
+        "chat_count": 1412945,
+        "observed_items": null
+      }
+    },
+    {
+      "captured_at": "2026-08-21T12:00:00+09:00",
+      "captured_kst": "2026-08-21 원본 트래커 일별 합계",
+      "source": "toptoon-tracker",
+      "source_url": "https://toptoon-tracker.john6428.workers.dev/api/site-totals-timeseries",
+      "totals": {
+        "view_count": 49930950,
+        "chat_count": 1475622,
+        "observed_items": null
+      }
+    },
+    {
+      "captured_at": "2026-08-22T12:00:00+09:00",
+      "captured_kst": "2026-08-22 원본 트래커 일별 합계",
+      "source": "toptoon-tracker",
+      "source_url": "https://toptoon-tracker.john6428.workers.dev/api/site-totals-timeseries",
+      "totals": {
+        "view_count": 50321390,
+        "chat_count": 1484586,
+        "observed_items": null
+      }
+    },
+    {
+      "captured_at": "2026-08-23T12:00:00+09:00",
+      "captured_kst": "2026-08-23 원본 트래커 일별 합계",
+      "source": "toptoon-tracker",
+      "source_url": "https://toptoon-tracker.john6428.workers.dev/api/site-totals-timeseries",
+      "totals": {
+        "view_count": 50654415,
+        "chat_count": 1492421,
+        "observed_items": null
+      }
+    },
+    {
+      "captured_at": "2026-08-24T12:00:00+09:00",
+      "captured_kst": "2026-08-24 원본 트래커 일별 합계",
+      "source": "toptoon-tracker",
+      "source_url": "https://toptoon-tracker.john6428.workers.dev/api/site-totals-timeseries",
+      "totals": {
+        "view_count": 51120646,
+        "chat_count": 1503835,
+        "observed_items": null
+      }
+    },
+    {
+      "captured_at": "2026-08-25T12:00:00+09:00",
+      "captured_kst": "2026-08-25 원본 트래커 일별 합계",
+      "source": "toptoon-tracker",
+      "source_url": "https://toptoon-tracker.john6428.workers.dev/api/site-totals-timeseries",
+      "totals": {
+        "view_count": 51577887,
+        "chat_count": 1513769,
+        "observed_items": null
+      }
+    },
+    {
+      "captured_at": "2026-08-26T12:00:00+09:00",
+      "captured_kst": "2026-08-26 원본 트래커 일별 합계",
+      "source": "toptoon-tracker",
+      "source_url": "https://toptoon-tracker.john6428.workers.dev/api/site-totals-timeseries",
+      "totals": {
+        "view_count": 51923486,
+        "chat_count": 1527190,
+        "observed_items": null
+      }
+    },
+    {
+      "captured_at": "2026-08-27T12:00:00+09:00",
+      "captured_kst": "2026-08-27 원본 트래커 일별 합계",
+      "source": "toptoon-tracker",
+      "source_url": "https://toptoon-tracker.john6428.workers.dev/api/site-totals-timeseries",
+      "totals": {
+        "view_count": 52056962,
+        "chat_count": 1534461,
+        "observed_items": null
+      }
+    },
+    {
+      "captured_at": "2026-08-28T12:00:00+09:00",
+      "captured_kst": "2026-08-28 원본 트래커 일별 합계",
+      "source": "toptoon-tracker",
+      "source_url": "https://toptoon-tracker.john6428.workers.dev/api/site-totals-timeseries",
+      "totals": {
+        "view_count": 52297223,
+        "chat_count": 1543672,
+        "observed_items": null
+      }
+    },
+    {
+      "captured_at": "2026-08-29T12:00:00+09:00",
+      "captured_kst": "2026-08-29 원본 트래커 일별 합계",
+      "source": "toptoon-tracker",
+      "source_url": "https://toptoon-tracker.john6428.workers.dev/api/site-totals-timeseries",
+      "totals": {
+        "view_count": 52518442,
+        "chat_count": 1552010,
+        "observed_items": null
+      }
+    },
+    {
+      "captured_at": "2026-08-30T12:00:00+09:00",
+      "captured_kst": "2026-08-30 원본 트래커 일별 합계",
+      "source": "toptoon-tracker",
+      "source_url": "https://toptoon-tracker.john6428.workers.dev/api/site-totals-timeseries",
+      "totals": {
+        "view_count": 52753644,
+        "chat_count": 1560186,
+        "observed_items": null
+      }
+    },
+    {
+      "captured_at": "2026-08-31T12:00:00+09:00",
+      "captured_kst": "2026-08-31 원본 트래커 일별 합계",
+      "source": "toptoon-tracker",
+      "source_url": "https://toptoon-tracker.john6428.workers.dev/api/site-totals-timeseries",
+      "totals": {
+        "view_count": 52988097,
+        "chat_count": 1567527,
+        "observed_items": null
+      }
+    },
+    {
+      "captured_at": "2026-09-01T12:00:00+09:00",
+      "captured_kst": "2026-09-01 원본 트래커 일별 합계",
+      "source": "toptoon-tracker",
+      "source_url": "https://toptoon-tracker.john6428.workers.dev/api/site-totals-timeseries",
+      "totals": {
+        "view_count": 53190817,
+        "chat_count": 1573780,
+        "observed_items": null
+      }
+    },
+    {
+      "captured_at": "2026-09-02T12:00:00+09:00",
+      "captured_kst": "2026-09-02 원본 트래커 일별 합계",
+      "source": "toptoon-tracker",
+      "source_url": "https://toptoon-tracker.john6428.workers.dev/api/site-totals-timeseries",
+      "totals": {
+        "view_count": 53448547,
+        "chat_count": 1581015,
+        "observed_items": null
+      }
+    },
+    {
+      "captured_at": "2026-09-03T12:00:00+09:00",
+      "captured_kst": "2026-09-03 원본 트래커 일별 합계",
+      "source": "toptoon-tracker",
+      "source_url": "https://toptoon-tracker.john6428.workers.dev/api/site-totals-timeseries",
+      "totals": {
+        "view_count": 53697509,
+        "chat_count": 1588348,
+        "observed_items": null
+      }
+    },
+    {
+      "captured_at": "2026-09-04T12:00:00+09:00",
+      "captured_kst": "2026-09-04 원본 트래커 일별 합계",
+      "source": "toptoon-tracker",
+      "source_url": "https://toptoon-tracker.john6428.workers.dev/api/site-totals-timeseries",
+      "totals": {
+        "view_count": 53925642,
+        "chat_count": 1595067,
+        "observed_items": null
+      }
+    },
+    {
+      "captured_at": "2026-09-05T12:00:00+09:00",
+      "captured_kst": "2026-09-05 원본 트래커 일별 합계",
+      "source": "toptoon-tracker",
+      "source_url": "https://toptoon-tracker.john6428.workers.dev/api/site-totals-timeseries",
+      "totals": {
+        "view_count": 54149534,
+        "chat_count": 1603072,
+        "observed_items": null
+      }
+    },
+    {
+      "captured_at": "2026-09-06T12:00:00+09:00",
+      "captured_kst": "2026-09-06 원본 트래커 일별 합계",
+      "source": "toptoon-tracker",
+      "source_url": "https://toptoon-tracker.john6428.workers.dev/api/site-totals-timeseries",
+      "totals": {
+        "view_count": 54427143,
+        "chat_count": 1612921,
+        "observed_items": null
+      }
+    },
+    {
+      "captured_at": "2026-09-07T12:00:00+09:00",
+      "captured_kst": "2026-09-07 원본 트래커 일별 합계",
+      "source": "toptoon-tracker",
+      "source_url": "https://toptoon-tracker.john6428.workers.dev/api/site-totals-timeseries",
+      "totals": {
+        "view_count": 54656376,
+        "chat_count": 1623189,
+        "observed_items": null
+      }
+    }
+  ]
 }

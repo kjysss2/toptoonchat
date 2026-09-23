@@ -129,7 +129,7 @@ def capture_items(market: str = "kr") -> list[dict[str, Any]]:
 def load_history(market: str = "kr") -> dict[str, Any]:
     config = site_config(market)
     data_file = data_file_for(market)
-    if not data_file.exists(): return {"schema_version": 2, "market": market, "source_url": config["base_url"], "snapshots": []}
+    if not data_file.exists(): return {"schema_version": 3, "market": market, "source_url": config["base_url"], "snapshots": []}
     history = json.loads(data_file.read_text(encoding="utf-8"))
     if not isinstance(history, dict) or not isinstance(history.get("snapshots"), list): raise ValueError("Existing snapshots file has an unexpected format")
     return history
@@ -161,7 +161,7 @@ def write_history(history: dict[str, Any], items: list[dict[str, Any]], *, now: 
     snapshots = history["snapshots"]
     if snapshots and local_date(snapshots[-1]["captured_at"]) == local_date(snapshot["captured_at"]): snapshots[-1] = snapshot
     else: snapshots.append(snapshot)
-    history.update({"schema_version": 2, "market": market, "source_url": config["base_url"], "updated_at": snapshot["captured_at"]})
+    history.update({"schema_version": 3, "market": market, "source_url": config["base_url"], "updated_at": snapshot["captured_at"]})
     data_file.parent.mkdir(parents=True, exist_ok=True)
     temporary = data_file.with_suffix(".json.tmp")
     temporary.write_text(json.dumps(history, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

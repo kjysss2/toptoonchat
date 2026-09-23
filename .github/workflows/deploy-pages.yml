@@ -32,9 +32,7 @@ jobs:
         with:
           node-version: "22"
       - name: Verify dashboard refresh
-        run: |
-          node tests/test_refresh.cjs
-          node tests/test_global_ui.cjs
+        run: node tests/test_refresh.cjs
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

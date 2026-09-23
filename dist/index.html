@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="한국·대만·영어권·일본 탑툰챗 공개 카운터와 캐릭터별 글로벌 진출 비교를 추적하는 리서치 대시보드" />
+    <meta name="description" content="한국·대만·미국·일본 탑툰챗 공개 View·Chat 카운터의 일별 순증을 추적하는 리서치 대시보드" />
     <meta name="theme-color" content="#07111f" />
     <title>탑툰챗 카운터</title>
-    <link rel="stylesheet" href="./styles.css?v=20260917-global-expansion" />
+    <link rel="stylesheet" href="./styles.css?v=20260916-absolute-split" />
   </head>
   <body>
     <main class="shell">
@@ -23,21 +23,19 @@
             <button class="market-button" type="button" role="tab" data-market="us" aria-selected="false">미국</button>
             <button class="market-button" type="button" role="tab" data-market="jp" aria-selected="false">일본</button>
           </div>
-          <button id="global-tab-button" class="global-nav-button" type="button" data-dashboard-tab="global" aria-controls="global-dashboard" aria-expanded="false">글로벌 진출</button>
           <a id="source-link" class="source-link" href="https://chat.toptoon.com/ranking" target="_blank" rel="noreferrer">
             원본 보기 <span aria-hidden="true">↗</span>
           </a>
         </div>
       </header>
 
-      <div id="main-dashboard" data-dashboard-panel="main">
       <section id="status" class="status" aria-live="polite">데이터를 불러오는 중…</section>
 
       <section class="metric-grid" aria-label="핵심 지표">
         <article class="metric-card"><span>추적 작품</span><strong id="metric-tracked">—</strong><small>최신 공개 목록</small></article>
         <article class="metric-card"><span>최근 View 순증</span><strong id="metric-view-growth">—</strong><small class="comparison-time">이전 수집 대비</small></article>
         <article class="metric-card"><span>최근 Chat 순증</span><strong id="metric-chat-growth">—</strong><small class="comparison-time">이전 수집 대비</small></article>
-        <article class="metric-card"><span>데이터 기간</span><strong id="metric-window">—</strong><small>일별 스냅샷</small></article>
+        <article class="metric-card"><span>데이터 기간</span><strong id="metric-window">—</strong><small>일별 기록</small></article>
       </section>
 
       <section class="panel trend-panel" aria-labelledby="trend-title">
@@ -57,7 +55,7 @@
             <p class="eyebrow">DAILY ABSOLUTE TOTAL</p>
             <h2 id="absolute-title">전체 View · Chat 일별 절대값</h2>
           </div>
-          <span class="muted">매일 07:00 KST</span>
+          <span class="muted">저장된 일별 합계 · 누락일은 원본 트래커</span>
         </div>
         <div id="absolute-chart" class="trend-chart"></div>
       </section>
@@ -91,58 +89,7 @@
           </table>
         </div>
       </section>
-      </div>
-
-      <section id="global-dashboard" class="global-dashboard" data-dashboard-panel="global" aria-labelledby="global-title" hidden>
-        <div class="global-heading">
-          <div>
-            <p class="eyebrow">PUBLIC GLOBAL EXPANSION</p>
-            <h2 id="global-title">글로벌 진출: 한국·영어권·일본·대만</h2>
-          </div>
-          <div class="global-heading-actions">
-            <button id="global-back" class="secondary-button" type="button">국가별 카운터</button>
-            <a class="source-link" href="https://toptoon-tracker.john6428.workers.dev/" target="_blank" rel="noreferrer">원본 트래커 <span aria-hidden="true">↗</span></a>
-          </div>
-        </div>
-        <p id="global-status" class="status" aria-live="polite">글로벌 데이터를 불러오는 중…</p>
-        <p id="global-source-date" class="global-source-date">원본 데이터 기준을 확인 중…</p>
-
-        <section id="global-metrics" class="global-metric-grid" aria-label="국가별 누적 대화수"></section>
-
-        <section class="panel global-panel" aria-labelledby="global-site-title">
-          <div class="panel-heading compact"><div><p class="eyebrow">CUMULATIVE CHAT VOLUME</p><h2 id="global-site-title">사이트별 누적 대화수와 전환율</h2></div></div>
-          <div id="global-country-bars" class="global-country-bars"></div>
-          <p id="global-source-note" class="footnote"></p>
-        </section>
-
-        <section class="panel global-panel" aria-labelledby="global-traction-title">
-          <div class="panel-heading compact"><div><p class="eyebrow">DAILY TRACTION</p><h2 id="global-traction-title">한국과 해외 합계의 일별 대화수 증가</h2></div></div>
-          <div id="global-traction-chart" class="trend-chart"></div>
-        </section>
-
-        <section class="panel table-panel global-panel" aria-labelledby="global-table-title">
-          <div class="panel-heading">
-            <div>
-              <p class="eyebrow">CHARACTER-LEVEL COMPARISON</p>
-              <h2 id="global-table-title">캐릭터별 국가·언어권 대화수</h2>
-              <p id="global-table-caption" class="muted global-table-caption"></p>
-            </div>
-            <div class="table-tools">
-              <label for="global-search">검색</label>
-              <input id="global-search" type="search" placeholder="캐릭터명" autocomplete="off" />
-            </div>
-          </div>
-          <div class="table-wrap">
-            <table class="global-table">
-              <thead><tr><th>캐릭터</th><th>한국</th><th>Global(EN)<small>영어권</small></th><th>일본</th><th>대만</th><th>해외 합계</th></tr></thead>
-              <tbody id="global-ranking-body"></tbody>
-            </table>
-          </div>
-          <p class="footnote global-table-note">—은 원본에 해당 지역 매핑·노출 데이터가 없는 경우입니다. 일부 지역이 비어 있으면 해외 합계는 확인 가능한 지역만 합산합니다.</p>
-        </section>
-      </section>
     </main>
     <script src="./app.js?v=20260916-absolute-split" defer></script>
-    <script src="./global.js?v=20260917-global-expansion" defer></script>
   </body>
 </html>

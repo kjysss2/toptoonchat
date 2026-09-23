@@ -44,6 +44,8 @@ jobs:
       - name: Verify capture safeguards
         run: python -m unittest discover -s tests -p 'test_*.py'
       - name: Capture public counters if due
+        id: capture
+        continue-on-error: true
         env:
           FORCE_CAPTURE: ${{ inputs.force }}
         run: |
@@ -52,10 +54,10 @@ jobs:
           else
             python scripts/scrape_ranking.py
           fi
-      - name: Sync public global-expansion comparison
+      - name: Fill missing daily tracker totals
         run: |
-          if ! python scripts/sync_global_expansion.py; then
-            echo "::warning::Global-expansion source sync failed; the last verified static payload will be kept."
+          if ! python scripts/sync_tracker_totals.py; then
+            echo "::warning::Tracker total backfill failed; existing dashboard data was kept."
           fi
       - name: Save changed dashboard data
         run: |
@@ -66,7 +68,7 @@ jobs:
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m "data: capture counters and global expansion $(TZ=Asia/Seoul date +'%Y-%m-%d')"
+          git commit -m "data: capture counters and backfill totals $(TZ=Asia/Seoul date +'%Y-%m-%d')"
           git pull --rebase origin main
           git push origin HEAD:main
       # Always deploy even when capture is skipped: the previous deploy may
@@ -80,4 +82,7 @@ jobs:
       - name: Deploy refreshed dashboard
         id: deployment
         uses: actions/deploy-pages@v4
+      - name: Report direct capture failure
+        if: always() && steps.capture.outcome == 'failure'
+        run: exit 1
 

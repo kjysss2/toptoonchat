@@ -33,13 +33,31 @@ function totals(snapshot) {
   return { view_count: observed.reduce((sum, item) => sum + item.view_count, 0), chat_count: observed.reduce((sum, item) => sum + item.chat_count, 0), observed_items: observed.length };
 }
 
+function snapshotSource(snapshot) {
+  return snapshot?.source === "toptoon-tracker" ? "tracker" : "direct";
+}
+
+function hasCounterTotals(snapshot) {
+  const summary = totals(snapshot);
+  return Number.isFinite(summary.view_count) && Number.isFinite(summary.chat_count)
+    && (snapshotSource(snapshot) === "tracker" || Number(summary.observed_items) > 0);
+}
+
+function comparableSnapshots(current, previous) {
+  if (!hasCounterTotals(current) || !hasCounterTotals(previous) || snapshotSource(current) !== snapshotSource(previous)) return false;
+  if (snapshotSource(current) !== "tracker") return true;
+  const currentTotals = totals(current), previousTotals = totals(previous);
+  return currentTotals.view_count >= previousTotals.view_count && currentTotals.chat_count >= previousTotals.chat_count;
+}
+
 function growth(current, previous) {
   if (!current || !previous) return null;
   const currentTotals = totals(current), previousTotals = totals(previous);
-  if (!currentTotals.observed_items || !previousTotals.observed_items) return null;
+  if (!comparableSnapshots(current, previous)) return null;
   return {
     view: currentTotals.view_count - previousTotals.view_count,
     chat: currentTotals.chat_count - previousTotals.chat_count,
+    source: snapshotSource(current),
   };
 }
 
@@ -49,16 +67,31 @@ function dailySnapshots(snapshots) {
   return [...days.values()].sort((a, b) => dateOf(a) - dateOf(b));
 }
 
+function counterSnapshots(history) {
+  const days = new Map();
+  dailySnapshots(history?.tracker_totals || []).forEach((snapshot) => {
+    if (hasCounterTotals(snapshot)) days.set(dayKey(snapshot), snapshot);
+  });
+  dailySnapshots(history?.snapshots || []).forEach((snapshot) => {
+    if (hasCounterTotals(snapshot)) days.set(dayKey(snapshot), snapshot);
+  });
+  return [...days.values()].sort((a, b) => dateOf(a) - dateOf(b));
+}
+
+function itemSnapshots(history) {
+  return dailySnapshots(history?.snapshots || []).filter((snapshot) => (snapshot.items || []).length > 0);
+}
+
 function periodGrowth(daily, label) {
   const groups = new Map();
-  daily.filter((snapshot) => totals(snapshot).observed_items > 0).forEach((snapshot) => {
+  daily.filter(hasCounterTotals).forEach((snapshot) => {
     const period = label(dateOf(snapshot));
     const descriptor = typeof period === "string" ? { key: period, label: period } : period;
     const group = groups.get(descriptor.key) || { ...descriptor, values: [] };
     group.values.push(snapshot);
     groups.set(descriptor.key, group);
   });
-  return [...groups.values()].filter(({ values }) => values.length > 1).map(({ key, label: periodLabel, values }) => ({ key, label: periodLabel, growth: growth(values.at(-1), values[0]) })).filter((entry) => entry.growth);
+  return [...groups.values()].filter(({ values }) => values.length > 1 && values.slice(1).every((snapshot, index) => comparableSnapshots(snapshot, values[index]))).map(({ key, label: periodLabel, values }) => ({ key, label: periodLabel, growth: growth(values.at(-1), values[0]) })).filter((entry) => entry.growth);
 }
 
 function weekPeriod(date) {
@@ -99,7 +132,7 @@ function bars(rootId, ariaLabel, entries) {
 function aggregateSeries(histories, period) {
   const merged = new Map();
   MARKET_KEYS.forEach((market) => {
-    const daily = dailySnapshots(histories[market]?.snapshots || []);
+    const daily = counterSnapshots(histories[market]);
     const entries = period === "daily"
       ? daily.slice(1).map((snapshot, index) => ({ key: dayKey(snapshot), label: dateLabel.format(dateOf(snapshot)), growth: growth(snapshot, daily[index]) })).filter((entry) => entry.growth)
       : periodGrowth(daily, period === "weekly" ? weekPeriod : monthPeriod);
@@ -115,12 +148,12 @@ function aggregateSeries(histories, period) {
 function aggregateAbsoluteSeries(histories) {
   const merged = new Map();
   MARKET_KEYS.forEach((market) => {
-    dailySnapshots(histories[market]?.snapshots || []).forEach((snapshot) => {
+    counterSnapshots(histories[market]).forEach((snapshot) => {
       const summary = totals(snapshot);
-      if (!summary.observed_items) return;
+      if (!hasCounterTotals(snapshot)) return;
       const key = dayKey(snapshot);
       const combined = merged.get(key) || { key, label: dateLabel.format(dateOf(snapshot)), countries: {} };
-      combined.countries[market] = { view: summary.view_count, chat: summary.chat_count };
+      combined.countries[market] = { view: summary.view_count, chat: summary.chat_count, source: snapshotSource(snapshot) };
       merged.set(key, combined);
     });
   });
@@ -180,6 +213,20 @@ function lineGrid(scale, width, height, left, right, top, bottom) {
   return svg;
 }
 
+function sourceLabel(source) {
+  return source === "tracker" ? "원본 트래커 일별 합계" : "직접 수집";
+}
+
+function lineSegments(points) {
+  const segments = [], canJoin = (current, previous) => current.source === previous.source && (current.source !== "tracker" || current.value >= previous.value);
+  points.forEach((point) => {
+    const previous = segments.at(-1)?.at(-1);
+    if (!previous || !canJoin(point, previous)) segments.push([point]);
+    else segments.at(-1).push(point);
+  });
+  return segments;
+}
+
 function aggregateAbsoluteMetric(entries, metric, title) {
   const width = 1200, height = 360, left = 88, right = 40, top = 46, bottom = 54;
   const values = entries.flatMap((entry) => MARKET_KEYS.map((market) => entry.countries[market]?.[metric]).filter(Number.isFinite));
@@ -188,12 +235,12 @@ function aggregateAbsoluteMetric(entries, metric, title) {
   const lastLabels = [];
   let svg = `<p class="stacked-metric-title">${title}</p><svg class="chart-svg stacked-svg" viewBox="0 0 ${width} ${height}" role="img" aria-label="${title} 국가별 일별 점선그래프">${lineGrid(scale, width, height, left, right, top, bottom)}`;
   MARKET_KEYS.forEach((market) => {
-    const points = entries.map((entry, index) => ({ entry, index, value: entry.countries[market]?.[metric] })).filter((point) => Number.isFinite(point.value));
+    const points = entries.map((entry, index) => ({ entry, index, value: entry.countries[market]?.[metric], source: entry.countries[market]?.source || "direct" })).filter((point) => Number.isFinite(point.value));
     if (!points.length) return;
-    svg += `<polyline class="absolute-line country-line country-${market}" points="${points.map((point) => `${x(point.index)},${scale.y(point.value)}`).join(" ")}"/>`;
+    lineSegments(points).forEach((segment) => { svg += `<polyline class="absolute-line country-line country-${market}" points="${segment.map((point) => `${x(point.index)},${scale.y(point.value)}`).join(" ")}"/>`; });
     points.forEach((point, pointIndex) => {
       const pointX = x(point.index), pointY = scale.y(point.value);
-      svg += `<circle class="absolute-point country-${market}" cx="${pointX}" cy="${pointY}" r="4.5"><title>${point.entry.label} ${MARKETS[market].label} ${title} ${fmt(point.value)}</title></circle>`;
+      svg += `<circle class="absolute-point country-${market}" cx="${pointX}" cy="${pointY}" r="4.5"><title>${point.entry.label} ${MARKETS[market].label} · ${sourceLabel(point.source)} · ${title} ${fmt(point.value)}</title></circle>`;
       if (pointIndex === points.length - 1) lastLabels.push({ market, pointX, pointY, value: point.value });
     });
   });
@@ -224,10 +271,11 @@ function absoluteMetric(entries, metric, title, lineClass, pointClass) {
   const scale = lineScale(entries.map((entry) => entry[metric]), height, top, bottom);
   const x = (index) => entries.length === 1 ? (left + width - right) / 2 : left + index * ((width - left - right) / (entries.length - 1));
   let svg = `<p class="stacked-metric-title">${title}</p><svg class="chart-svg stacked-svg" viewBox="0 0 ${width} ${height}" role="img" aria-label="${title} 일별 점선그래프">${lineGrid(scale, width, height, left, right, top, bottom)}`;
-  svg += `<polyline class="absolute-line ${lineClass}" points="${entries.map((entry, index) => `${x(index)},${scale.y(entry[metric])}`).join(" ")}"/>`;
+  const points = entries.map((entry, index) => ({ ...entry, index, value: entry[metric] }));
+  lineSegments(points).forEach((segment) => { svg += `<polyline class="absolute-line ${lineClass}" points="${segment.map((point) => `${x(point.index)},${scale.y(point.value)}`).join(" ")}"/>`; });
   entries.forEach((entry, index) => {
     const pointX = x(index), pointY = scale.y(entry[metric]);
-    svg += `<circle class="absolute-point ${pointClass}" cx="${pointX}" cy="${pointY}" r="4.5"><title>${entry.label} ${title} ${fmt(entry[metric])}</title></circle>`;
+    svg += `<circle class="absolute-point ${pointClass}" cx="${pointX}" cy="${pointY}" r="4.5"><title>${entry.label} · ${sourceLabel(entry.source)} · ${title} ${fmt(entry[metric])}</title></circle>`;
     if (entries.length <= 10 || index === 0 || index === entries.length - 1 || index === Math.floor(entries.length / 2)) {
       const anchor = index === 0 ? "start" : index === entries.length - 1 ? "end" : "middle";
       const labelX = index === 0 ? pointX + 7 : index === entries.length - 1 ? pointX - 7 : pointX;
@@ -242,8 +290,8 @@ function absoluteLines(rootId, daily) {
   const root = document.getElementById(rootId);
   const entries = daily.map((snapshot) => {
     const summary = totals(snapshot);
-    return { label: dateLabel.format(dateOf(snapshot)), view: summary.view_count, chat: summary.chat_count, observed: summary.observed_items };
-  }).filter((entry) => entry.observed).slice(-30);
+    return { label: dateLabel.format(dateOf(snapshot)), view: summary.view_count, chat: summary.chat_count, source: snapshotSource(snapshot), valid: hasCounterTotals(snapshot) };
+  }).filter((entry) => entry.valid).slice(-30);
   if (!entries.length) { root.innerHTML = '<p class="empty-chart">아직 저장된 절대값 스냅샷이 없습니다.</p>'; return; }
   root.innerHTML = `<div class="stacked-pair absolute-split"><div class="stacked-chart">${absoluteMetric(entries, "view", "View 절대값", "line-view", "point-view")}</div><div class="stacked-chart">${absoluteMetric(entries, "chat", "Chat 절대값", "line-chat", "point-chat")}</div></div>`;
 }
@@ -274,17 +322,17 @@ function setDashboardLabels(aggregate) {
 function renderAggregate(histories, failures = []) {
   const available = MARKET_KEYS.filter((market) => histories[market]);
   if (!available.length) throw new Error("수집된 국가 데이터를 불러오지 못했습니다.");
-  const latestByMarket = Object.fromEntries(available.map((market) => [market, dailySnapshots(histories[market].snapshots || []).at(-1)]).filter(([, latest]) => latest?.items?.length));
+  const latestByMarket = Object.fromEntries(available.map((market) => [market, itemSnapshots(histories[market]).at(-1)]).filter(([, latest]) => latest?.items?.length));
   const comparable = {};
   available.forEach((market) => {
-    const daily = dailySnapshots(histories[market].snapshots || []);
+    const daily = counterSnapshots(histories[market]);
     const latestGrowth = growth(daily.at(-1), daily.at(-2));
     if (latestGrowth) comparable[market] = latestGrowth;
   });
   const growths = Object.values(comparable);
   const totalViewGrowth = growths.reduce((sum, item) => sum + item.view, 0);
   const totalChatGrowth = growths.reduce((sum, item) => sum + item.chat, 0);
-  const allDays = new Set(available.flatMap((market) => dailySnapshots(histories[market].snapshots || []).map(dayKey)));
+  const allDays = new Set(available.flatMap((market) => counterSnapshots(histories[market]).map(dayKey)));
   const latestCapture = Object.values(latestByMarket).sort((a, b) => dateOf(a) - dateOf(b)).at(-1);
   const tracked = Object.values(latestByMarket).reduce((sum, latest) => sum + latest.items.length, 0);
   document.getElementById("status").textContent = `4개 국가 종합 · 최종 수집 ${latestCapture?.captured_kst || "—"} · 순증 비교 가능 ${growths.length}/4개 국가${failures.length ? ` · ${failures.length}개 국가 갱신 실패` : ""} · 화면은 1분마다 갱신`;
@@ -310,7 +358,7 @@ function renderAggregate(histories, failures = []) {
 }
 
 function render(history) {
-  const daily = dailySnapshots(history.snapshots || []), latest = daily.at(-1), previous = daily.at(-2), today = growth(latest, previous);
+  const daily = counterSnapshots(history), itemDaily = itemSnapshots(history), latest = itemDaily.at(-1), previous = itemDaily.at(-2), today = growth(daily.at(-1), daily.at(-2));
   if (!latest?.items?.length) throw new Error("아직 저장된 작품 스냅샷이 없습니다.");
   const tail = daily.slice(-30);
   const dailyBars = tail.map((snapshot, i) => ({ label: dateLabel.format(dateOf(snapshot)), growth: i ? growth(snapshot, tail[i - 1]) : null })).filter((entry) => entry.growth);
@@ -358,7 +406,7 @@ async function refreshData() {
   } catch (error) {
     if (market !== activeMarket || serial !== requestSerial) return;
     const status = document.getElementById("status");
-    const latest = market !== "all" && currentHistory && dailySnapshots(currentHistory.snapshots || []).at(-1);
+    const latest = market !== "all" && currentHistory && itemSnapshots(currentHistory).at(-1);
     status.textContent = `${latest ? `${statusLabel(latest)} · 기존 데이터 표시 중. ` : ""}데이터 갱신 실패: ${error.message} · 잠시 후 자동 재시도`;
     status.classList.add("error");
   }
@@ -384,7 +432,7 @@ function selectMarket(market) {
 
 document.getElementById("search").addEventListener("input", (event) => {
   if (!currentHistory || activeMarket === "all") return;
-  const daily = dailySnapshots(currentHistory.snapshots || []);
+  const daily = itemSnapshots(currentHistory);
   renderTable(daily.at(-1), daily.at(-2), event.target.value);
 });
 document.querySelectorAll("[data-market]").forEach((button) => button.addEventListener("click", () => selectMarket(button.dataset.market)));
