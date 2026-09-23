@@ -52,16 +52,21 @@ jobs:
           else
             python scripts/scrape_ranking.py
           fi
-      - name: Save a changed snapshot
+      - name: Sync public global-expansion comparison
         run: |
-          if git diff --quiet -- dist/data; then
-            echo "No snapshot change to commit."
+          if ! python scripts/sync_global_expansion.py; then
+            echo "::warning::Global-expansion source sync failed; the last verified static payload will be kept."
+          fi
+      - name: Save changed dashboard data
+        run: |
+          git add dist/data
+          if git diff --cached --quiet -- dist/data; then
+            echo "No dashboard data change to commit."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add dist/data
-          git commit -m "data: capture counters $(TZ=Asia/Seoul date +'%Y-%m-%d')"
+          git commit -m "data: capture counters and global expansion $(TZ=Asia/Seoul date +'%Y-%m-%d')"
           git pull --rebase origin main
           git push origin HEAD:main
       # Always deploy even when capture is skipped: the previous deploy may

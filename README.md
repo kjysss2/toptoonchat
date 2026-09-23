@@ -1,6 +1,6 @@
 # 탑툰챗 카운터
 
-[대시보드](https://kjysss2.github.io/toptoonchat/)에서 **종합 / 한국 / 대만 / 미국 / 일본**을 전환하며 공개 작품별 View·Chat 누적 카운터와 이전 수집 대비 증감을 봅니다. 종합 화면은 일별·주별·월별 순증과 매일 07:00 KST의 절대값을 국가별 누적 막대로 비교합니다. 각 국가 화면에도 일별 View·Chat 절대값 그래프가 표시됩니다. 한국은 `chat.toptoon.com`, 대만은 `chat.toptoon.net`, 미국은 `chat.global.toptoon.com`, 일본은 `chat.toptoon.jp`의 공개 페이지를 각각 집계합니다. 공개 카운터는 매출이나 실제 이용자 수와 같지 않습니다.
+[대시보드](https://kjysss2.github.io/toptoonchat/)에서 **종합 / 한국 / 대만 / 미국 / 일본**을 전환하며 공개 작품별 View·Chat 누적 카운터와 이전 수집 대비 증감을 봅니다. 종합 화면은 일별·주별·월별 순증과 매일 07:00 KST의 절대값을 국가별 누적 막대로 비교합니다. 각 국가 화면에도 일별 View·Chat 절대값 그래프가 표시됩니다. **글로벌 진출** 화면은 원본 트래커의 동일 캐릭터 ID 기준으로 한국·Global(EN)·일본·대만 대화수와 트랙션을 나란히 보여 줍니다. 한국은 `chat.toptoon.com`, 대만은 `chat.toptoon.net`, 미국은 `chat.global.toptoon.com`, 일본은 `chat.toptoon.jp`의 공개 페이지를 각각 집계합니다. 공개 카운터는 매출이나 실제 이용자 수와 같지 않습니다.
 
 ## 자동 업데이트
 
@@ -8,6 +8,7 @@
 - 보완 예약: **07:17, 07:37, 08:07, 09:07 KST**. 앞선 실행이 지연되거나 실패하면 다시 시도합니다.
 - 해당 한국 날짜의 07:00 이후 정상 수집이 있으면 **재수집하지 않습니다**. 늦게 도착한 예약이 아침 데이터를 덮어쓰지 않습니다. 자정이나 새벽에 수동 수집한 기록은 아침 수집을 막지 않습니다.
 - 정상 수집 후에는 한국 `dist/data/snapshots.json`, 대만 `dist/data/snapshots-tw.json`, 미국 `dist/data/snapshots-us.json`, 일본 `dist/data/snapshots-jp.json`을 각각 갱신하고 GitHub Pages를 직접 배포합니다. 수집을 건너뛴 실행도 배포는 수행하므로, 이전 배포 실패를 복구할 수 있습니다.
+- 같은 실행에서 공개 [원본 글로벌 트래커](https://toptoon-tracker.john6428.workers.dev/)의 비교 API를 확인해, 내용이 바뀐 경우에만 `dist/data/global-expansion.json`을 갱신합니다. 원본이 일시적으로 응답하지 않거나 저장본보다 오래된 스냅샷을 주면 마지막으로 검증된 글로벌 파일을 유지하고 나머지 대시보드는 계속 배포합니다.
 - 두 배포 작업은 같은 `github-pages` 실행 그룹을 사용하며 시작 시 최신 `main`을 읽습니다.
 - 사이트가 열려 있으면 1분마다 저장된 데이터를 다시 읽고, 다른 탭에서 돌아와도 갱신합니다. 네트워크 오류 때는 기존 데이터를 유지하고 재시도합니다.
 - PC나 Codex를 켜 둘 필요가 없습니다.
@@ -44,11 +45,14 @@
 
 기존 초기 기록에는 순위만 있고 View·Chat이 없을 수 있습니다. 카운터가 있는 서로 다른 날짜의 기록이 두 개 쌓여야 증감이 나옵니다. 실제로 수집하지 못한 과거 07:00 수치는 소급 생성하지 않습니다.
 
+글로벌 진출 화면의 `Global(EN)`은 미국 한정 지표가 아니라 `chat.global.toptoon.com`의 영어권 글로벌 사이트 수치입니다. 이 비교 데이터는 원본 트래커가 동일 캐릭터 ID로 묶어 집계한 별도 스냅샷이므로, 국가별 랭킹 수집 데이터와 단순 합산하거나 대체하지 않습니다.
+
 ## 로컬 검증
 
 ```sh
 python -m unittest discover -s tests -p 'test_*.py'
 node tests/test_refresh.cjs
+node tests/test_global_ui.cjs
 ```
 
 즉시 전체 수집: `python scripts/scrape_ranking.py --force`. 특정 국가만 수집하려면 `--market tw`, `--market us`, `--market jp` 중 하나를 사용합니다. 일반 실행은 시장별 아침 수집 여부를 확인하여 중복 요청을 건너뜁니다.
