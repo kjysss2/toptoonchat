@@ -11143,9 +11143,524 @@
         "chat_count": 118280,
         "observed_items": 58
       }
+    },
+    {
+      "captured_at": "2026-10-07T01:13:46.895588Z",
+      "captured_kst": "2026-10-07 10:13 KST",
+      "items": [
+        {
+          "key": "character:74",
+          "kind": "character",
+          "id": 74,
+          "name": "何宥拉",
+          "url": "https://chat.toptoon.net/detail/character/74",
+          "view_count": 23831,
+          "chat_count": 1228
+        },
+        {
+          "key": "character:10000008",
+          "kind": "character",
+          "id": 10000008,
+          "name": "你信教嗎？",
+          "url": "https://chat.toptoon.net/detail/character/10000008",
+          "view_count": 743,
+          "chat_count": 153
+        },
+        {
+          "key": "character:62",
+          "kind": "character",
+          "id": 62,
+          "name": "劉小冉",
+          "url": "https://chat.toptoon.net/detail/character/62",
+          "view_count": 32153,
+          "chat_count": 1080
+        },
+        {
+          "key": "character:347",
+          "kind": "character",
+          "id": 347,
+          "name": "劉素熙",
+          "url": "https://chat.toptoon.net/detail/character/347",
+          "view_count": 1749,
+          "chat_count": 314
+        },
+        {
+          "key": "character:229",
+          "kind": "character",
+          "id": 229,
+          "name": "劉美媛",
+          "url": "https://chat.toptoon.net/detail/character/229",
+          "view_count": 37545,
+          "chat_count": 1442
+        },
+        {
+          "key": "character:8",
+          "kind": "character",
+          "id": 8,
+          "name": "劉貞妮",
+          "url": "https://chat.toptoon.net/detail/character/8",
+          "view_count": 32211,
+          "chat_count": 1827
+        },
+        {
+          "key": "character:89",
+          "kind": "character",
+          "id": 89,
+          "name": "劉達莉",
+          "url": "https://chat.toptoon.net/detail/character/89",
+          "view_count": 18053,
+          "chat_count": 632
+        },
+        {
+          "key": "character:78",
+          "kind": "character",
+          "id": 78,
+          "name": "劉銀河",
+          "url": "https://chat.toptoon.net/detail/character/78",
+          "view_count": 29016,
+          "chat_count": 1393
+        },
+        {
+          "key": "character:284",
+          "kind": "character",
+          "id": 284,
+          "name": "吳喬俐",
+          "url": "https://chat.toptoon.net/detail/character/284",
+          "view_count": 67255,
+          "chat_count": 2765
+        },
+        {
+          "key": "character:314",
+          "kind": "character",
+          "id": 314,
+          "name": "吳宥涵",
+          "url": "https://chat.toptoon.net/detail/character/314",
+          "view_count": 5514,
+          "chat_count": 915
+        },
+        {
+          "key": "character:235",
+          "kind": "character",
+          "id": 235,
+          "name": "周薇亞",
+          "url": "https://chat.toptoon.net/detail/character/235",
+          "view_count": 31663,
+          "chat_count": 1327
+        },
+        {
+          "key": "character:139",
+          "kind": "character",
+          "id": 139,
+          "name": "嚴安雅",
+          "url": "https://chat.toptoon.net/detail/character/139",
+          "view_count": 30641,
+          "chat_count": 1003
+        },
+        {
+          "key": "character:165",
+          "kind": "character",
+          "id": 165,
+          "name": "夏晴天",
+          "url": "https://chat.toptoon.net/detail/character/165",
+          "view_count": 18001,
+          "chat_count": 1005
+        },
+        {
+          "key": "character:261",
+          "kind": "character",
+          "id": 261,
+          "name": "庭佳",
+          "url": "https://chat.toptoon.net/detail/character/261",
+          "view_count": 17597,
+          "chat_count": 1128
+        },
+        {
+          "key": "character:100",
+          "kind": "character",
+          "id": 100,
+          "name": "張善英",
+          "url": "https://chat.toptoon.net/detail/character/100",
+          "view_count": 522671,
+          "chat_count": 3669
+        },
+        {
+          "key": "character:10000010",
+          "kind": "character",
+          "id": 10000010,
+          "name": "徐夏琳",
+          "url": "https://chat.toptoon.net/detail/character/10000010",
+          "view_count": 866,
+          "chat_count": 188
+        },
+        {
+          "key": "character:119",
+          "kind": "character",
+          "id": 119,
+          "name": "徐如熙",
+          "url": "https://chat.toptoon.net/detail/character/119",
+          "view_count": 71696,
+          "chat_count": 1609
+        },
+        {
+          "key": "character:73",
+          "kind": "character",
+          "id": 73,
+          "name": "徐娜莉",
+          "url": "https://chat.toptoon.net/detail/character/73",
+          "view_count": 32526,
+          "chat_count": 1481
+        },
+        {
+          "key": "character:260",
+          "kind": "character",
+          "id": 260,
+          "name": "徐慧靜",
+          "url": "https://chat.toptoon.net/detail/character/260",
+          "view_count": 9488,
+          "chat_count": 463
+        },
+        {
+          "key": "character:77",
+          "kind": "character",
+          "id": 77,
+          "name": "徐敏娜",
+          "url": "https://chat.toptoon.net/detail/character/77",
+          "view_count": 39799,
+          "chat_count": 1681
+        },
+        {
+          "key": "character:170",
+          "kind": "character",
+          "id": 170,
+          "name": "徐筱妍",
+          "url": "https://chat.toptoon.net/detail/character/170",
+          "view_count": 31399,
+          "chat_count": 1205
+        },
+        {
+          "key": "character:297",
+          "kind": "character",
+          "id": 297,
+          "name": "李多美",
+          "url": "https://chat.toptoon.net/detail/character/297",
+          "view_count": 126420,
+          "chat_count": 1242
+        },
+        {
+          "key": "character:137",
+          "kind": "character",
+          "id": 137,
+          "name": "李瑄雅",
+          "url": "https://chat.toptoon.net/detail/character/137",
+          "view_count": 10296,
+          "chat_count": 552
+        },
+        {
+          "key": "character:226",
+          "kind": "character",
+          "id": 226,
+          "name": "李美英",
+          "url": "https://chat.toptoon.net/detail/character/226",
+          "view_count": 32816,
+          "chat_count": 1231
+        },
+        {
+          "key": "character:2",
+          "kind": "character",
+          "id": 2,
+          "name": "李舒欣",
+          "url": "https://chat.toptoon.net/detail/character/2",
+          "view_count": 26255,
+          "chat_count": 1506
+        },
+        {
+          "key": "character:240",
+          "kind": "character",
+          "id": 240,
+          "name": "李芳婷",
+          "url": "https://chat.toptoon.net/detail/character/240",
+          "view_count": 31097,
+          "chat_count": 1748
+        },
+        {
+          "key": "character:71",
+          "kind": "character",
+          "id": 71,
+          "name": "林佳瑜",
+          "url": "https://chat.toptoon.net/detail/character/71",
+          "view_count": 34147,
+          "chat_count": 1240
+        },
+        {
+          "key": "character:1",
+          "kind": "character",
+          "id": 1,
+          "name": "林依潔",
+          "url": "https://chat.toptoon.net/detail/character/1",
+          "view_count": 578965,
+          "chat_count": 9472
+        },
+        {
+          "key": "character:61",
+          "kind": "character",
+          "id": 61,
+          "name": "林映純",
+          "url": "https://chat.toptoon.net/detail/character/61",
+          "view_count": 450428,
+          "chat_count": 24081
+        },
+        {
+          "key": "character:76",
+          "kind": "character",
+          "id": 76,
+          "name": "楊佳穎",
+          "url": "https://chat.toptoon.net/detail/character/76",
+          "view_count": 39434,
+          "chat_count": 1731
+        },
+        {
+          "key": "character:129",
+          "kind": "character",
+          "id": 129,
+          "name": "殷霏",
+          "url": "https://chat.toptoon.net/detail/character/129",
+          "view_count": 25427,
+          "chat_count": 1044
+        },
+        {
+          "key": "character:70",
+          "kind": "character",
+          "id": 70,
+          "name": "江郁涵",
+          "url": "https://chat.toptoon.net/detail/character/70",
+          "view_count": 30224,
+          "chat_count": 1952
+        },
+        {
+          "key": "character:248",
+          "kind": "character",
+          "id": 248,
+          "name": "洪丹菲",
+          "url": "https://chat.toptoon.net/detail/character/248",
+          "view_count": 34972,
+          "chat_count": 1675
+        },
+        {
+          "key": "character:262",
+          "kind": "character",
+          "id": 262,
+          "name": "涂藝恩",
+          "url": "https://chat.toptoon.net/detail/character/262",
+          "view_count": 26260,
+          "chat_count": 962
+        },
+        {
+          "key": "character:97",
+          "kind": "character",
+          "id": 97,
+          "name": "王曉妤",
+          "url": "https://chat.toptoon.net/detail/character/97",
+          "view_count": 53548,
+          "chat_count": 2741
+        },
+        {
+          "key": "character:177",
+          "kind": "character",
+          "id": 177,
+          "name": "白佳貞",
+          "url": "https://chat.toptoon.net/detail/character/177",
+          "view_count": 22654,
+          "chat_count": 1170
+        },
+        {
+          "key": "character:118",
+          "kind": "character",
+          "id": 118,
+          "name": "白采媛",
+          "url": "https://chat.toptoon.net/detail/character/118",
+          "view_count": 26868,
+          "chat_count": 1367
+        },
+        {
+          "key": "character:133",
+          "kind": "character",
+          "id": 133,
+          "name": "簡可優",
+          "url": "https://chat.toptoon.net/detail/character/133",
+          "view_count": 332341,
+          "chat_count": 6783
+        },
+        {
+          "key": "character:250",
+          "kind": "character",
+          "id": 250,
+          "name": "羅心如",
+          "url": "https://chat.toptoon.net/detail/character/250",
+          "view_count": 16344,
+          "chat_count": 1061
+        },
+        {
+          "key": "content:101",
+          "kind": "content",
+          "id": 101,
+          "name": "與太妹們一起在無人島求生",
+          "url": "https://chat.toptoon.net/detail/content/101",
+          "view_count": 52521,
+          "chat_count": 1015
+        },
+        {
+          "key": "character:256",
+          "kind": "character",
+          "id": 256,
+          "name": "莊若瑜",
+          "url": "https://chat.toptoon.net/detail/character/256",
+          "view_count": 77500,
+          "chat_count": 1607
+        },
+        {
+          "key": "character:60",
+          "kind": "character",
+          "id": 60,
+          "name": "詹希橙",
+          "url": "https://chat.toptoon.net/detail/character/60",
+          "view_count": 13826,
+          "chat_count": 1004
+        },
+        {
+          "key": "character:38",
+          "kind": "character",
+          "id": 38,
+          "name": "詹苡葳",
+          "url": "https://chat.toptoon.net/detail/character/38",
+          "view_count": 41989,
+          "chat_count": 1985
+        },
+        {
+          "key": "character:80",
+          "kind": "character",
+          "id": 80,
+          "name": "貝爾迪亞",
+          "url": "https://chat.toptoon.net/detail/character/80",
+          "view_count": 21040,
+          "chat_count": 1152
+        },
+        {
+          "key": "character:292",
+          "kind": "character",
+          "id": 292,
+          "name": "趙敏珠",
+          "url": "https://chat.toptoon.net/detail/character/292",
+          "view_count": 3537,
+          "chat_count": 531
+        },
+        {
+          "key": "character:268",
+          "kind": "character",
+          "id": 268,
+          "name": "趙書允",
+          "url": "https://chat.toptoon.net/detail/character/268",
+          "view_count": 23532,
+          "chat_count": 1280
+        },
+        {
+          "key": "character:99",
+          "kind": "character",
+          "id": 99,
+          "name": "趙美靜",
+          "url": "https://chat.toptoon.net/detail/character/99",
+          "view_count": 34533,
+          "chat_count": 1771
+        },
+        {
+          "key": "character:154",
+          "kind": "character",
+          "id": 154,
+          "name": "郭度琳",
+          "url": "https://chat.toptoon.net/detail/character/154",
+          "view_count": 6385,
+          "chat_count": 319
+        },
+        {
+          "key": "character:221",
+          "kind": "character",
+          "id": 221,
+          "name": "鄭恩愛",
+          "url": "https://chat.toptoon.net/detail/character/221",
+          "view_count": 488949,
+          "chat_count": 6496
+        },
+        {
+          "key": "character:10000014",
+          "kind": "character",
+          "id": 10000014,
+          "name": "鄭映涵",
+          "url": "https://chat.toptoon.net/detail/character/10000014",
+          "view_count": 1107,
+          "chat_count": 262
+        },
+        {
+          "key": "character:505",
+          "kind": "character",
+          "id": 505,
+          "name": "鄭熙珍",
+          "url": "https://chat.toptoon.net/detail/character/505",
+          "view_count": 4446,
+          "chat_count": 995
+        },
+        {
+          "key": "character:132",
+          "kind": "character",
+          "id": 132,
+          "name": "鄭韶恩",
+          "url": "https://chat.toptoon.net/detail/character/132",
+          "view_count": 46642,
+          "chat_count": 2370
+        },
+        {
+          "key": "character:72",
+          "kind": "character",
+          "id": 72,
+          "name": "陳鈺琳",
+          "url": "https://chat.toptoon.net/detail/character/72",
+          "view_count": 47672,
+          "chat_count": 2005
+        },
+        {
+          "key": "character:265",
+          "kind": "character",
+          "id": 265,
+          "name": "韓瑞賢",
+          "url": "https://chat.toptoon.net/detail/character/265",
+          "view_count": 10329,
+          "chat_count": 1198
+        },
+        {
+          "key": "character:93",
+          "kind": "character",
+          "id": 93,
+          "name": "韓秀珍",
+          "url": "https://chat.toptoon.net/detail/character/93",
+          "view_count": 32635,
+          "chat_count": 1249
+        },
+        {
+          "key": "character:258",
+          "kind": "character",
+          "id": 258,
+          "name": "高佑美",
+          "url": "https://chat.toptoon.net/detail/character/258",
+          "view_count": 123811,
+          "chat_count": 3768
+        }
+      ],
+      "totals": {
+        "view_count": 3983367,
+        "chat_count": 117073,
+        "observed_items": 56
+      }
     }
   ],
-  "updated_at": "2026-10-06T02:04:15.527028Z",
+  "updated_at": "2026-10-07T01:13:46.895588Z",
   "tracker_totals": [
     {
       "captured_at": "2026-08-22T12:00:00+09:00",
