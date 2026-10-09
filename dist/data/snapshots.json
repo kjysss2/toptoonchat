@@ -18387,9 +18387,767 @@
         "chat_count": 1528105,
         "observed_items": 67
       }
+    },
+    {
+      "captured_at": "2026-10-09T01:37:33.115122Z",
+      "captured_kst": "2026-10-09 10:37 KST",
+      "items": [
+        {
+          "key": "character:10000054",
+          "kind": "character",
+          "id": 10000054,
+          "name": "강미연",
+          "url": "https://chat.toptoon.com/detail/character/10000054",
+          "view_count": 11162,
+          "chat_count": 2309
+        },
+        {
+          "key": "character:2",
+          "kind": "character",
+          "id": 2,
+          "name": "강수연",
+          "url": "https://chat.toptoon.com/detail/character/2",
+          "view_count": 527868,
+          "chat_count": 25151
+        },
+        {
+          "key": "character:10000031",
+          "kind": "character",
+          "id": 10000031,
+          "name": "강은주",
+          "url": "https://chat.toptoon.com/detail/character/10000031",
+          "view_count": 18525,
+          "chat_count": 3336
+        },
+        {
+          "key": "content:5",
+          "kind": "content",
+          "id": 5,
+          "name": "건물마다 컨셉이 다름",
+          "url": "https://chat.toptoon.com/detail/content/5",
+          "view_count": 89797,
+          "chat_count": 9198
+        },
+        {
+          "key": "content:112",
+          "kind": "content",
+          "id": 112,
+          "name": "결정사",
+          "url": "https://chat.toptoon.com/detail/content/112",
+          "view_count": 82621,
+          "chat_count": 6522
+        },
+        {
+          "key": "character:258",
+          "kind": "character",
+          "id": 258,
+          "name": "고유미",
+          "url": "https://chat.toptoon.com/detail/character/258",
+          "view_count": 1706144,
+          "chat_count": 24979
+        },
+        {
+          "key": "character:154",
+          "kind": "character",
+          "id": 154,
+          "name": "곽도임",
+          "url": "https://chat.toptoon.com/detail/character/154",
+          "view_count": 537235,
+          "chat_count": 15819
+        },
+        {
+          "key": "content:106",
+          "kind": "content",
+          "id": 106,
+          "name": "구조선 도착까지, 앞으로 93년",
+          "url": "https://chat.toptoon.com/detail/content/106",
+          "view_count": 18671,
+          "chat_count": 2724
+        },
+        {
+          "key": "character:71",
+          "kind": "character",
+          "id": 71,
+          "name": "김가을",
+          "url": "https://chat.toptoon.com/detail/character/71",
+          "view_count": 727527,
+          "chat_count": 28662
+        },
+        {
+          "key": "character:133",
+          "kind": "character",
+          "id": 133,
+          "name": "김고은",
+          "url": "https://chat.toptoon.com/detail/character/133",
+          "view_count": 4602149,
+          "chat_count": 46829
+        },
+        {
+          "key": "character:296",
+          "kind": "character",
+          "id": 296,
+          "name": "김지민",
+          "url": "https://chat.toptoon.com/detail/character/296",
+          "view_count": 180738,
+          "chat_count": 9337
+        },
+        {
+          "key": "content:120",
+          "kind": "content",
+          "id": 120,
+          "name": "남의 여친과 속궁합 200퍼",
+          "url": "https://chat.toptoon.com/detail/content/120",
+          "view_count": 6981,
+          "chat_count": 1102
+        },
+        {
+          "key": "character:315",
+          "kind": "character",
+          "id": 315,
+          "name": "다희",
+          "url": "https://chat.toptoon.com/detail/character/315",
+          "view_count": 58329,
+          "chat_count": 7979
+        },
+        {
+          "key": "character:10000021",
+          "kind": "character",
+          "id": 10000021,
+          "name": "도를 아십니까?",
+          "url": "https://chat.toptoon.com/detail/character/10000021",
+          "view_count": 11012,
+          "chat_count": 1920
+        },
+        {
+          "key": "character:262",
+          "kind": "character",
+          "id": 262,
+          "name": "도예은",
+          "url": "https://chat.toptoon.com/detail/character/262",
+          "view_count": 546940,
+          "chat_count": 20641
+        },
+        {
+          "key": "content:119",
+          "kind": "content",
+          "id": 119,
+          "name": "동경하던 유부녀가 개변태였다",
+          "url": "https://chat.toptoon.com/detail/content/119",
+          "view_count": 23275,
+          "chat_count": 5326
+        },
+        {
+          "key": "character:130",
+          "kind": "character",
+          "id": 130,
+          "name": "레이",
+          "url": "https://chat.toptoon.com/detail/character/130",
+          "view_count": 387979,
+          "chat_count": 14300
+        },
+        {
+          "key": "character:346",
+          "kind": "character",
+          "id": 346,
+          "name": "류나",
+          "url": "https://chat.toptoon.com/detail/character/346",
+          "view_count": 9011,
+          "chat_count": 1606
+        },
+        {
+          "key": "content:102",
+          "kind": "content",
+          "id": 102,
+          "name": "마법소녀 마누라",
+          "url": "https://chat.toptoon.com/detail/content/102",
+          "view_count": 49214,
+          "chat_count": 6818
+        },
+        {
+          "key": "character:10000061",
+          "kind": "character",
+          "id": 10000061,
+          "name": "마음만큼은 네 거야",
+          "url": "https://chat.toptoon.com/detail/character/10000061",
+          "view_count": 7729,
+          "chat_count": 1134
+        },
+        {
+          "key": "character:10000020",
+          "kind": "character",
+          "id": 10000020,
+          "name": "만질 수 있는 도쿄 처녀귀신",
+          "url": "https://chat.toptoon.com/detail/character/10000020",
+          "view_count": 8952,
+          "chat_count": 1398
+        },
+        {
+          "key": "content:109",
+          "kind": "content",
+          "id": 109,
+          "name": "멸망한 세계의 암컷 조련사",
+          "url": "https://chat.toptoon.com/detail/content/109",
+          "view_count": 24682,
+          "chat_count": 4816
+        },
+        {
+          "key": "content:105",
+          "kind": "content",
+          "id": 105,
+          "name": "밀프 아일랜드 우리 아내는 안 넘어갑니다",
+          "url": "https://chat.toptoon.com/detail/content/105",
+          "view_count": 38230,
+          "chat_count": 6155
+        },
+        {
+          "key": "character:70",
+          "kind": "character",
+          "id": 70,
+          "name": "박다영",
+          "url": "https://chat.toptoon.com/detail/character/70",
+          "view_count": 926961,
+          "chat_count": 41013
+        },
+        {
+          "key": "character:10000071",
+          "kind": "character",
+          "id": 10000071,
+          "name": "박아영",
+          "url": "https://chat.toptoon.com/detail/character/10000071",
+          "view_count": 38302,
+          "chat_count": 5292
+        },
+        {
+          "key": "character:249",
+          "kind": "character",
+          "id": 249,
+          "name": "박유미",
+          "url": "https://chat.toptoon.com/detail/character/249",
+          "view_count": 245706,
+          "chat_count": 12267
+        },
+        {
+          "key": "character:118",
+          "kind": "character",
+          "id": 118,
+          "name": "박채원",
+          "url": "https://chat.toptoon.com/detail/character/118",
+          "view_count": 2126221,
+          "chat_count": 46848
+        },
+        {
+          "key": "character:76",
+          "kind": "character",
+          "id": 76,
+          "name": "배현주",
+          "url": "https://chat.toptoon.com/detail/character/76",
+          "view_count": 1349732,
+          "chat_count": 33436
+        },
+        {
+          "key": "character:177",
+          "kind": "character",
+          "id": 177,
+          "name": "백가인",
+          "url": "https://chat.toptoon.com/detail/character/177",
+          "view_count": 405665,
+          "chat_count": 22090
+        },
+        {
+          "key": "character:80",
+          "kind": "character",
+          "id": 80,
+          "name": "베르디아",
+          "url": "https://chat.toptoon.com/detail/character/80",
+          "view_count": 374258,
+          "chat_count": 15030
+        },
+        {
+          "key": "character:73",
+          "kind": "character",
+          "id": 73,
+          "name": "서나리",
+          "url": "https://chat.toptoon.com/detail/character/73",
+          "view_count": 1449657,
+          "chat_count": 42888
+        },
+        {
+          "key": "character:170",
+          "kind": "character",
+          "id": 170,
+          "name": "서도연",
+          "url": "https://chat.toptoon.com/detail/character/170",
+          "view_count": 484994,
+          "chat_count": 19422
+        },
+        {
+          "key": "character:77",
+          "kind": "character",
+          "id": 77,
+          "name": "서미나",
+          "url": "https://chat.toptoon.com/detail/character/77",
+          "view_count": 332930,
+          "chat_count": 16411
+        },
+        {
+          "key": "character:119",
+          "kind": "character",
+          "id": 119,
+          "name": "서민희",
+          "url": "https://chat.toptoon.com/detail/character/119",
+          "view_count": 997787,
+          "chat_count": 29733
+        },
+        {
+          "key": "character:10000070",
+          "kind": "character",
+          "id": 10000070,
+          "name": "서유진",
+          "url": "https://chat.toptoon.com/detail/character/10000070",
+          "view_count": 20128,
+          "chat_count": 4495
+        },
+        {
+          "key": "character:260",
+          "kind": "character",
+          "id": 260,
+          "name": "서혜정",
+          "url": "https://chat.toptoon.com/detail/character/260",
+          "view_count": 84464,
+          "chat_count": 5383
+        },
+        {
+          "key": "character:10000019",
+          "kind": "character",
+          "id": 10000019,
+          "name": "송예진",
+          "url": "https://chat.toptoon.com/detail/character/10000019",
+          "view_count": 11385,
+          "chat_count": 1424
+        },
+        {
+          "key": "character:504",
+          "kind": "character",
+          "id": 504,
+          "name": "수애",
+          "url": "https://chat.toptoon.com/detail/character/504",
+          "view_count": 41209,
+          "chat_count": 7028
+        },
+        {
+          "key": "character:1",
+          "kind": "character",
+          "id": 1,
+          "name": "신아영",
+          "url": "https://chat.toptoon.com/detail/character/1",
+          "view_count": 6105951,
+          "chat_count": 175519
+        },
+        {
+          "key": "content:114",
+          "kind": "content",
+          "id": 114,
+          "name": "아줌마는 SOLO",
+          "url": "https://chat.toptoon.com/detail/content/114",
+          "view_count": 98650,
+          "chat_count": 10539
+        },
+        {
+          "key": "character:10000015",
+          "kind": "character",
+          "id": 10000015,
+          "name": "안지우",
+          "url": "https://chat.toptoon.com/detail/character/10000015",
+          "view_count": 24087,
+          "chat_count": 4402
+        },
+        {
+          "key": "character:139",
+          "kind": "character",
+          "id": 139,
+          "name": "엄자영",
+          "url": "https://chat.toptoon.com/detail/character/139",
+          "view_count": 434373,
+          "chat_count": 15051
+        },
+        {
+          "key": "character:284",
+          "kind": "character",
+          "id": 284,
+          "name": "오유리",
+          "url": "https://chat.toptoon.com/detail/character/284",
+          "view_count": 977388,
+          "chat_count": 18424
+        },
+        {
+          "key": "character:78",
+          "kind": "character",
+          "id": 78,
+          "name": "유세하",
+          "url": "https://chat.toptoon.com/detail/character/78",
+          "view_count": 437895,
+          "chat_count": 18220
+        },
+        {
+          "key": "character:347",
+          "kind": "character",
+          "id": 347,
+          "name": "유소희",
+          "url": "https://chat.toptoon.com/detail/character/347",
+          "view_count": 25922,
+          "chat_count": 4071
+        },
+        {
+          "key": "character:62",
+          "kind": "character",
+          "id": 62,
+          "name": "유은희",
+          "url": "https://chat.toptoon.com/detail/character/62",
+          "view_count": 529912,
+          "chat_count": 18357
+        },
+        {
+          "key": "character:229",
+          "kind": "character",
+          "id": 229,
+          "name": "유정원",
+          "url": "https://chat.toptoon.com/detail/character/229",
+          "view_count": 206788,
+          "chat_count": 11255
+        },
+        {
+          "key": "character:377",
+          "kind": "character",
+          "id": 377,
+          "name": "윤하린",
+          "url": "https://chat.toptoon.com/detail/character/377",
+          "view_count": 24739,
+          "chat_count": 3664
+        },
+        {
+          "key": "character:10000018",
+          "kind": "character",
+          "id": 10000018,
+          "name": "윤혜린",
+          "url": "https://chat.toptoon.com/detail/character/10000018",
+          "view_count": 28213,
+          "chat_count": 5609
+        },
+        {
+          "key": "character:8",
+          "kind": "character",
+          "id": 8,
+          "name": "윤혜윤",
+          "url": "https://chat.toptoon.com/detail/character/8",
+          "view_count": 583477,
+          "chat_count": 29766
+        },
+        {
+          "key": "character:129",
+          "kind": "character",
+          "id": 129,
+          "name": "은혜",
+          "url": "https://chat.toptoon.com/detail/character/129",
+          "view_count": 2349704,
+          "chat_count": 43074
+        },
+        {
+          "key": "character:226",
+          "kind": "character",
+          "id": 226,
+          "name": "이미예",
+          "url": "https://chat.toptoon.com/detail/character/226",
+          "view_count": 211417,
+          "chat_count": 10008
+        },
+        {
+          "key": "character:240",
+          "kind": "character",
+          "id": 240,
+          "name": "이소희",
+          "url": "https://chat.toptoon.com/detail/character/240",
+          "view_count": 293080,
+          "chat_count": 16159
+        },
+        {
+          "key": "character:72",
+          "kind": "character",
+          "id": 72,
+          "name": "이예린",
+          "url": "https://chat.toptoon.com/detail/character/72",
+          "view_count": 979708,
+          "chat_count": 33333
+        },
+        {
+          "key": "character:182",
+          "kind": "character",
+          "id": 182,
+          "name": "이지연",
+          "url": "https://chat.toptoon.com/detail/character/182",
+          "view_count": 451503,
+          "chat_count": 17210
+        },
+        {
+          "key": "character:10000053",
+          "kind": "character",
+          "id": 10000053,
+          "name": "이하영",
+          "url": "https://chat.toptoon.com/detail/character/10000053",
+          "view_count": 48839,
+          "chat_count": 5616
+        },
+        {
+          "key": "content:118",
+          "kind": "content",
+          "id": 118,
+          "name": "인방 큰손이 되었다",
+          "url": "https://chat.toptoon.com/detail/content/118",
+          "view_count": 13151,
+          "chat_count": 2932
+        },
+        {
+          "key": "content:117",
+          "kind": "content",
+          "id": 117,
+          "name": "일진 육상부",
+          "url": "https://chat.toptoon.com/detail/content/117",
+          "view_count": 16513,
+          "chat_count": 3276
+        },
+        {
+          "key": "content:101",
+          "kind": "content",
+          "id": 101,
+          "name": "일진녀들과 무인도에서 살아남기",
+          "url": "https://chat.toptoon.com/detail/content/101",
+          "view_count": 85949,
+          "chat_count": 13395
+        },
+        {
+          "key": "character:100",
+          "kind": "character",
+          "id": 100,
+          "name": "장선영",
+          "url": "https://chat.toptoon.com/detail/character/100",
+          "view_count": 3030606,
+          "chat_count": 101480
+        },
+        {
+          "key": "character:132",
+          "kind": "character",
+          "id": 132,
+          "name": "정소은",
+          "url": "https://chat.toptoon.com/detail/character/132",
+          "view_count": 902455,
+          "chat_count": 41366
+        },
+        {
+          "key": "character:221",
+          "kind": "character",
+          "id": 221,
+          "name": "정은애",
+          "url": "https://chat.toptoon.com/detail/character/221",
+          "view_count": 1795961,
+          "chat_count": 36688
+        },
+        {
+          "key": "character:10000014",
+          "kind": "character",
+          "id": 10000014,
+          "name": "정인하",
+          "url": "https://chat.toptoon.com/detail/character/10000014",
+          "view_count": 46164,
+          "chat_count": 7010
+        },
+        {
+          "key": "character:99",
+          "kind": "character",
+          "id": 99,
+          "name": "조미경",
+          "url": "https://chat.toptoon.com/detail/character/99",
+          "view_count": 1049120,
+          "chat_count": 27197
+        },
+        {
+          "key": "character:292",
+          "kind": "character",
+          "id": 292,
+          "name": "조민주",
+          "url": "https://chat.toptoon.com/detail/character/292",
+          "view_count": 254425,
+          "chat_count": 14696
+        },
+        {
+          "key": "character:268",
+          "kind": "character",
+          "id": 268,
+          "name": "주서윤",
+          "url": "https://chat.toptoon.com/detail/character/268",
+          "view_count": 214853,
+          "chat_count": 12572
+        },
+        {
+          "key": "character:235",
+          "kind": "character",
+          "id": 235,
+          "name": "차미아",
+          "url": "https://chat.toptoon.com/detail/character/235",
+          "view_count": 184998,
+          "chat_count": 9950
+        },
+        {
+          "key": "character:10000003",
+          "kind": "character",
+          "id": 10000003,
+          "name": "차세아",
+          "url": "https://chat.toptoon.com/detail/character/10000003",
+          "view_count": 13637,
+          "chat_count": 2733
+        },
+        {
+          "key": "character:97",
+          "kind": "character",
+          "id": 97,
+          "name": "차수민",
+          "url": "https://chat.toptoon.com/detail/character/97",
+          "view_count": 1995023,
+          "chat_count": 41280
+        },
+        {
+          "key": "character:291",
+          "kind": "character",
+          "id": 291,
+          "name": "차진희",
+          "url": "https://chat.toptoon.com/detail/character/291",
+          "view_count": 504542,
+          "chat_count": 11550
+        },
+        {
+          "key": "character:508",
+          "kind": "character",
+          "id": 508,
+          "name": "최아영",
+          "url": "https://chat.toptoon.com/detail/character/508",
+          "view_count": 169009,
+          "chat_count": 10574
+        },
+        {
+          "key": "character:61",
+          "kind": "character",
+          "id": 61,
+          "name": "한나리",
+          "url": "https://chat.toptoon.com/detail/character/61",
+          "view_count": 5260441,
+          "chat_count": 141199
+        },
+        {
+          "key": "character:10000030",
+          "kind": "character",
+          "id": 10000030,
+          "name": "한서윤",
+          "url": "https://chat.toptoon.com/detail/character/10000030",
+          "view_count": 15661,
+          "chat_count": 3418
+        },
+        {
+          "key": "character:265",
+          "kind": "character",
+          "id": 265,
+          "name": "한서현",
+          "url": "https://chat.toptoon.com/detail/character/265",
+          "view_count": 522934,
+          "chat_count": 29872
+        },
+        {
+          "key": "character:93",
+          "kind": "character",
+          "id": 93,
+          "name": "한수진",
+          "url": "https://chat.toptoon.com/detail/character/93",
+          "view_count": 1536656,
+          "chat_count": 33064
+        },
+        {
+          "key": "character:10000022",
+          "kind": "character",
+          "id": 10000022,
+          "name": "한여울",
+          "url": "https://chat.toptoon.com/detail/character/10000022",
+          "view_count": 6512,
+          "chat_count": 788
+        },
+        {
+          "key": "character:314",
+          "kind": "character",
+          "id": 314,
+          "name": "한유라",
+          "url": "https://chat.toptoon.com/detail/character/314",
+          "view_count": 557122,
+          "chat_count": 22238
+        },
+        {
+          "key": "character:38",
+          "kind": "character",
+          "id": 38,
+          "name": "한채아",
+          "url": "https://chat.toptoon.com/detail/character/38",
+          "view_count": 631564,
+          "chat_count": 17927
+        },
+        {
+          "key": "character:10000027",
+          "kind": "character",
+          "id": 10000027,
+          "name": "한채원",
+          "url": "https://chat.toptoon.com/detail/character/10000027",
+          "view_count": 23689,
+          "chat_count": 5389
+        },
+        {
+          "key": "character:60",
+          "kind": "character",
+          "id": 60,
+          "name": "한희진",
+          "url": "https://chat.toptoon.com/detail/character/60",
+          "view_count": 332126,
+          "chat_count": 14064
+        },
+        {
+          "key": "character:74",
+          "kind": "character",
+          "id": 74,
+          "name": "허유희",
+          "url": "https://chat.toptoon.com/detail/character/74",
+          "view_count": 394789,
+          "chat_count": 14914
+        },
+        {
+          "key": "character:248",
+          "kind": "character",
+          "id": 248,
+          "name": "홍단비",
+          "url": "https://chat.toptoon.com/detail/character/248",
+          "view_count": 322123,
+          "chat_count": 17782
+        },
+        {
+          "key": "content:6",
+          "kind": "content",
+          "id": 6,
+          "name": "회귀한 색마는 정파 후기지수가 되었다",
+          "url": "https://chat.toptoon.com/detail/content/6",
+          "view_count": 35317,
+          "chat_count": 5332
+        }
+      ],
+      "totals": {
+        "view_count": 52291156,
+        "chat_count": 1633784,
+        "observed_items": 83
+      }
     }
   ],
-  "updated_at": "2026-10-08T01:29:31.830915Z",
+  "updated_at": "2026-10-09T01:37:33.115122Z",
   "market": "kr",
   "tracker_totals": [
     {
