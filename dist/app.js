@@ -17,6 +17,7 @@ let currentHistory = null;
 let activeMarket = new URLSearchParams(location.search).get("market") || localStorage.getItem("toptoonchat-market") || "kr";
 if (!DASHBOARDS[activeMarket]) activeMarket = "kr";
 let requestSerial = 0;
+let tableSort = { key: null, direction: "desc" };
 
 const marketConfig = () => DASHBOARDS[activeMarket];
 
@@ -299,12 +300,44 @@ function absoluteLines(rootId, daily) {
 function renderTable(latest, previous, query = "") {
   const priorRows = byKey(previous), root = document.getElementById("ranking-body"), keyword = query.trim().toLocaleLowerCase(marketConfig().locale);
   const delta = (value) => value === null ? "—" : `<span class="delta ${value < 0 ? "negative" : ""}">${value >= 0 ? "+" : ""}${fmt(value)}</span>`;
-  root.innerHTML = (latest.items || []).filter((item) => item.name.toLocaleLowerCase(marketConfig().locale).includes(keyword)).map((item) => {
+  const rows = (latest.items || []).filter((item) => item.name.toLocaleLowerCase(marketConfig().locale).includes(keyword)).map((item) => {
     const prior = priorRows.get(item.key);
-    const view = prior && asNumber(item.view_count) !== null && asNumber(prior.view_count) !== null ? item.view_count - prior.view_count : null;
-    const chat = prior && asNumber(item.chat_count) !== null && asNumber(prior.chat_count) !== null ? item.chat_count - prior.chat_count : null;
-    return `<tr><td>${item.rank ?? "—"}</td><td class="name-cell">${item.name}</td><td>${fmt(asNumber(item.view_count))}</td><td>${fmt(asNumber(item.chat_count))}</td><td>${delta(view)}</td><td>${delta(chat)}</td></tr>`;
-  }).join("") || '<tr><td colspan="6" class="empty-chart">검색 결과가 없습니다.</td></tr>';
+    const viewDelta = prior && asNumber(item.view_count) !== null && asNumber(prior.view_count) !== null ? item.view_count - prior.view_count : null;
+    const chatDelta = prior && asNumber(item.chat_count) !== null && asNumber(prior.chat_count) !== null ? item.chat_count - prior.chat_count : null;
+    return { item, viewDelta, chatDelta };
+  });
+  if (tableSort.key) {
+    const valueFor = ({ item, viewDelta, chatDelta }) => ({
+      view: asNumber(item.view_count),
+      chat: asNumber(item.chat_count),
+      viewDelta,
+      chatDelta,
+    })[tableSort.key];
+    rows.sort((a, b) => {
+      const left = valueFor(a), right = valueFor(b);
+      if (left === null || right === null) return left === right ? 0 : left === null ? 1 : -1;
+      return (left - right) * (tableSort.direction === "desc" ? -1 : 1);
+    });
+  }
+  root.innerHTML = rows.map(({ item, viewDelta, chatDelta }) =>
+    `<tr><td>${item.rank ?? "—"}</td><td class="name-cell">${item.name}</td><td>${fmt(asNumber(item.view_count))}</td><td>${fmt(asNumber(item.chat_count))}</td><td>${delta(viewDelta)}</td><td>${delta(chatDelta)}</td></tr>`
+  ).join("") || '<tr><td colspan="6" class="empty-chart">검색 결과가 없습니다.</td></tr>';
+}
+
+function sortableHeader(label, key) {
+  const active = tableSort.key === key;
+  const direction = active ? tableSort.direction : "desc";
+  const ariaSort = active ? (direction === "desc" ? "descending" : "ascending") : "none";
+  const indicator = active ? (direction === "desc" ? " ▼" : " ▲") : " ↕";
+  return `<th class="sortable-header" data-sort="${key}" tabindex="0" role="button" aria-sort="${ariaSort}" title="클릭하면 큰 값부터 정렬">${label}<span class="sort-indicator" aria-hidden="true">${indicator}</span></th>`;
+}
+
+function sortTable(key) {
+  if (activeMarket === "all") return;
+  tableSort = { key, direction: tableSort.key === key && tableSort.direction === "desc" ? "asc" : "desc" };
+  const daily = currentHistory && itemSnapshots(currentHistory);
+  if (daily?.length) renderTable(daily.at(-1), daily.at(-2), document.getElementById("search").value);
+  setDashboardLabels(false);
 }
 
 function setDashboardLabels(aggregate) {
@@ -316,7 +349,7 @@ function setDashboardLabels(aggregate) {
   document.getElementById("table-tools").hidden = aggregate;
   document.getElementById("ranking-head").innerHTML = aggregate
     ? "<th>국가</th><th>추적 작품</th><th>누적 View</th><th>누적 Chat</th><th>최근 View 순증</th><th>최근 Chat 순증</th>"
-    : "<th>순위</th><th>작품</th><th>View</th><th>Chat</th><th>View 증감</th><th>Chat 증감</th>";
+    : `<th>순위</th><th>작품</th>${sortableHeader("View", "view")}${sortableHeader("Chat", "chat")}${sortableHeader("View 증감", "viewDelta")}${sortableHeader("Chat 증감", "chatDelta")}`;
 }
 
 function renderAggregate(histories, failures = []) {
@@ -430,6 +463,17 @@ function selectMarket(market) {
   refreshData();
 }
 
+document.getElementById("ranking-head").addEventListener("click", (event) => {
+  const header = event.target.closest("[data-sort]");
+  if (header) sortTable(header.dataset.sort);
+});
+document.getElementById("ranking-head").addEventListener("keydown", (event) => {
+  const header = event.target.closest("[data-sort]");
+  if (header && (event.key === "Enter" || event.key === " ")) {
+    event.preventDefault();
+    sortTable(header.dataset.sort);
+  }
+});
 document.getElementById("search").addEventListener("input", (event) => {
   if (!currentHistory || activeMarket === "all") return;
   const daily = itemSnapshots(currentHistory);
