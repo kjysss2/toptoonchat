@@ -108,6 +108,9 @@ h2 { font-size: 1.15rem; letter-spacing: -0.03em; }
 table { width: 100%; border-collapse: collapse; min-width: 580px; }
 th, td { padding: 13px 10px; text-align: left; border-bottom: 1px solid var(--line); }
 th { color: var(--muted); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.04em; }
+th.sortable-header { cursor: pointer; user-select: none; white-space: nowrap; }
+th.sortable-header:hover, th.sortable-header:focus-visible { color: var(--teal); outline: none; }
+.sort-indicator { margin-left: 4px; color: var(--teal); font-size: 0.68rem; }
 td { font-size: 0.9rem; }
 td:first-child { width: 62px; color: var(--amber); font-weight: 800; }
 .name-cell { font-weight: 700; }
