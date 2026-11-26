@@ -40961,9 +40961,668 @@
         "chat_count": 2670,
         "observed_items": 69
       }
+    },
+    {
+      "captured_at": "2026-11-26T03:55:27.940163Z",
+      "captured_kst": "2026-11-26 12:55 KST",
+      "items": [
+        {
+          "key": "character:1",
+          "kind": "character",
+          "id": 1,
+          "name": "Ah-yeong Shin",
+          "url": "https://chat.global.toptoon.com/detail/character/1",
+          "view_count": 1503,
+          "chat_count": 6
+        },
+        {
+          "key": "character:131",
+          "kind": "character",
+          "id": 131,
+          "name": "Alice",
+          "url": "https://chat.global.toptoon.com/detail/character/131",
+          "view_count": 354,
+          "chat_count": 1
+        },
+        {
+          "key": "character:283",
+          "kind": "character",
+          "id": 283,
+          "name": "Alice Cha",
+          "url": "https://chat.global.toptoon.com/detail/character/283",
+          "view_count": 390,
+          "chat_count": 2
+        },
+        {
+          "key": "character:10000110",
+          "kind": "character",
+          "id": 10000110,
+          "name": "Amakawa Sora",
+          "url": "https://chat.global.toptoon.com/detail/character/10000110",
+          "view_count": 574,
+          "chat_count": 87
+        },
+        {
+          "key": "character:139",
+          "kind": "character",
+          "id": 139,
+          "name": "Celine Eom",
+          "url": "https://chat.global.toptoon.com/detail/character/139",
+          "view_count": 373,
+          "chat_count": 5
+        },
+        {
+          "key": "character:38",
+          "kind": "character",
+          "id": 38,
+          "name": "Chae-ah Han",
+          "url": "https://chat.global.toptoon.com/detail/character/38",
+          "view_count": 364,
+          "chat_count": 29
+        },
+        {
+          "key": "character:10000027",
+          "kind": "character",
+          "id": 10000027,
+          "name": "Chae-won Han",
+          "url": "https://chat.global.toptoon.com/detail/character/10000027",
+          "view_count": 861,
+          "chat_count": 145
+        },
+        {
+          "key": "character:70",
+          "kind": "character",
+          "id": 70,
+          "name": "Da-yeong Park",
+          "url": "https://chat.global.toptoon.com/detail/character/70",
+          "view_count": 341,
+          "chat_count": 2
+        },
+        {
+          "key": "character:89",
+          "kind": "character",
+          "id": 89,
+          "name": "Darla Yoo",
+          "url": "https://chat.global.toptoon.com/detail/character/89",
+          "view_count": 293,
+          "chat_count": 3
+        },
+        {
+          "key": "character:10000123",
+          "kind": "character",
+          "id": 10000123,
+          "name": "Do-hee Choi",
+          "url": "https://chat.global.toptoon.com/detail/character/10000123",
+          "view_count": 367,
+          "chat_count": 95
+        },
+        {
+          "key": "content:108",
+          "kind": "content",
+          "id": 108,
+          "name": "Drama Queens",
+          "url": "https://chat.global.toptoon.com/detail/content/108",
+          "view_count": 295,
+          "chat_count": 30
+        },
+        {
+          "key": "character:221",
+          "kind": "character",
+          "id": 221,
+          "name": "Eun-ae Cha",
+          "url": "https://chat.global.toptoon.com/detail/character/221",
+          "view_count": 3808,
+          "chat_count": 30
+        },
+        {
+          "key": "character:62",
+          "kind": "character",
+          "id": 62,
+          "name": "Eun-hee Yu",
+          "url": "https://chat.global.toptoon.com/detail/character/62",
+          "view_count": 735,
+          "chat_count": 1
+        },
+        {
+          "key": "character:10000031",
+          "kind": "character",
+          "id": 10000031,
+          "name": "Eun-ju Kang",
+          "url": "https://chat.global.toptoon.com/detail/character/10000031",
+          "view_count": 917,
+          "chat_count": 139
+        },
+        {
+          "key": "character:10000127",
+          "kind": "character",
+          "id": 10000127,
+          "name": "Eun-jung Yoo",
+          "url": "https://chat.global.toptoon.com/detail/character/10000127",
+          "view_count": 569,
+          "chat_count": 148
+        },
+        {
+          "key": "content:5",
+          "kind": "content",
+          "id": 5,
+          "name": "Every Building Has a Gimmick",
+          "url": "https://chat.global.toptoon.com/detail/content/5",
+          "view_count": 213,
+          "chat_count": 17
+        },
+        {
+          "key": "character:71",
+          "kind": "character",
+          "id": 71,
+          "name": "Ga-eul Kim",
+          "url": "https://chat.global.toptoon.com/detail/character/71",
+          "view_count": 305,
+          "chat_count": 16
+        },
+        {
+          "key": "content:115",
+          "kind": "content",
+          "id": 115,
+          "name": "Girls in Prison",
+          "url": "https://chat.global.toptoon.com/detail/content/115",
+          "view_count": 207,
+          "chat_count": 2
+        },
+        {
+          "key": "character:133",
+          "kind": "character",
+          "id": 133,
+          "name": "Grace Kim",
+          "url": "https://chat.global.toptoon.com/detail/character/133",
+          "view_count": 2359,
+          "chat_count": 8
+        },
+        {
+          "key": "character:348",
+          "kind": "character",
+          "id": 348,
+          "name": "Gwen Yoon",
+          "url": "https://chat.global.toptoon.com/detail/character/348",
+          "view_count": 809,
+          "chat_count": 93
+        },
+        {
+          "key": "character:129",
+          "kind": "character",
+          "id": 129,
+          "name": "Hailey Eun",
+          "url": "https://chat.global.toptoon.com/detail/character/129",
+          "view_count": 294,
+          "chat_count": 45
+        },
+        {
+          "key": "character:10000083",
+          "kind": "character",
+          "id": 10000083,
+          "name": "Hailey Lee",
+          "url": "https://chat.global.toptoon.com/detail/character/10000083",
+          "view_count": 176,
+          "chat_count": 51
+        },
+        {
+          "key": "content:112",
+          "kind": "content",
+          "id": 112,
+          "name": "Heartbeat Matchmaking Agency",
+          "url": "https://chat.global.toptoon.com/detail/content/112",
+          "view_count": 265,
+          "chat_count": 55
+        },
+        {
+          "key": "character:60",
+          "kind": "character",
+          "id": 60,
+          "name": "Hee-jin Han",
+          "url": "https://chat.global.toptoon.com/detail/character/60",
+          "view_count": 460,
+          "chat_count": 2
+        },
+        {
+          "key": "character:260",
+          "kind": "character",
+          "id": 260,
+          "name": "Hye-jeong Seo",
+          "url": "https://chat.global.toptoon.com/detail/character/260",
+          "view_count": 100,
+          "chat_count": 2
+        },
+        {
+          "key": "character:10000018",
+          "kind": "character",
+          "id": 10000018,
+          "name": "Hye-rin Yoon",
+          "url": "https://chat.global.toptoon.com/detail/character/10000018",
+          "view_count": 949,
+          "chat_count": 119
+        },
+        {
+          "key": "character:8",
+          "kind": "character",
+          "id": 8,
+          "name": "Hye-yun Yoon",
+          "url": "https://chat.global.toptoon.com/detail/character/8",
+          "view_count": 461,
+          "chat_count": 4
+        },
+        {
+          "key": "character:76",
+          "kind": "character",
+          "id": 76,
+          "name": "Hyun-joo Bae",
+          "url": "https://chat.global.toptoon.com/detail/character/76",
+          "view_count": 431,
+          "chat_count": 4
+        },
+        {
+          "key": "character:286",
+          "kind": "character",
+          "id": 286,
+          "name": "Jane Kim",
+          "url": "https://chat.global.toptoon.com/detail/character/286",
+          "view_count": 240,
+          "chat_count": 1
+        },
+        {
+          "key": "character:262",
+          "kind": "character",
+          "id": 262,
+          "name": "Jasmine Do",
+          "url": "https://chat.global.toptoon.com/detail/character/262",
+          "view_count": 427,
+          "chat_count": 2
+        },
+        {
+          "key": "character:249",
+          "kind": "character",
+          "id": 249,
+          "name": "Jessica Park",
+          "url": "https://chat.global.toptoon.com/detail/character/249",
+          "view_count": 1043,
+          "chat_count": 25
+        },
+        {
+          "key": "character:318",
+          "kind": "character",
+          "id": 318,
+          "name": "Jin-hee Choi",
+          "url": "https://chat.global.toptoon.com/detail/character/318",
+          "view_count": 316,
+          "chat_count": 7
+        },
+        {
+          "key": "character:182",
+          "kind": "character",
+          "id": 182,
+          "name": "Julia Lee",
+          "url": "https://chat.global.toptoon.com/detail/character/182",
+          "view_count": 263,
+          "chat_count": 4
+        },
+        {
+          "key": "character:229",
+          "kind": "character",
+          "id": 229,
+          "name": "Jung-won Yoo",
+          "url": "https://chat.global.toptoon.com/detail/character/229",
+          "view_count": 679,
+          "chat_count": 30
+        },
+        {
+          "key": "content:107",
+          "kind": "content",
+          "id": 107,
+          "name": "Landlord Sisters",
+          "url": "https://chat.global.toptoon.com/detail/content/107",
+          "view_count": 251,
+          "chat_count": 27
+        },
+        {
+          "key": "content:105",
+          "kind": "content",
+          "id": 105,
+          "name": "MILF Island",
+          "url": "https://chat.global.toptoon.com/detail/content/105",
+          "view_count": 234,
+          "chat_count": 1
+        },
+        {
+          "key": "content:132",
+          "kind": "content",
+          "id": 132,
+          "name": "Master of the City",
+          "url": "https://chat.global.toptoon.com/detail/content/132",
+          "view_count": 252,
+          "chat_count": 34
+        },
+        {
+          "key": "character:226",
+          "kind": "character",
+          "id": 226,
+          "name": "Melissa Lee",
+          "url": "https://chat.global.toptoon.com/detail/character/226",
+          "view_count": 405,
+          "chat_count": 1
+        },
+        {
+          "key": "character:10000116",
+          "kind": "character",
+          "id": 10000116,
+          "name": "Mi-ae Kang",
+          "url": "https://chat.global.toptoon.com/detail/character/10000116",
+          "view_count": 747,
+          "chat_count": 120
+        },
+        {
+          "key": "character:235",
+          "kind": "character",
+          "id": 235,
+          "name": "Mi-ah Cha",
+          "url": "https://chat.global.toptoon.com/detail/character/235",
+          "view_count": 582,
+          "chat_count": 26
+        },
+        {
+          "key": "character:99",
+          "kind": "character",
+          "id": 99,
+          "name": "Mi-kyung Cho",
+          "url": "https://chat.global.toptoon.com/detail/character/99",
+          "view_count": 414,
+          "chat_count": 2
+        },
+        {
+          "key": "character:270",
+          "kind": "character",
+          "id": 270,
+          "name": "Min-joo Cho",
+          "url": "https://chat.global.toptoon.com/detail/character/270",
+          "view_count": 178,
+          "chat_count": 4
+        },
+        {
+          "key": "content:122",
+          "kind": "content",
+          "id": 122,
+          "name": "My Female Friends are SOLO",
+          "url": "https://chat.global.toptoon.com/detail/content/122",
+          "view_count": 331,
+          "chat_count": 2
+        },
+        {
+          "key": "content:154",
+          "kind": "content",
+          "id": 154,
+          "name": "My Girlfriend’s Corruption",
+          "url": "https://chat.global.toptoon.com/detail/content/154",
+          "view_count": 403,
+          "chat_count": 150
+        },
+        {
+          "key": "content:113",
+          "kind": "content",
+          "id": 113,
+          "name": "My Magical Girl Wife",
+          "url": "https://chat.global.toptoon.com/detail/content/113",
+          "view_count": 212,
+          "chat_count": 4
+        },
+        {
+          "key": "character:61",
+          "kind": "character",
+          "id": 61,
+          "name": "Na-ri Han",
+          "url": "https://chat.global.toptoon.com/detail/character/61",
+          "view_count": 1007,
+          "chat_count": 14
+        },
+        {
+          "key": "content:143",
+          "kind": "content",
+          "id": 143,
+          "name": "November 11. I’ll Be Waiting in the Student Council Room",
+          "url": "https://chat.global.toptoon.com/detail/content/143",
+          "view_count": 997,
+          "chat_count": 261
+        },
+        {
+          "key": "character:130",
+          "kind": "character",
+          "id": 130,
+          "name": "Ray",
+          "url": "https://chat.global.toptoon.com/detail/character/130",
+          "view_count": 571,
+          "chat_count": 1
+        },
+        {
+          "key": "character:119",
+          "kind": "character",
+          "id": 119,
+          "name": "Roxy Seo",
+          "url": "https://chat.global.toptoon.com/detail/character/119",
+          "view_count": 352,
+          "chat_count": 3
+        },
+        {
+          "key": "character:506",
+          "kind": "character",
+          "id": 506,
+          "name": "Runa",
+          "url": "https://chat.global.toptoon.com/detail/character/506",
+          "view_count": 680,
+          "chat_count": 72
+        },
+        {
+          "key": "character:268",
+          "kind": "character",
+          "id": 268,
+          "name": "Sarah Joo",
+          "url": "https://chat.global.toptoon.com/detail/character/268",
+          "view_count": 479,
+          "chat_count": 4
+        },
+        {
+          "key": "character:10000005",
+          "kind": "character",
+          "id": 10000005,
+          "name": "Se-ah Cha",
+          "url": "https://chat.global.toptoon.com/detail/character/10000005",
+          "view_count": 144,
+          "chat_count": 5
+        },
+        {
+          "key": "character:265",
+          "kind": "character",
+          "id": 265,
+          "name": "Seo-hyun Han",
+          "url": "https://chat.global.toptoon.com/detail/character/265",
+          "view_count": 1692,
+          "chat_count": 16
+        },
+        {
+          "key": "character:10000132",
+          "kind": "character",
+          "id": 10000132,
+          "name": "Seo-rin Cha",
+          "url": "https://chat.global.toptoon.com/detail/character/10000132",
+          "view_count": 55,
+          "chat_count": 19
+        },
+        {
+          "key": "character:10000030",
+          "kind": "character",
+          "id": 10000030,
+          "name": "Seo-yun Han",
+          "url": "https://chat.global.toptoon.com/detail/character/10000030",
+          "view_count": 807,
+          "chat_count": 94
+        },
+        {
+          "key": "content:109",
+          "kind": "content",
+          "id": 109,
+          "name": "Sex Slave Trainer of the Apocalypse",
+          "url": "https://chat.global.toptoon.com/detail/content/109",
+          "view_count": 237,
+          "chat_count": 57
+        },
+        {
+          "key": "character:132",
+          "kind": "character",
+          "id": 132,
+          "name": "So-eun Jung",
+          "url": "https://chat.global.toptoon.com/detail/character/132",
+          "view_count": 471,
+          "chat_count": 7
+        },
+        {
+          "key": "character:507",
+          "kind": "character",
+          "id": 507,
+          "name": "So-hee Yoo",
+          "url": "https://chat.global.toptoon.com/detail/character/507",
+          "view_count": 92,
+          "chat_count": 22
+        },
+        {
+          "key": "character:10000107",
+          "kind": "character",
+          "id": 10000107,
+          "name": "Song-hee Bae",
+          "url": "https://chat.global.toptoon.com/detail/character/10000107",
+          "view_count": 484,
+          "chat_count": 66
+        },
+        {
+          "key": "character:2",
+          "kind": "character",
+          "id": 2,
+          "name": "Soo-yeon Kang",
+          "url": "https://chat.global.toptoon.com/detail/character/2",
+          "view_count": 469,
+          "chat_count": 29
+        },
+        {
+          "key": "character:10000095",
+          "kind": "character",
+          "id": 10000095,
+          "name": "Stephanie Han",
+          "url": "https://chat.global.toptoon.com/detail/character/10000095",
+          "view_count": 420,
+          "chat_count": 77
+        },
+        {
+          "key": "content:101",
+          "kind": "content",
+          "id": 101,
+          "name": "Stranded on a Desert Island With My Bullies",
+          "url": "https://chat.global.toptoon.com/detail/content/101",
+          "view_count": 761,
+          "chat_count": 1
+        },
+        {
+          "key": "character:97",
+          "kind": "character",
+          "id": 97,
+          "name": "Su-min Cha",
+          "url": "https://chat.global.toptoon.com/detail/character/97",
+          "view_count": 507,
+          "chat_count": 47
+        },
+        {
+          "key": "character:100",
+          "kind": "character",
+          "id": 100,
+          "name": "Sun-yeong Ahn",
+          "url": "https://chat.global.toptoon.com/detail/character/100",
+          "view_count": 836,
+          "chat_count": 1
+        },
+        {
+          "key": "character:93",
+          "kind": "character",
+          "id": 93,
+          "name": "Suzy Han",
+          "url": "https://chat.global.toptoon.com/detail/character/93",
+          "view_count": 313,
+          "chat_count": 48
+        },
+        {
+          "key": "content:120",
+          "kind": "content",
+          "id": 120,
+          "name": "The Ladies Are SOLO",
+          "url": "https://chat.global.toptoon.com/detail/content/120",
+          "view_count": 552,
+          "chat_count": 11
+        },
+        {
+          "key": "content:119",
+          "kind": "content",
+          "id": 119,
+          "name": "The Lady I Admired Turned Out to Be a Pervert",
+          "url": "https://chat.global.toptoon.com/detail/content/119",
+          "view_count": 942,
+          "chat_count": 134
+        },
+        {
+          "key": "content:117",
+          "kind": "content",
+          "id": 117,
+          "name": "Track Team Bullies",
+          "url": "https://chat.global.toptoon.com/detail/content/117",
+          "view_count": 898,
+          "chat_count": 123
+        },
+        {
+          "key": "character:258",
+          "kind": "character",
+          "id": 258,
+          "name": "Yara Ko",
+          "url": "https://chat.global.toptoon.com/detail/character/258",
+          "view_count": 958,
+          "chat_count": 2
+        },
+        {
+          "key": "character:72",
+          "kind": "character",
+          "id": 72,
+          "name": "Ye-lynn Lee",
+          "url": "https://chat.global.toptoon.com/detail/character/72",
+          "view_count": 315,
+          "chat_count": 6
+        },
+        {
+          "key": "character:281",
+          "kind": "character",
+          "id": 281,
+          "name": "Yeon-ah Na",
+          "url": "https://chat.global.toptoon.com/detail/character/281",
+          "view_count": 298,
+          "chat_count": 1
+        },
+        {
+          "key": "character:253",
+          "kind": "character",
+          "id": 253,
+          "name": "Yu-ri Han",
+          "url": "https://chat.global.toptoon.com/detail/character/253",
+          "view_count": 429,
+          "chat_count": 1
+        }
+      ],
+      "totals": {
+        "view_count": 41516,
+        "chat_count": 2703,
+        "observed_items": 72
+      }
     }
   ],
-  "updated_at": "2026-11-25T04:46:26.306329Z",
+  "updated_at": "2026-11-26T03:55:27.940163Z",
   "tracker_totals": [
     {
       "captured_at": "2026-08-22T12:00:00+09:00",
